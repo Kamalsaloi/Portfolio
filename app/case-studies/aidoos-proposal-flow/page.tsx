@@ -1,16 +1,7 @@
 import { CaseStudyNav } from '@/components/case-study/CaseStudyNav';
 import { Section } from '@/components/case-study/Section';
 import { BeforeAfter } from '@/components/case-study/BeforeAfter';
-import {
-  ChatInputMock,
-  LoadingMock,
-  ProposalHeroMock,
-  ModuleMock,
-  GanttMock,
-  ArchitectureMock,
-  RiskMock,
-  PricingMock,
-} from '@/components/case-study/visuals';
+import { ChatInputMock, LoadingMock } from '@/components/case-study/visuals';
 import { MiroEmbed } from '@/components/case-study/MiroEmbed';
 import { OtherProducts } from '@/components/case-study/OtherProducts';
 import { CTA } from '@/components/CTA';
@@ -76,6 +67,32 @@ export default function AidoosCaseStudy() {
               <BeforeAfter
                 before="A modal stood between the homepage and the chat input — one extra click, one extra screen, before a user could say anything at all."
                 after="The chat input sits directly in the hero. No modal, no in-between screen — you land, you type."
+                beforeImages={[
+                  {
+                    src: '/Previous_hero_section.png',
+                    alt: 'The previous homepage — a generic agency-style hero with no chat input in it',
+                    width: 1849,
+                    height: 917,
+                    caption: 'The old homepage — no chat input on it',
+                  },
+                  {
+                    src: '/Previous_modal_when_clicked_on_chat_input.png',
+                    alt: 'The modal that used to open before someone could describe their project',
+                    width: 1920,
+                    height: 951,
+                    caption: 'The modal it opened into first',
+                  },
+                ]}
+                afterImages={[
+                  {
+                    src: '/hero-section-lg.svg',
+                    alt: 'The current homepage hero, with the chat input built directly into it',
+                    width: 1280,
+                    height: 720,
+                    unoptimized: true,
+                    caption: 'The chat input, live in the hero — nothing in between',
+                  },
+                ]}
               />
               <p>
                 We also require at least 100 characters before submission. One-line inputs like
@@ -131,110 +148,12 @@ export default function AidoosCaseStudy() {
                 screen — a full-width proposal would be genuinely tiring to read, not just less
                 polished. This case study page uses the same constraint, for the same reason.
               </p>
+              <MiroEmbed
+                src="https://miro.com/app/live-embed/uXjVHx2NjHA=/?embedMode=view_only_without_ui&moveToViewport=3531,-1100,8348,6222&embedId=98967502769"
+                title="Map of the full proposal, annotated section by section"
+                caption="Zoomed out on purpose — this is the ordering argument, not the copy."
+              />
             </Section>
-
-            <Section id="title-refine" eyebrow="Decision 05" title="Title and refine, before anything else">
-              <p>
-                The first thing on the page is the proposal&apos;s title and a short brief of what the
-                AI understood the project to be. That&apos;s on purpose — before someone invests time
-                reading modules and pricing, they need to know the whole thing is even pointed at the
-                right project. Right below it sits a Refine button. If the summary is off, they fix it
-                there, before reading another word. Nobody should have to read five sections to realize
-                the proposal was built around the wrong problem.
-              </p>
-              <ProposalHeroMock />
-            </Section>
-
-            <Section id="modules" eyebrow="Decision 06" title="Delivery modules, collapsed by default">
-              <p>
-                Before, every module was expanded and laid out with no refine option anywhere — a wall
-                of information. Someone would look at the first module, see how much there was to read,
-                and skip straight to the price. Now each module is collapsed by default, showing only a
-                title, a one-line scope of work, and how long it will take. Every module carries its own
-                Refine — and its own delete, for anything a client has already built and doesn&apos;t
-                need built again.
-              </p>
-              <ModuleMock />
-            </Section>
-
-            <Section id="timeline" eyebrow="Decision 07" title="A Gantt chart, not a number">
-              <p>
-                The old version reduced weeks of planning to a single line: &quot;parallel execution —
-                2 weeks.&quot; That line hides the actual insight — modules with no dependency on each
-                other run at the same time, and a module can start the moment enough of an earlier one
-                is done to unblock it. That&apos;s real time saved for the client, and it deserved to be
-                seen, not stated. I replaced the line with a Gantt chart, so the whole timeline — and
-                exactly how much overlap is buying them — is visible at a glance. The reaction I was
-                designing for was &quot;this is smart,&quot; not &quot;okay, noted.&quot;
-              </p>
-              <GanttMock />
-            </Section>
-
-            <Section id="architecture" eyebrow="Decision 08" title="Architecture, translated into impact">
-              <p>
-                The previous version listed the tech stack as-is — framework, database, hosting. To a
-                client, that&apos;s noise; it answers a question they didn&apos;t ask. What they
-                actually want to know is why this architecture, and what it does for their business. So
-                instead of a stack list, the section leads with four cards, each translating one
-                architectural decision into a plain business outcome. Technical readers aren&apos;t
-                ignored — an expand reveals the full stack underneath, it&apos;s just no longer the
-                first thing anyone sees.
-              </p>
-              <ArchitectureMock />
-            </Section>
-
-            <Section id="risks" eyebrow="Decision 09" title="Risks, paired with mitigations">
-              <p>
-                Every real project has risk, and pretending otherwise reads as either naive or
-                dishonest. This section names them — but never alone. Each risk sits directly next to
-                the specific mitigation for it. It isn&apos;t there to reassure with a list; it&apos;s
-                there to show the thinking already happened.
-              </p>
-              <RiskMock />
-              <div className="rounded-xl border border-slate-200 bg-slate-50 px-5 py-4">
-                <p className="mb-1.5 text-xs font-mono uppercase tracking-wider text-slate-400">
-                  Why this approach
-                </p>
-                <p className="text-sm text-slate-600">
-                  One line, directly beneath the risks, stating why this specific approach was chosen
-                  for the project — a sentence of rationale, not a justification essay.
-                </p>
-              </div>
-            </Section>
-
-            <Section id="pricing" eyebrow="Decision 10" title="Pricing that proves the AI is real">
-              <p>
-                Every client today is asking the same question, whether they say it out loud or not: is
-                this company actually using AI, or just marketing it? The pricing section answers that
-                directly, showing two numbers side by side — what the project would cost without AI
-                agents, and what we charge after using them. It&apos;s not a claim, it&apos;s a
-                comparison, and the client can see exactly where the savings came from.
-              </p>
-              <p>
-                Underneath that sits a bigger shift: we moved off hourly-adjacent pricing entirely, onto
-                Delivery Units. A DU works like an Agile story point, but for pricing an outcome instead
-                of estimating effort — a bug fix priced at one DU costs the client the same one DU
-                whether a junior developer takes twenty hours or a senior takes four. They&apos;re
-                paying for the outcome, not for however long it happened to take us — the actual promise
-                behind calling ourselves an outcome-based delivery company, instead of saying it while
-                quietly billing hours. One DU is priced at $160, sold through four standard plans —
-                Starter, Scale, Volume, and Enterprise — replacing pricing that used to be negotiated
-                case by case and read, to a client, as just another agency with no real model behind it.
-              </p>
-              <PricingMock />
-            </Section>
-
-            <div className="mt-4 pt-10">
-              <h2 className="mb-4 text-2xl font-bold tracking-tight text-slate-950">
-                The thread through all of it
-              </h2>
-              <p className="leading-relaxed text-slate-600">
-                Every change here follows the same rule: cut whatever makes someone wait before they
-                feel understood, and add proof exactly where trust would otherwise be assumed. Fewer
-                screens between an idea and a priced proposal in someone&apos;s inbox is the whole
-                game.
-              </p>
-            </div>
           </article>
         </div>
       </div>
