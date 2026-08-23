@@ -1,8 +1,8 @@
 import { CaseStudyNav } from '@/components/case-study/CaseStudyNav';
 import { Section } from '@/components/case-study/Section';
 import { BeforeAfter } from '@/components/case-study/BeforeAfter';
-import { ChatInputMock, LoadingMock } from '@/components/case-study/visuals';
 import { MiroEmbed } from '@/components/case-study/MiroEmbed';
+import { VideoEmbed } from '@/components/case-study/VideoEmbed';
 import { OtherProducts } from '@/components/case-study/OtherProducts';
 import { CTA } from '@/components/CTA';
 import { Footer } from '@/components/Footer';
@@ -100,7 +100,6 @@ export default function AidoosCaseStudy() {
                 for a little more effort up front filters those out before they waste an AI generation
                 or a reviewer&apos;s time.
               </p>
-              <ChatInputMock />
             </Section>
 
             <Section
@@ -114,7 +113,10 @@ export default function AidoosCaseStudy() {
                 modules, estimating time. It&apos;s not a spinner. It&apos;s the first proof, before
                 anything else is shown, that their words are actually going somewhere.
               </p>
-              <LoadingMock />
+              <VideoEmbed
+                src="/Intake.mp4"
+                caption="The actual screen — reading, then narrating what it found."
+              />
             </Section>
 
             <Section
