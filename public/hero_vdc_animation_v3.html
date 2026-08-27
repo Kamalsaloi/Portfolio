@@ -1,0 +1,556 @@
+{% comment %}
+  VDC hero animation. This is the hero visual, included directly by
+  landing_page.html. Variants v1 and v2 were deleted once this was chosen; they
+  are recoverable from git history if the earlier framings are ever needed.
+
+  PORTRAIT, 5/7. The composition is a single vertical column, so a 16/10 stage
+  would letterbox it into a strip. Place it beside the hero copy rather than
+  behind it, or change the aspect deliberately.
+
+  Everything sits on x == y, so (x - y) is constant and the flow reads top to
+  bottom on screen: proposal engine, glass box, verification plate, delivered
+  pad, joined by dashed connectors.
+
+  The container is a TRANSPARENT BOX, not an open tray. Back faces render
+  first, then the contents, then the front faces at 0.10-0.13 opacity with the
+  cube edges on top. That layering is what makes it read as glass.
+
+  Sequence: the project lands on the engine as ONE undivided block (from v2 --
+  the split only reads if you first see the whole; mono and slices are flush at
+  gap 0, so the swap is invisible), the engine separates it into three modules,
+  and the modules DESCEND through the open top into the tray. They then stay
+  put: each is a light shell over an accent fill, and the team fills them with
+  blue to 100%. Earlier versions faded the modules out on arrival and grew a
+  separate block from zero, so the tasks and the work looked unrelated.
+
+  No machine is drawn where the split happens: a pedestal with a grey cube and
+  a dot read as a mystery box, and it is unnecessary, because the split
+  occurring ABOVE the container already says the team did not do it.
+
+  Pulses run station -> tray
+  while the fill climbs, so the team CAUSES the progress; agents pulse fast and
+  continuously, humans slower. Build is 5.2s of the 13.6s loop.
+
+  One block then travels down the column: box -> verification plate -> delivered
+  pad. It is stamped ON the plate (the badge hovers above it) rather than
+  turning green inside the box, and the modules empty behind it.
+
+  Isometric has no z-buffer, so props inside the box are painted back to front
+  by x+y depth. Palette is light throughout: workers neutral, agents blue-
+  tinted, modules light until worked. Blue marks completed work and is the only
+  saturated mass, per DESIGN-MARKETING.md's one-accent rule; green appears only
+  after verification.
+
+  Autoplays, pauses off-screen via IntersectionObserver, and holds the
+  delivered frame under prefers-reduced-motion.
+{% endcomment %}
+<style>
+  .hero-anim3{
+    --sc-stroke:oklch(58% 0.016 264); --sc-ink:oklch(30% 0.016 264); --sc-ink-2:oklch(46% 0.014 264);
+    --sc-accent:oklch(55% 0.230 264); --sc-verify:oklch(56% 0.135 152);
+    position:relative; width:100%;
+  }
+  /* Portrait: the composition is a single vertical column, so a 16/10 box
+     would letterbox it into a thin strip. */
+  .hero-anim3__stage{ position:relative; width:100%; aspect-ratio:5/7; overflow:visible; }
+  .hero-anim3 #v3Scene{ position:absolute; inset:0; width:100%; height:100%; display:block; overflow:visible; }
+</style>
+
+<div class="hero-anim3" aria-hidden="true">
+  <div class="hero-anim3__stage">
+    <svg id="v3Scene" preserveAspectRatio="xMidYMid meet">
+      <defs>
+        <linearGradient id="v3Top" x1="0" y1="0" x2="0.35" y2="1">
+          <stop offset="0%" stop-color="oklch(99.4% 0.002 264)"/><stop offset="100%" stop-color="oklch(96.2% 0.004 264)"/>
+        </linearGradient>
+        <linearGradient id="v3Left" x1="0" y1="0" x2="0.2" y2="1">
+          <stop offset="0%" stop-color="oklch(95.6% 0.005 264)"/><stop offset="100%" stop-color="oklch(91.4% 0.007 264)"/>
+        </linearGradient>
+        <linearGradient id="v3Right" x1="0" y1="0" x2="0.2" y2="1">
+          <stop offset="0%" stop-color="oklch(91.8% 0.007 264)"/><stop offset="100%" stop-color="oklch(87.0% 0.009 264)"/>
+        </linearGradient>
+        <linearGradient id="v3MidTop" x1="0" y1="0" x2="0.35" y2="1">
+          <stop offset="0%" stop-color="oklch(94.5% 0.006 264)"/><stop offset="100%" stop-color="oklch(91.5% 0.007 264)"/>
+        </linearGradient>
+        <linearGradient id="v3MidLeft" x1="0" y1="0" x2="0.2" y2="1">
+          <stop offset="0%" stop-color="oklch(89.0% 0.008 264)"/><stop offset="100%" stop-color="oklch(85.0% 0.009 264)"/>
+        </linearGradient>
+        <linearGradient id="v3MidRight" x1="0" y1="0" x2="0.2" y2="1">
+          <stop offset="0%" stop-color="oklch(85.0% 0.009 264)"/><stop offset="100%" stop-color="oklch(80.5% 0.010 264)"/>
+        </linearGradient>
+        <linearGradient id="v3TintTop" x1="0" y1="0" x2="0.35" y2="1">
+          <stop offset="0%" stop-color="oklch(93.5% 0.042 264)"/><stop offset="100%" stop-color="oklch(90.0% 0.055 264)"/>
+        </linearGradient>
+        <linearGradient id="v3TintLeft" x1="0" y1="0" x2="0.2" y2="1">
+          <stop offset="0%" stop-color="oklch(87.5% 0.062 264)"/><stop offset="100%" stop-color="oklch(83.5% 0.072 264)"/>
+        </linearGradient>
+        <linearGradient id="v3TintRight" x1="0" y1="0" x2="0.2" y2="1">
+          <stop offset="0%" stop-color="oklch(83.0% 0.072 264)"/><stop offset="100%" stop-color="oklch(78.5% 0.080 264)"/>
+        </linearGradient>
+        <linearGradient id="v3AccTop" x1="0" y1="0" x2="0.35" y2="1">
+          <stop offset="0%" stop-color="oklch(70% 0.175 264)"/><stop offset="100%" stop-color="oklch(60% 0.205 264)"/>
+        </linearGradient>
+        <linearGradient id="v3AccLeft" x1="0" y1="0" x2="0.2" y2="1">
+          <stop offset="0%" stop-color="oklch(58% 0.205 264)"/><stop offset="100%" stop-color="oklch(51% 0.215 264)"/>
+        </linearGradient>
+        <linearGradient id="v3AccRight" x1="0" y1="0" x2="0.2" y2="1">
+          <stop offset="0%" stop-color="oklch(52% 0.210 264)"/><stop offset="100%" stop-color="oklch(45% 0.200 264)"/>
+        </linearGradient>
+        <linearGradient id="v3VerTop" x1="0" y1="0" x2="0.35" y2="1">
+          <stop offset="0%" stop-color="oklch(72% 0.130 152)"/><stop offset="100%" stop-color="oklch(62% 0.140 152)"/>
+        </linearGradient>
+        <linearGradient id="v3VerLeft" x1="0" y1="0" x2="0.2" y2="1">
+          <stop offset="0%" stop-color="oklch(60% 0.140 152)"/><stop offset="100%" stop-color="oklch(53% 0.135 152)"/>
+        </linearGradient>
+        <linearGradient id="v3VerRight" x1="0" y1="0" x2="0.2" y2="1">
+          <stop offset="0%" stop-color="oklch(54% 0.135 152)"/><stop offset="100%" stop-color="oklch(47% 0.125 152)"/>
+        </linearGradient>
+        <radialGradient id="v3Contact" cx="0.5" cy="0.5" r="0.5">
+          <stop offset="0%" stop-color="rgba(30,38,60,0.30)"/><stop offset="100%" stop-color="rgba(30,38,60,0)"/>
+        </radialGradient>
+      </defs>
+      <g id="v3Main"></g>
+    </svg>
+  </div>
+</div>
+
+<script>
+(function(){
+  var NS = "http://www.w3.org/2000/svg";
+  var svg = document.getElementById("v3Scene"), main = document.getElementById("v3Main");
+  function el(n, a){ var e = document.createElementNS(NS, n); for (var k in a) e.setAttribute(k, a[k]); return e; }
+
+  var K = 42, KZ = 42;
+  function iso(x, y, z){ return [ (x - y) * K, (x + y) * K * 0.5 - (z || 0) * KZ ]; }
+  function pts(a){ return a.map(function(p){ return p[0].toFixed(1) + "," + p[1].toFixed(1); }).join(" "); }
+  function faces(x, y, z, w, d, h){
+    return {
+      top:  [iso(x,y,z+h), iso(x+w,y,z+h), iso(x+w,y+d,z+h), iso(x,y+d,z+h)],
+      left: [iso(x,y+d,z+h), iso(x+w,y+d,z+h), iso(x+w,y+d,z), iso(x,y+d,z)],
+      right:[iso(x+w,y,z+h), iso(x+w,y+d,z+h), iso(x+w,y+d,z), iso(x+w,y,z)]
+    };
+  }
+  var MAT = {
+    neutral:{ t:"url(#v3Top)",     l:"url(#v3Left)",     r:"url(#v3Right)" },
+    mid:    { t:"url(#v3MidTop)",  l:"url(#v3MidLeft)",  r:"url(#v3MidRight)" },
+    tint:   { t:"url(#v3TintTop)", l:"url(#v3TintLeft)", r:"url(#v3TintRight)" },
+    accent: { t:"url(#v3AccTop)",  l:"url(#v3AccLeft)",  r:"url(#v3AccRight)" },
+    verify: { t:"url(#v3VerTop)",  l:"url(#v3VerLeft)",  r:"url(#v3VerRight)" }
+  };
+  function solid(parent, x, y, z, w, d, h, mat, opt){
+    opt = opt || {}; mat = mat || MAT.neutral;
+    var g = el("g"), fp = faces(x, y, z, w, d, h);
+    var sw = opt.sw == null ? 0.9 : opt.sw, so = opt.strokeOpacity == null ? 0.20 : opt.strokeOpacity;
+    var left  = el("polygon", {points:pts(fp.left),  fill:mat.l, stroke:"var(--sc-stroke)", "stroke-width":sw, "stroke-opacity":so, "stroke-linejoin":"round"});
+    var right = el("polygon", {points:pts(fp.right), fill:mat.r, stroke:"var(--sc-stroke)", "stroke-width":sw, "stroke-opacity":so, "stroke-linejoin":"round"});
+    var top   = el("polygon", {points:pts(fp.top),   fill:mat.t, stroke:"var(--sc-stroke)", "stroke-width":sw, "stroke-opacity":so, "stroke-linejoin":"round"});
+    g.appendChild(left); g.appendChild(right); g.appendChild(top);
+    if (opt.bevel !== 0){
+      var A = fp.top[0], B = fp.top[1], D = fp.top[3];
+      g.appendChild(el("polyline", {points:pts([D,A,B]), fill:"none", stroke:"rgba(255,255,255,0.85)",
+        "stroke-width":1.0, "stroke-linecap":"round", "stroke-linejoin":"round", opacity: opt.bevel == null ? 0.7 : opt.bevel}));
+    }
+    parent.appendChild(g);
+    return { g:g, top:top, left:left, right:right };
+  }
+  function setPts(o, x, y, z, w, d, h){
+    var f = faces(x, y, z, w, d, h);
+    o.top.setAttribute("points", pts(f.top));
+    o.left.setAttribute("points", pts(f.left));
+    o.right.setAttribute("points", pts(f.right));
+  }
+  function contact(parent, x, y, w, d, z, op){
+    var c = iso(x + w/2, y + d/2, z || 0);
+    parent.appendChild(el("ellipse", {cx:c[0], cy:c[1] + 3, rx:(w+d)*K*0.30, ry:(w+d)*K*0.15,
+      fill:"url(#v3Contact)", opacity: op == null ? 0.5 : op}));
+  }
+  function tr(node, x, y, z){
+    var q = iso(x, y, z);
+    node.setAttribute("transform", "translate(" + q[0].toFixed(1) + "," + q[1].toFixed(1) + ")");
+  }
+
+  var gShadow = el("g"), gBack = el("g"), gRoom = el("g"), gDesks = el("g"),
+      gCore = el("g"), gGlass = el("g"), gFlow = el("g"), gLbl = el("g");
+  [gShadow, gBack, gRoom, gDesks, gCore, gGlass, gFlow, gLbl].forEach(function(g){ main.appendChild(g); });
+
+  // ── One vertical axis ───────────────────────────────────────────────
+  // Everything sits on x == y, so (x - y) is constant and the whole flow
+  // reads as a single column on screen: engine above, box, verification
+  // plate, delivered pad. Moving "down the page" is +x and +y together.
+  var RX = 3.0, RY = 3.0, RW = 2.45, RD = 2.45, FLOOR = 0.24, WALL = 0.88;
+  var BOXCX = RX + RW/2, BOXCY = RY + RD/2, TOPZ = FLOOR + WALL;
+
+  var EX = 0.62, EY = 0.62, EW = 0.92, ED = 0.92, EPED = 0.20;   // engine, above
+  var VX = 6.17, VY = 6.17, VW = 0.74, VD = 0.74, VPED = 0.18;   // verification plate
+  var OX = 7.57, OY = 7.57, OW = 0.80, OD = 0.80, OPED = 0.18;   // delivered pad
+
+  // ── The transparent container ───────────────────────────────────────
+  // Back faces first, contents, then the front faces at low opacity on top.
+  // That layering is what makes it read as glass rather than an open tray.
+  function panel(parent, ax, ay, bx, by, z0, z1, op){
+    parent.appendChild(el("polygon", {
+      points: pts([iso(ax,ay,z0), iso(bx,by,z0), iso(bx,by,z1), iso(ax,ay,z1)]),
+      fill: "oklch(88% 0.010 264)", opacity: op,
+      stroke: "var(--sc-stroke)", "stroke-width": 0.9, "stroke-opacity": 0.18, "stroke-linejoin": "round"
+    }));
+  }
+  function edge(parent, ax, ay, az, bx, by, bz, op){
+    var a = iso(ax,ay,az), b = iso(bx,by,bz);
+    parent.appendChild(el("line", {x1:a[0], y1:a[1], x2:b[0], y2:b[1],
+      stroke:"var(--sc-stroke)", "stroke-width":1.1, "stroke-linecap":"round", opacity: op == null ? 0.34 : op}));
+  }
+
+  contact(gShadow, RX, RY, RW, RD, 0, 0.55);
+  panel(gBack, RX, RY, RX+RW, RY, FLOOR, TOPZ, 0.42);           // back right
+  panel(gBack, RX, RY, RX, RY+RD, FLOOR, TOPZ, 0.30);           // back left
+  solid(gRoom, RX, RY, 0, RW, RD, FLOOR, MAT.neutral, {sw:1, strokeOpacity:0.30});
+  (function(){
+    var i = 0.16, fp = faces(RX+i, RY+i, FLOOR-0.001, RW-2*i, RD-2*i, 0.001);
+    gRoom.appendChild(el("polygon", {points:pts(fp.top), fill:"none", stroke:"var(--sc-ink-2)", "stroke-width":1, opacity:0.12}));
+  })();
+
+  // ── Layout inside the box ───────────────────────────────────────────
+  var DW = 0.68, DD = 0.60, DH = 0.11;
+  var CW = 0.74, CD = 0.74, CBASE = 0.11;
+  var CX = RX + (RW-CW)/2, CY = RY + (RD-CD)/2;
+  var MW = 0.50, MD = 0.150, MH = 0.32, MG = 0.020;
+  var MSPAN = 3*MD + 2*MG, MZ = FLOOR + CBASE;
+  function slotY(i){ return CY + (CD - MSPAN)/2 + MD/2 + i*(MD + MG); }
+
+  var STATIONS = [
+    {x:RX+0.20, y:RY+0.24, kind:"human"},
+    {x:RX+0.20, y:RY+1.62, kind:"human"},
+    {x:RX+1.70, y:RY+0.24, kind:"agent"},
+    {x:RX+1.70, y:RY+1.62, kind:"agent"}
+  ];
+
+  var coreTopMid = iso(CX + CW/2, CY + CD/2, MZ);
+  STATIONS.forEach(function(st){
+    var a = iso(st.x + DW/2, st.y + DD/2, FLOOR + DH);
+    gRoom.appendChild(el("line", {x1:a[0], y1:a[1], x2:coreTopMid[0], y2:coreTopMid[1],
+      stroke:"var(--sc-ink-2)", "stroke-width":1.1, "stroke-dasharray":"3 4", "stroke-linecap":"round", opacity:0.36}));
+  });
+
+  var props = [];
+  function prop(depth, draw){ props.push({d:depth, draw:draw}); }
+  function laptop(parent, x, y, z){
+    solid(parent, x, y, z, 0.40, 0.14, 0.03, MAT.mid, {sw:0.7, strokeOpacity:0.24, bevel:0.25});
+    solid(parent, x, y + 0.14, z, 0.40, 0.05, 0.20, MAT.mid, {sw:0.7, strokeOpacity:0.24, bevel:0.3});
+  }
+  function human(parent, x, y, z){
+    solid(parent, x, y, z, 0.32, 0.32, 0.28, MAT.mid, {sw:0.7, strokeOpacity:0.26, bevel:0.35});
+    var c = iso(x+0.16, y+0.16, z+0.40);
+    parent.appendChild(el("circle", {cx:c[0], cy:c[1], r:8.6, fill:"url(#v3MidTop)",
+      stroke:"var(--sc-stroke)", "stroke-width":0.9, "stroke-opacity":0.30}));
+  }
+  function agent(parent, x, y, z){
+    solid(parent, x, y, z, 0.32, 0.32, 0.22, MAT.tint, {sw:0.7, strokeOpacity:0.24, bevel:0.35});
+    solid(parent, x+0.02, y+0.02, z+0.22, 0.28, 0.28, 0.22, MAT.tint, {sw:0.7, strokeOpacity:0.24, bevel:0.45});
+    var a0 = iso(x+0.16, y+0.16, z+0.44), a1 = iso(x+0.16, y+0.16, z+0.62);
+    parent.appendChild(el("line", {x1:a0[0], y1:a0[1], x2:a1[0], y2:a1[1],
+      stroke:"var(--sc-accent)", "stroke-width":1.3, "stroke-linecap":"round", opacity:0.55}));
+    parent.appendChild(el("circle", {cx:a1[0], cy:a1[1], r:3.0, fill:"var(--sc-accent)"}));
+    var e0 = iso(x+0.04, y+0.30, z+0.34), e1 = iso(x+0.26, y+0.30, z+0.34);
+    parent.appendChild(el("line", {x1:e0[0], y1:e0[1], x2:e1[0], y2:e1[1],
+      stroke:"var(--sc-accent)", "stroke-width":2.4, "stroke-linecap":"round", opacity:0.85}));
+  }
+  STATIONS.forEach(function(st){
+    prop(st.x + st.y, function(){
+      var g = el("g"); gDesks.appendChild(g);
+      contact(g, st.x, st.y, DW, DD, FLOOR, 0.26);
+      solid(g, st.x, st.y, FLOOR, DW, DD, DH, MAT.neutral, {sw:0.8, strokeOpacity:0.22});
+      var z = FLOOR + DH;
+      (st.kind === "human" ? human : agent)(g, st.x+0.12, st.y+0.04, z);
+      laptop(g, st.x+0.17, st.y+0.37, z);
+    });
+  });
+  prop(CX + CY, function(){
+    var g = el("g"); gCore.appendChild(g);
+    contact(g, CX, CY, CW, CD, FLOOR, 0.32);
+    solid(g, CX, CY, FLOOR, CW, CD, CBASE, MAT.neutral, {sw:1, strokeOpacity:0.26});
+  });
+  props.sort(function(p, q){ return p.d - q.d; }).forEach(function(x){ x.draw(); });
+
+  // Modules: light shell (still to do) over an accent fill (done). They land in
+  // the tray and STAY, so the tasks and the work are the same objects.
+  var mods = [];
+  for (var si = 0; si < 3; si++){
+    var mg = el("g"); gCore.appendChild(mg);
+    mods.push({
+      g: mg,
+      fill:  solid(mg, -MW/2, -MD/2, 0, MW, MD, 0.001, MAT.accent, {sw:0.7, strokeOpacity:0.18, bevel:0.35}),
+      shell: solid(mg, -MW/2, -MD/2, 0, MW, MD, MH,    MAT.mid,    {sw:0.7, strokeOpacity:0.26, bevel:0.40})
+    });
+  }
+  var pulses = STATIONS.map(function(st){
+    var c = el("circle", {r:3.4, fill:"var(--sc-accent)", opacity:0});
+    gCore.appendChild(c);
+    return {node:c, from:iso(st.x + DW/2, st.y + DD/2, FLOOR + DH), fast: st.kind === "agent"};
+  });
+
+  // ── Glass: front faces and the rim, over the contents ───────────────
+  panel(gGlass, RX, RY+RD, RX+RW, RY+RD, FLOOR, TOPZ, 0.13);
+  panel(gGlass, RX+RW, RY, RX+RW, RY+RD, FLOOR, TOPZ, 0.10);
+  edge(gGlass, RX, RY, FLOOR, RX, RY, TOPZ);
+  edge(gGlass, RX+RW, RY, FLOOR, RX+RW, RY, TOPZ);
+  edge(gGlass, RX, RY+RD, FLOOR, RX, RY+RD, TOPZ);
+  edge(gGlass, RX+RW, RY+RD, FLOOR, RX+RW, RY+RD, TOPZ, 0.22);
+  edge(gGlass, RX, RY, TOPZ, RX+RW, RY, TOPZ);
+  edge(gGlass, RX, RY, TOPZ, RX, RY+RD, TOPZ);
+  edge(gGlass, RX, RY+RD, TOPZ, RX+RW, RY+RD, TOPZ, 0.22);
+  edge(gGlass, RX+RW, RY, TOPZ, RX+RW, RY+RD, TOPZ, 0.22);
+
+  // ── Where the project arrives and is split ──────────────────────────
+  // No machine drawn here. A pedestal with a grey cube and a dot on it read as
+  // a mystery box rather than a proposal engine, and it is not needed: the
+  // split happening ABOVE the container, before the work reaches anyone,
+  // already says the team did not do the decomposing.
+  var PW = 0.54, SD = 0.18, PH = 0.20, GAPY = 0.13;
+  var PX = EX + EW/2, PY = EY + ED/2, PZ = 0.95;
+  var gMono = el("g"); gFlow.appendChild(gMono);
+  solid(gMono, -PW/2, -(SD*3)/2, 0, PW, SD*3, PH, MAT.mid, {sw:0.8, strokeOpacity:0.26, bevel:0.45});
+
+  // ── Verification plate and delivered pad, below on the same axis ────
+  contact(gShadow, VX, VY, VW, VD, 0, 0.45);
+  solid(gFlow, VX, VY, 0, VW, VD, VPED, MAT.neutral, {sw:1, strokeOpacity:0.28});
+  // The badge sits BESIDE the plate, on the opposite side from the label chip.
+  // Floating above the plate put it straight over the container's bottom
+  // corner, so it read as belonging to the box rather than to verification.
+  var vC = iso(VX + VW/2, VY + VD/2, VPED), S = 17;
+  var SHX = vC[0] - 54, SHY = vC[1] + 13;
+  var SHT = "translate(" + SHX.toFixed(1) + "," + SHY.toFixed(1) + ")";
+  gFlow.appendChild(el("path", {
+    d: "M0," + (-S*1.55) + " L" + (S*0.62) + "," + (-S*1.26) + " L" + (S*0.62) + "," + (-S*0.60) +
+       " Q" + (S*0.62) + "," + (-S*0.16) + " 0,0 Q" + (-S*0.62) + "," + (-S*0.16) + " " + (-S*0.62) + "," + (-S*0.60) +
+       " L" + (-S*0.62) + "," + (-S*1.26) + " Z",
+    transform: SHT,
+    fill:"#fff", stroke:"var(--sc-verify)", "stroke-width":1.6, "stroke-linejoin":"round", opacity:0.55}));
+  var shieldTick = el("path", {
+    d: "M" + (-S*0.26) + "," + (-S*0.82) + " L" + (-S*0.05) + "," + (-S*0.58) + " L" + (S*0.30) + "," + (-S*1.05),
+    transform: SHT,
+    fill:"none", stroke:"var(--sc-verify)", "stroke-width":2.6, "stroke-linecap":"round", "stroke-linejoin":"round",
+    "stroke-dasharray":44, "stroke-dashoffset":44});
+  gFlow.appendChild(shieldTick);
+
+  contact(gShadow, OX, OY, OW, OD, 0, 0.45);
+  solid(gFlow, OX, OY, 0, OW, OD, OPED, MAT.neutral, {sw:1, strokeOpacity:0.28});
+  var oC = iso(OX + OW/2, OY + OD/2, OPED + 0.62);
+  var outTick = el("path", {d:"M-9,1 L-3,7 L9,-6", transform:"translate(" + oC[0] + "," + oC[1] + ")",
+    fill:"none", stroke:"var(--sc-verify)", "stroke-width":2.8, "stroke-linecap":"round", "stroke-linejoin":"round",
+    "stroke-dasharray":30, "stroke-dashoffset":30});
+  gFlow.appendChild(outTick);
+
+  // connector lines down the column, like the reference
+  (function(){
+    function link(x0,y0,z0,x1,y1,z1){
+      var a = iso(x0,y0,z0), b = iso(x1,y1,z1);
+      gBack.appendChild(el("line", {x1:a[0], y1:a[1], x2:b[0], y2:b[1], stroke:"var(--sc-ink-2)",
+        "stroke-width":1.1, "stroke-dasharray":"4 5", "stroke-linecap":"round", opacity:0.30}));
+    }
+    link(PX, PY, PZ - 0.14, RX, RY, FLOOR);
+    link(RX+RW, RY+RD, FLOOR, VX+VW/2, VY+VD/2, VPED);
+    link(VX+VW/2, VY+VD/2, 0, OX+OW/2, OY+OD/2, OPED);
+  })();
+
+  var gUnit = el("g"); gFlow.appendChild(gUnit);
+  var unitSolid = solid(gUnit, -0.23, -0.23, 0, 0.46, 0.46, 0.30, MAT.accent, {sw:0.9, strokeOpacity:0.20, bevel:0.4});
+
+  // ── Labels ──────────────────────────────────────────────────────────
+  // Each one is a bordered chip anchored beside the thing it describes, the
+  // way v2 placed them. A single caption parked at the bottom of the frame
+  // made the viewer work out which beat it referred to.
+  function makeLabel(text){
+    var g = el("g"); gLbl.appendChild(g);
+    var r = el("rect", {rx:8, ry:8, fill:"#ffffff", stroke:"var(--sc-stroke)",
+      "stroke-width":1, "stroke-opacity":0.32});
+    var tx = el("text", {"font-family":"Geist, system-ui, sans-serif", "font-size":12,
+      "font-weight":600, fill:"var(--sc-ink)", "dominant-baseline":"middle"});
+    tx.textContent = text;
+    g.appendChild(r); g.appendChild(tx);
+    return {
+      // align: "left" (default) puts the chip's left edge at the anchor,
+      // "center" centres it, "right" ends it there. Needed because a chip
+      // anchored off the box's right corner runs straight off the viewport.
+      place: function(anchor, dx, dy, align){
+        var w = tx.getComputedTextLength ? tx.getComputedTextLength() : text.length * 7.3;
+        var padX = 10, h = 25, bw = w + padX*2;
+        var x = anchor[0] + dx, y = anchor[1] + dy;
+        if (align === "center") x -= bw / 2;
+        else if (align === "right") x -= bw;
+        r.setAttribute("x", x); r.setAttribute("y", y - h/2);
+        r.setAttribute("width", bw); r.setAttribute("height", h);
+        tx.setAttribute("x", x + padX); tx.setAttribute("y", y + 0.5);
+        return this;
+      },
+      opacity: function(o){ g.style.opacity = o; }
+    };
+  }
+
+  var lblProject = makeLabel("Your project");
+  var lblSplit   = makeLabel("Broken into modules and tasks");
+  var lblTeam    = makeLabel("Human + AI agents executing together");
+  var lblVerify  = makeLabel("Verified");
+  var lblDone    = makeLabel("Delivered");
+
+  // Placed once, up front, so the auto-fitted viewBox accounts for the widest
+  // chip and the scene does not reflow as beats change.
+  // Top two sit RIGHT of the incoming block; the long team chip is centred above
+  // the container on the column axis (RX == RY, so that corner is at sx 0). Off
+  // the box's right CORNER it ran clean past the viewport edge, which is why
+  // the team chip is centred rather than corner-anchored.
+  var PLACEMENTS = [
+    [lblProject, iso(PX, PY, PZ),               30, -2,  "left"],
+    [lblSplit,   iso(PX, PY, PZ),               30, -2,  "left"],
+    [lblTeam,    iso(RX, RY, TOPZ),              0, -36, "center"],
+    [lblVerify,  iso(VX + VW, VY, VPED + 0.30), 14, 0,   "left"],
+    [lblDone,    iso(OX + OW, OY, OPED + 0.30), 14, 0,   "left"]
+  ];
+  function applyPlacements(){
+    PLACEMENTS.forEach(function(a){ a[0].place(a[1], a[2], a[3], a[4]); });
+  }
+  applyPlacements();
+  // Re-measure once Geist has actually loaded. Chip width comes from
+  // getComputedTextLength, and measuring against the fallback face sized every
+  // chip too small, so the text overran its right padding.
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(applyPlacements);
+  [lblProject, lblSplit, lblTeam, lblVerify, lblDone].forEach(function(l){ l.opacity(0); });
+
+  var pct = el("text", {"font-family":"Geist, system-ui, sans-serif", "font-size":14, "font-weight":700,
+    fill:"var(--sc-accent)", "text-anchor":"middle", opacity:0});
+  gLbl.appendChild(pct);
+  var pctAt = iso(RX + RW + 0.10, RY - 0.10, TOPZ + 0.34);
+  pct.setAttribute("x", pctAt[0]); pct.setAttribute("y", pctAt[1]);
+
+  var LOOP = 13600;
+  var T = {
+    arrive:[0,1400], separate:[1400,2500], load:[2500,3800],
+    build:[3800,9000], toVerify:[9000,9900], verify:[9900,11100],
+    deliver:[11100,12100], hold:[12100,13600]
+  };
+  function pr(t, r){ return Math.min(1, Math.max(0, (t - r[0]) / (r[1] - r[0]))); }
+  function ease(u){ return 1 - Math.pow(1 - u, 3); }
+  function lerp(a, b, u){ return a + (b - a) * u; }
+  var DROPZ = TOPZ + 0.85;   // hover height above the open top
+
+  function frame(t){
+    var ap = ease(pr(t, T.arrive));
+    var glide = lerp(1.5, 0, ap);
+    var gap = ease(pr(t, T.separate));
+    var showMono = t < T.separate[0] || gap < 0.02;
+    gMono.style.opacity = showMono ? 1 : 0;
+    if (showMono) tr(gMono, PX - glide, PY - glide, PZ + lerp(0.6, 0, ap));
+
+    var moving = t >= T.toVerify[0];
+    var verified = t >= T.verify[0] + 420;
+    var exit = moving ? ease(pr(t, [T.toVerify[0], T.toVerify[0] + 340])) : 0;
+
+    // Modules travel down the column, then DESCEND through the open top into
+    // the tray. A single arc made them vault over the box instead of entering.
+    var sum = 0;
+    mods.forEach(function(m, i){
+      var ld = ease(Math.min(1, Math.max(0, pr(t, T.load) * 1.45 - i * 0.20)));
+      var mx, my, mz;
+      if (ld < 0.55){
+        var a = ld / 0.55;
+        mx = lerp(PX, CX + CW/2, a);
+        my = lerp(PY + (i - 1) * (SD + gap * GAPY), slotY(i), a);
+        mz = lerp(PZ, DROPZ, a);
+      } else {
+        var b = (ld - 0.55) / 0.45;
+        mx = CX + CW/2; my = slotY(i);
+        mz = lerp(DROPZ, MZ, b);
+      }
+      tr(m.g, mx, my, mz);
+
+      var f = t < T.build[0] ? 0 : (t >= T.build[1] ? 1 : Math.min(1, Math.max(0, pr(t, T.build) * 1.5 - i * 0.25)));
+      sum += f;
+      var h = MH * f;
+      setPts(m.fill,  -MW/2, -MD/2, 0, MW, MD, Math.max(0.001, h));
+      setPts(m.shell, -MW/2, -MD/2, h, MW, MD, Math.max(0.001, MH - h));
+      m.fill.g.style.opacity  = h < 0.006 ? 0 : 1;
+      m.shell.g.style.opacity = (MH - h) < 0.006 ? 0 : 1;
+      m.g.style.opacity = showMono ? 0 : String(1 - exit);
+    });
+
+    var bpct = sum / 3;
+    pct.setAttribute("opacity", (t >= T.build[0] && t < T.toVerify[1]) ? 1 : 0);
+    pct.textContent = Math.round(bpct * 100) + "%";
+    pct.setAttribute("fill", verified ? "var(--sc-verify)" : "var(--sc-accent)");
+
+    var building = t >= T.build[0] && t < T.build[1];
+    pulses.forEach(function(p, i){
+      if (!building){ p.node.setAttribute("opacity", 0); return; }
+      var speed = p.fast ? 1500 : 2600, u = ((t - T.build[0]) / speed + i * 0.27) % 1;
+      p.node.setAttribute("cx", lerp(p.from[0], coreTopMid[0], u));
+      p.node.setAttribute("cy", lerp(p.from[1], coreTopMid[1], u));
+      p.node.setAttribute("opacity", (0.9 * Math.sin(u * Math.PI)).toFixed(2));
+      p.node.setAttribute("r", p.fast ? 3.0 : 3.8);
+    });
+
+    // One block leaves the box, is stamped ON the plate, then lands delivered.
+    gUnit.style.opacity = moving ? 1 : 0;
+    if (moving){
+      var ux, uy, uz;
+      if (t < T.verify[0]){
+        var a2 = ease(pr(t, T.toVerify));
+        ux = lerp(CX + CW/2, VX + VW/2, a2);
+        uy = lerp(CY + CD/2, VY + VD/2, a2);
+        uz = lerp(MZ, VPED, a2) + Math.sin(a2 * Math.PI) * 0.85;
+      } else if (t < T.deliver[0]){
+        ux = VX + VW/2; uy = VY + VD/2; uz = VPED;
+      } else {
+        var c2 = ease(pr(t, T.deliver));
+        ux = lerp(VX + VW/2, OX + OW/2, c2);
+        uy = lerp(VY + VD/2, OY + OD/2, c2);
+        uz = lerp(VPED, OPED, c2) + Math.sin(c2 * Math.PI) * 0.40;
+      }
+      tr(gUnit, ux, uy, uz);
+      var m2 = verified ? MAT.verify : MAT.accent;
+      unitSolid.top.setAttribute("fill", m2.t);
+      unitSolid.left.setAttribute("fill", m2.l);
+      unitSolid.right.setAttribute("fill", m2.r);
+    }
+
+    shieldTick.setAttribute("stroke-dashoffset", 44 * (1 - ease(pr(t, [T.verify[0] + 120, T.verify[0] + 820]))));
+    outTick.setAttribute("stroke-dashoffset", 30 * (1 - ease(pr(t, [T.deliver[1] - 200, T.hold[0] + 300]))));
+
+    // One chip at a time, each alive only while its own beat is on stage.
+    lblProject.opacity(t < T.separate[0] ? 1 : 0);
+    lblSplit.opacity(t >= T.separate[0] && t < T.build[0] ? 1 : 0);
+    lblTeam.opacity(t >= T.build[0] && t < T.toVerify[1] ? 1 : 0);
+    lblVerify.opacity(t >= T.verify[0] && t < T.deliver[0] ? 1 : 0);
+    lblDone.opacity(t >= T.deliver[0] ? 1 : 0);
+  }
+
+  // Measured at the end of the arrival beat, not t=0: at t=0 the incoming
+  // block is still glided far up-left of the column, and fitting to that
+  // padded the frame with empty space for the entire loop.
+  frame(T.arrive[1] - 1);
+  requestAnimationFrame(function(){
+    // Fit to the SCENE only. Including the label layer let the widest chip
+    // dictate the viewBox and shrink the isometric content to a fraction of
+    // the frame; the svg is overflow:visible, so chips spill into the margin.
+    var prev = gLbl.style.display;
+    gLbl.style.display = "none";
+    var b = main.getBBox();
+    gLbl.style.display = prev;
+    var pad = 26;
+    svg.setAttribute("viewBox", [b.x - pad, b.y - pad, b.width + pad*2, b.height + pad*2].join(" "));
+    frame(0);
+  });
+
+  var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion:reduce)").matches;
+  if (reduce){ frame(T.hold[0] + 200); }
+  else {
+    var t0 = null, vis = true;
+    if (window.IntersectionObserver){
+      new IntersectionObserver(function(es){ vis = es[0].isIntersecting; }, {threshold:0.05}).observe(svg);
+    }
+    requestAnimationFrame(function loop(ts){
+      if (t0 === null) t0 = ts;
+      if (vis) frame((ts - t0) % LOOP);
+      requestAnimationFrame(loop);
+    });
+  }
+})();
+</script>

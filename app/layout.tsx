@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Your Name - Designer Portfolio",
+  title: "Kamal Saloi — Designer Portfolio",
   description: "Creative designer showcasing UI/UX, branding, and design system work",
   icons: {
     icon: "/favicon.ico",

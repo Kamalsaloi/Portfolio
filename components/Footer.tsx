@@ -4,7 +4,7 @@ export function Footer() {
       <div className="max-w-6xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
           <div>
-            <h3 className="text-lg font-semibold mb-4">Your Name</h3>
+            <h3 className="text-lg font-semibold mb-4">Kamal Saloi</h3>
             <p className="text-slate-400">
               Creative designer focused on building beautiful digital experiences.
             </p>
@@ -27,7 +27,7 @@ export function Footer() {
           </div>
         </div>
         <div className="border-t border-slate-800 pt-8 text-center text-slate-400">
-          <p>&copy; 2024 Your Name. All rights reserved.</p>
+          <p>&copy; 2026 Kamal Saloi. All rights reserved.</p>
         </div>
       </div>
     </footer>

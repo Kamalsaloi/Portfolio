@@ -43,13 +43,16 @@ export function BeforeAfter({
   after,
   beforeImages,
   afterImages,
+  afterContent,
 }: {
   before: string;
   after: string;
   beforeImages?: CompareImage[];
   afterImages?: CompareImage[];
+  /** A live component instead of a static screenshot for the Decision side. */
+  afterContent?: React.ReactNode;
 }) {
-  const hasImages = (beforeImages?.length ?? 0) > 0 || (afterImages?.length ?? 0) > 0;
+  const hasImages = (beforeImages?.length ?? 0) > 0 || (afterImages?.length ?? 0) > 0 || !!afterContent;
 
   return (
     <div
@@ -77,6 +80,11 @@ export function BeforeAfter({
         </div>
         {afterImages && afterImages.length > 0 && (
           <ImageGallery images={afterImages} tint="emerald" />
+        )}
+        {afterContent && (
+          <div className="mt-4 overflow-hidden rounded-lg border border-emerald-200 shadow-sm">
+            {afterContent}
+          </div>
         )}
       </div>
     </div>

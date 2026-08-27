@@ -38,7 +38,7 @@ export function CTA() {
               </h2>
 
               <p className="mx-auto mt-5 max-w-xl text-lg leading-relaxed text-slate-500">
-                Pick a time below — no back-and-forth required.
+                Pick a time below. No back-and-forth required.
               </p>
             </div>
 

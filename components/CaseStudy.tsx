@@ -1,5 +1,6 @@
-import Image from 'next/image';
 import Link from 'next/link';
+import { AidoosHeroReplica } from '@/components/case-study/aidoos-hero/AidoosHeroReplica';
+import { ScaledFrame } from '@/components/case-study/aidoos-hero/ScaledFrame';
 
 export function CaseStudy() {
   return (
@@ -23,14 +24,9 @@ export function CaseStudy() {
                 boxShadow: '0 50px 90px -25px rgba(15,23,42,0.35)',
               }}
             >
-              <Image
-                src="/hero-section-lg.svg"
-                alt="The Aidoos homepage hero, where a client describes their project in one line"
-                width={1280}
-                height={720}
-                unoptimized
-                className="h-auto w-full"
-              />
+              <ScaledFrame nativeWidth={1280} nativeHeight={712}>
+                <AidoosHeroReplica />
+              </ScaledFrame>
             </div>
           </div>
         </div>
