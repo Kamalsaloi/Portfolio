@@ -38,7 +38,7 @@ export function CaseStudy() {
         </div>
 
         {/* Visual */}
-        <div className="relative overflow-hidden rounded-2xl border border-slate-200 bg-slate-50 p-6 sm:p-10">
+        <div className="relative overflow-hidden rounded-2xl border border-bone-line bg-bone p-6 sm:p-10">
           <div
             className="pointer-events-none absolute inset-0 opacity-40"
             style={{

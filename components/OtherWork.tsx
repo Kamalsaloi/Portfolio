@@ -93,14 +93,23 @@ export function OtherWork({
   eyebrow,
   title,
   description,
+  tone = 'bone',
 }: {
   id: string;
   eyebrow: string;
   title: string;
   description: string;
+  /**
+   * Ground for the band. Set 'white' where a bone section already sits
+   * directly below, so the two don't merge into one undifferentiated field.
+   */
+  tone?: 'bone' | 'white';
 }) {
   return (
-    <section id={id} className="bg-bone px-4 py-24 sm:px-6 lg:px-8">
+    <section
+      id={id}
+      className={`px-4 py-24 sm:px-6 lg:px-8 ${tone === 'bone' ? 'bg-bone' : 'bg-white'}`}
+    >
       <div className="mx-auto max-w-6xl">
         <div className="flex max-w-2xl flex-col gap-4 pb-14">
           <p className="font-mono text-[11px] uppercase leading-[15px] tracking-wider text-slate-500">
@@ -113,7 +122,11 @@ export function OtherWork({
         <div className="grid grid-cols-1 gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
           {WORK.map((item) => (
             <div key={item.title} className="flex flex-col gap-4">
-              <div className="aspect-[4/3] overflow-hidden rounded-xl border border-bone-line bg-white shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md">
+              <div
+                className={`aspect-[4/3] overflow-hidden rounded-xl border bg-white shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md ${
+                  tone === 'bone' ? 'border-bone-line' : 'border-slate-200'
+                }`}
+              >
                 {item.image ? (
                   /* Anchored top at full width: cropping a wide page shot to 4:3
                      with object-cover would cut off the nav's outer edges. */

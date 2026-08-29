@@ -17,6 +17,7 @@ export default function Home() {
 
         <OtherWork
           id="range"
+          tone="white"
           eyebrow="Beyond the Core Product"
           title="The range behind the depth"
           description="Alongside the proposal flow, I designed and shipped the rest of the Aidoos platform. Write-ups for these are in progress."

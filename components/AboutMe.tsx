@@ -1,53 +1,53 @@
-'use client';
+import { Grain } from '@/components/case-study/Grain';
 
-import { useEffect, useRef, useState } from 'react';
-
-const TEXT =
-  "I'm a designer passionate about creating beautiful, functional digital experiences. With expertise in UI/UX design, branding, and design systems, I help businesses connect with their users through thoughtful design. When I'm not designing, you can find me exploring new design trends, mentoring junior designers, or working on personal creative projects.";
-
+/**
+ * The positioning statement, given a dark full-bleed band. This is the one
+ * place on the site making an argument rather than showing work, so it gets
+ * weight and a reading column instead of the scroll-reveal that preceded it:
+ * that effect suits a single punchy line, not 250 words of substance.
+ */
 export function AboutMe() {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const [progress, setProgress] = useState(0);
-
-  useEffect(() => {
-    function onScroll() {
-      const el = containerRef.current;
-      if (!el) return;
-      const rect = el.getBoundingClientRect();
-      const total = rect.height - window.innerHeight;
-      if (total <= 0) {
-        setProgress(rect.top <= 0 ? 1 : 0);
-        return;
-      }
-      const scrolled = -rect.top;
-      const p = Math.min(1, Math.max(0, scrolled / total));
-      setProgress(p);
-    }
-
-    window.addEventListener('scroll', onScroll, { passive: true });
-    onScroll();
-    return () => window.removeEventListener('scroll', onScroll);
-  }, []);
-
-  const words = TEXT.split(' ');
-  const activeCount = Math.round(progress * words.length);
-
   return (
-    <section id="about" ref={containerRef} className="relative" style={{ height: '260vh' }}>
-      <div className="sticky top-0 flex h-screen flex-col items-center justify-center bg-white px-4 sm:px-6 lg:px-8">
-        <p className="mb-8 text-xs font-mono uppercase tracking-wider text-slate-400">About Me</p>
-        <p className="max-w-3xl text-center text-2xl font-medium leading-relaxed sm:text-3xl lg:text-4xl">
-          {words.map((word, i) => (
-            <span
-              key={i}
-              className={`transition-colors duration-300 ${
-                i < activeCount ? 'text-slate-950' : 'text-slate-300'
-              }`}
-            >
-              {word}{' '}
-            </span>
-          ))}
-        </p>
+    <section id="about" className="relative overflow-hidden bg-void">
+      <Grain opacity={0.05} />
+
+      <div className="relative mx-auto max-w-6xl px-4 py-28 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 gap-10 lg:grid-cols-[minmax(0,180px)_minmax(0,1fr)] lg:gap-16">
+          <p className="font-mono text-[11px] uppercase leading-[15px] tracking-wider text-slate-500">
+            About
+          </p>
+
+          <div className="flex max-w-2xl flex-col gap-8">
+            <p className="text-2xl leading-[1.4] tracking-tight text-white sm:text-3xl sm:leading-[1.35]">
+              I&apos;m a product designer who works differently from most: I design in the production
+              codebase, not just in Figma.
+            </p>
+
+            <div className="flex flex-col gap-6 text-lg leading-relaxed text-slate-400">
+              <p>
+                That means I don&apos;t hand off static mockups and hope they survive the build. I
+                design the flow, then ship the frontend myself.
+              </p>
+              <p>
+                Over the last year I&apos;ve done this on a real B2B platform, taking products from a
+                blank canvas to live, working software. Multiple landing pages, two full platform
+                dashboards, and the flows connecting them. I make the calls most designers never
+                touch: not just how a screen looks, but why a user moves through it the way they do,
+                where they&apos;ll get stuck, and what a design decision costs or earns the business.
+              </p>
+              <p>
+                The visual layer is table stakes now. What I actually do is the judgment underneath
+                it. Deciding what&apos;s worth building, understanding the person who&apos;ll use it,
+                and knowing enough about the code to build it right the first time.
+              </p>
+            </div>
+
+            <p className="border-t border-void-line pt-8 text-lg leading-relaxed text-slate-200">
+              If you&apos;re a founder who needs someone who can think about the product, design the
+              experience, and ship it, that&apos;s the whole job I do.
+            </p>
+          </div>
+        </div>
       </div>
     </section>
   );
