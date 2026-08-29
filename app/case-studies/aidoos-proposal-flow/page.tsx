@@ -21,41 +21,78 @@ export default function AidoosCaseStudy() {
       <CaseStudyNav />
 
       <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:px-8">
-        {/* Hero */}
-        <div className="mb-16 max-w-2xl">
-          <p className="mb-4 text-xs font-mono uppercase tracking-wider text-slate-400">Case Study</p>
-          <h1 className="mb-6 text-4xl font-bold leading-tight tracking-tight text-slate-950 sm:text-5xl">
-            Designing Aidoos&apos; AI Proposal Flow
-          </h1>
-          <p className="mb-8 text-lg leading-relaxed text-slate-500">
-            From a single line of text to a signed, priced proposal. Every screen in between exists
-            because a screen before it was cut.
-          </p>
-          <div className="flex flex-wrap gap-x-8 gap-y-3 text-sm">
-            <div>
-              <p className="mb-0.5 text-xs text-slate-400">Role</p>
-              <p className="font-medium text-slate-900">Product Designer</p>
+        {/* Hero — an editorial grid: hairlines carry the structure, not spacing alone */}
+        <div className="grid grid-cols-1 pb-20 lg:grid-cols-[minmax(0,1fr)_320px]">
+          {/* Row 1 · Eyebrow, title, deck */}
+          <div className="flex flex-col items-start gap-5 py-12 lg:border-r lg:border-slate-200 lg:pr-16">
+            <div className="flex flex-col items-start gap-3">
+              <p className="font-mono text-[11px] uppercase leading-[15px] tracking-wider text-slate-400">
+                Case Study
+              </p>
+              <h1 className="text-3xl font-bold leading-[1.2] tracking-tight text-slate-950 sm:text-[40px] sm:leading-[50px]">
+                Designing Aidoos&apos; AI Proposal Flow
+              </h1>
             </div>
-            <div>
-              <p className="mb-0.5 text-xs text-slate-400">Company</p>
-              <p className="font-medium text-slate-900">Aidoos</p>
+            <p className="max-w-[650px] leading-6 text-slate-500">
+              From a single line of text to a signed, priced proposal. Every screen in between exists
+              because a screen before it was cut.
+            </p>
+          </div>
+
+          {/* Row 1 · Role */}
+          <div className="flex flex-col gap-1.5 border-t border-slate-200 py-12 lg:border-t-0 lg:pl-16 lg:text-right">
+            <p className="font-mono text-[11px] uppercase leading-[15px] tracking-wider text-slate-400">
+              Role
+            </p>
+            <p className="text-sm font-medium leading-5 text-slate-900">
+              Product Designer/Design engineer
+            </p>
+          </div>
+
+          {/* Row 2 · What Aidoos is */}
+          <div className="flex flex-col items-start gap-3 border-t border-slate-200 py-12 lg:border-r lg:pr-16">
+            <p className="font-mono text-[11px] uppercase leading-[15px] tracking-wider text-slate-400">
+              Product Context
+            </p>
+            <p className="leading-7 text-[#1A212C]">
+              Aidoos builds software for companies without them having to hire a team. A client
+              describes what they need, and Aidoos assembles a Virtual Delivery Center: certified
+              specialists plus AI agents who run the build end to end. Clients pay for defined
+              outcomes rather than headcount or hours.
+            </p>
+          </div>
+
+          {/* Row 2 · Company and Focus */}
+          <div className="flex justify-between gap-8 border-t border-slate-200 py-12 lg:pl-16 lg:text-right">
+            <div className="flex flex-1 flex-col gap-1.5">
+              <p className="font-mono text-[11px] uppercase leading-[15px] tracking-wider text-slate-400">
+                Company
+              </p>
+              <p className="text-sm font-medium leading-5 text-slate-900">Aidoos</p>
             </div>
-            <div>
-              <p className="mb-0.5 text-xs text-slate-400">Focus</p>
-              <p className="font-medium text-slate-900">Intake, Proposal, Pricing</p>
+
+            <div className="flex flex-1 flex-col gap-1.5">
+              <p className="font-mono text-[11px] uppercase leading-[15px] tracking-wider text-slate-400">
+                Focus
+              </p>
+              <div className="flex flex-col gap-1.5 text-sm font-medium leading-5 text-slate-900">
+                <p>Intake</p>
+                <p>Proposal</p>
+                <p>Pricing</p>
+              </div>
             </div>
           </div>
         </div>
 
         <div>
           <article className="max-w-2xl">
-            <Section id="overview" title="Overview">
+            <Section id="overview" title="Why this flow matters">
               <p>
-                At Aidoos, a client&apos;s first real interaction with us is an AI-generated proposal,
-                built from a few sentences they type, with no sales call in between. That makes this
-                flow the single highest-stakes surface we own: it either earns enough trust for someone
-                to hand over their email, or it quietly loses them. Everything below is a decision I
-                made to close that gap, roughly in the order I made it.
+                A client&apos;s first real interaction with us is an AI-generated proposal, built from
+                a few sentences they type, with no sales call in between. That makes this flow the
+                single highest-stakes surface we own: it either earns enough trust for someone to hand
+                over their email, or it quietly loses them. Everything below is a decision I made to
+                close that gap, roughly in the order I made it.
               </p>
             </Section>
 

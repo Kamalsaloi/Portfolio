@@ -9,16 +9,12 @@ interface CompareImage {
   unoptimized?: boolean;
 }
 
-function ImageGallery({ images, tint }: { images: CompareImage[]; tint: 'slate' | 'emerald' }) {
+function ImageGallery({ images }: { images: CompareImage[] }) {
   return (
-    <div className={`mt-4 grid grid-cols-1 gap-3 ${images.length > 1 ? 'sm:grid-cols-2' : ''}`}>
+    <div className={`grid grid-cols-1 gap-6 ${images.length > 1 ? 'sm:grid-cols-2' : ''}`}>
       {images.map((img) => (
-        <figure key={img.src}>
-          <div
-            className={`overflow-hidden rounded-lg border shadow-sm ${
-              tint === 'emerald' ? 'border-emerald-200' : 'border-slate-200'
-            }`}
-          >
+        <figure key={img.src} className="flex flex-col gap-3">
+          <div className="overflow-hidden rounded-xl border border-slate-200">
             <Image
               src={img.src}
               alt={img.alt}
@@ -29,15 +25,19 @@ function ImageGallery({ images, tint }: { images: CompareImage[]; tint: 'slate' 
               sizes="(max-width: 640px) 90vw, 45vw"
             />
           </div>
-          {img.caption && (
-            <figcaption className="mt-1.5 text-xs text-slate-400">{img.caption}</figcaption>
-          )}
+          {img.caption && <figcaption className="text-xs text-slate-400">{img.caption}</figcaption>}
         </figure>
       ))}
     </div>
   );
 }
 
+/**
+ * A before/decision pair. Deliberately unboxed: the label and a hairline carry
+ * the structure, matching the case study hero's grid, so two stacked panels of
+ * tinted background don't fight the screenshots for attention. The one accent
+ * is the small emerald "Decision" label.
+ */
 export function BeforeAfter({
   before,
   after,
@@ -52,39 +52,36 @@ export function BeforeAfter({
   /** A live component instead of a static screenshot for the Decision side. */
   afterContent?: React.ReactNode;
 }) {
-  const hasImages = (beforeImages?.length ?? 0) > 0 || (afterImages?.length ?? 0) > 0 || !!afterContent;
+  const hasVisuals =
+    (beforeImages?.length ?? 0) > 0 || (afterImages?.length ?? 0) > 0 || !!afterContent;
 
   return (
     <div
-      className="my-6 space-y-3"
-      style={hasImages ? { width: 'min(1088px, calc(100vw - 32px))', maxWidth: 'none' } : undefined}
+      className="my-14 flex flex-col gap-14"
+      style={hasVisuals ? { width: 'min(1088px, calc(100vw - 32px))', maxWidth: 'none' } : undefined}
     >
-      <div className="rounded-xl border border-slate-200 bg-slate-50 p-4">
-        <div className="flex gap-3">
-          <span className="shrink-0 pt-0.5 text-xs font-mono uppercase tracking-wider text-slate-400">
+      <div className="flex flex-col gap-7">
+        <div className="flex flex-col gap-3">
+          <p className="font-mono text-[11px] uppercase leading-[15px] tracking-wider text-slate-400">
             Before
-          </span>
-          <p className="text-sm leading-relaxed text-slate-500">{before}</p>
+          </p>
+          <p className="max-w-2xl leading-7 text-slate-500">{before}</p>
         </div>
-        {beforeImages && beforeImages.length > 0 && (
-          <ImageGallery images={beforeImages} tint="slate" />
-        )}
+        {beforeImages && beforeImages.length > 0 && <ImageGallery images={beforeImages} />}
       </div>
 
-      <div className="rounded-xl border border-emerald-200 bg-emerald-50/50 p-4">
-        <div className="flex gap-3">
-          <span className="shrink-0 pt-0.5 text-xs font-mono uppercase tracking-wider text-emerald-600">
+      <hr className="border-slate-200" />
+
+      <div className="flex flex-col gap-7">
+        <div className="flex flex-col gap-3">
+          <p className="font-mono text-[11px] uppercase leading-[15px] tracking-wider text-emerald-600">
             Decision
-          </span>
-          <p className="text-sm leading-relaxed text-slate-700">{after}</p>
+          </p>
+          <p className="max-w-2xl leading-7 text-slate-700">{after}</p>
         </div>
-        {afterImages && afterImages.length > 0 && (
-          <ImageGallery images={afterImages} tint="emerald" />
-        )}
+        {afterImages && afterImages.length > 0 && <ImageGallery images={afterImages} />}
         {afterContent && (
-          <div className="mt-4 overflow-hidden rounded-lg border border-emerald-200 shadow-sm">
-            {afterContent}
-          </div>
+          <div className="overflow-hidden rounded-xl border border-slate-200">{afterContent}</div>
         )}
       </div>
     </div>

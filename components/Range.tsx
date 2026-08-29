@@ -54,12 +54,12 @@ const items = [
   {
     type: 'dashboard',
     title: 'Client Dashboard',
-    caption: 'Built around task status, not raw tables — clients scan it in seconds.',
+    caption: 'Built around task status, not raw tables, so clients scan it in seconds.',
   },
   {
     type: 'dashboard',
     title: 'Talent Dashboard',
-    caption: 'One glance shows earnings and active work — the thing talents check daily.',
+    caption: 'One glance shows earnings and active work, the thing talents check daily.',
   },
   {
     type: 'landing',
@@ -85,8 +85,8 @@ export function Range() {
             The range behind the depth
           </h2>
           <p className="text-lg text-slate-500 leading-relaxed">
-            Alongside the core platform, I designed and shipped the surrounding surfaces —
-            landing pages, and both the client-side and talent-side dashboards.
+            Alongside the core platform, I designed and shipped the surrounding surfaces: landing
+            pages, and both the client-side and talent-side dashboards.
           </p>
         </div>
 

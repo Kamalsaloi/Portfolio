@@ -66,7 +66,7 @@ const STEPS: Step[] = [
   {
     title: ['Build', 'it in real code'],
     description:
-      'I build the interface myself — pixel-accurate and responsive, not just a static handoff file.',
+      'I build the interface myself: pixel-accurate and responsive, not just a static handoff file.',
     image: '/ChatGPT Image Aug 15, 2026, 03_25_44 PM.png',
     card: {
       badge: '03',

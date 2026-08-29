@@ -33,7 +33,7 @@ export function Header() {
 
         <a
           href="#contact"
-          className="hidden md:inline-flex items-center gap-1.5 rounded-full bg-slate-950 px-4 py-2 text-sm font-semibold text-white hover:bg-slate-800 transition-colors"
+          className="hidden md:inline-flex items-center gap-1.5 rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-900 hover:bg-slate-50 transition-colors"
         >
           Book a call
           <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 18 18">
