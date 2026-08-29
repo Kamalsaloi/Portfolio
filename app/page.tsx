@@ -1,7 +1,7 @@
 import { Header } from '@/components/Header';
 import { Hero } from '@/components/Hero';
 import { CaseStudy } from '@/components/CaseStudy';
-import { Range } from '@/components/Range';
+import { OtherWork } from '@/components/OtherWork';
 import { HowIWork } from '@/components/HowIWork';
 import { AboutMe } from '@/components/AboutMe';
 import { CTA } from '@/components/CTA';
@@ -15,7 +15,12 @@ export default function Home() {
 
         <CaseStudy />
 
-        <Range />
+        <OtherWork
+          id="range"
+          eyebrow="Beyond the Core Product"
+          title="The range behind the depth"
+          description="Alongside the proposal flow, I designed and shipped the rest of the Aidoos platform. Write-ups for these are in progress."
+        />
 
         <HowIWork />
 

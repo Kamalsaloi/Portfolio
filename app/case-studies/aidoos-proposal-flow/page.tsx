@@ -1,11 +1,12 @@
 import { CaseStudyNav } from '@/components/case-study/CaseStudyNav';
+import { Grain } from '@/components/case-study/Grain';
 import { Section } from '@/components/case-study/Section';
 import { BeforeAfter } from '@/components/case-study/BeforeAfter';
 import { AidoosHeroReplica } from '@/components/case-study/aidoos-hero/AidoosHeroReplica';
 import { ScaledFrame } from '@/components/case-study/aidoos-hero/ScaledFrame';
 import { MiroEmbed } from '@/components/case-study/MiroEmbed';
 import { VideoEmbed } from '@/components/case-study/VideoEmbed';
-import { OtherProducts } from '@/components/case-study/OtherProducts';
+import { OtherWork } from '@/components/OtherWork';
 import { CTA } from '@/components/CTA';
 import { Footer } from '@/components/Footer';
 
@@ -20,11 +21,15 @@ export default function AidoosCaseStudy() {
     <div className="min-h-screen bg-white">
       <CaseStudyNav />
 
-      <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:px-8">
-        {/* Hero — an editorial grid: hairlines carry the structure, not spacing alone */}
-        <div className="grid grid-cols-1 pb-20 lg:grid-cols-[minmax(0,1fr)_320px]">
+      {/* Hero band — a warm, grained ground so the opening reads as a cover
+          rather than more of the same white page */}
+      <div className="relative overflow-hidden bg-bone">
+        <Grain />
+        <div className="relative mx-auto max-w-6xl px-4 py-12 sm:px-6 lg:px-8">
+          {/* An editorial grid: hairlines carry the structure, not spacing alone */}
+          <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_320px]">
           {/* Row 1 · Eyebrow, title, deck */}
-          <div className="flex flex-col items-start gap-5 py-12 lg:border-r lg:border-slate-200 lg:pr-16">
+          <div className="flex flex-col items-start gap-5 py-12 lg:border-r lg:border-bone-line lg:pr-16">
             <div className="flex flex-col items-start gap-3">
               <p className="font-mono text-[11px] uppercase leading-[15px] tracking-wider text-slate-400">
                 Case Study
@@ -40,7 +45,7 @@ export default function AidoosCaseStudy() {
           </div>
 
           {/* Row 1 · Role */}
-          <div className="flex flex-col gap-1.5 border-t border-slate-200 py-12 lg:border-t-0 lg:pl-16 lg:text-right">
+          <div className="flex flex-col gap-1.5 border-t border-bone-line py-12 lg:border-t-0 lg:pl-16 lg:text-right">
             <p className="font-mono text-[11px] uppercase leading-[15px] tracking-wider text-slate-400">
               Role
             </p>
@@ -50,7 +55,7 @@ export default function AidoosCaseStudy() {
           </div>
 
           {/* Row 2 · What Aidoos is */}
-          <div className="flex flex-col items-start gap-3 border-t border-slate-200 py-12 lg:border-r lg:pr-16">
+          <div className="flex flex-col items-start gap-3 border-t border-bone-line py-12 lg:border-r lg:border-bone-line lg:pr-16">
             <p className="font-mono text-[11px] uppercase leading-[15px] tracking-wider text-slate-400">
               Product Context
             </p>
@@ -63,12 +68,19 @@ export default function AidoosCaseStudy() {
           </div>
 
           {/* Row 2 · Company and Focus */}
-          <div className="flex justify-between gap-8 border-t border-slate-200 py-12 lg:pl-16 lg:text-right">
+          <div className="flex justify-between gap-8 border-t border-bone-line py-12 lg:pl-16 lg:text-right">
             <div className="flex flex-1 flex-col gap-1.5">
               <p className="font-mono text-[11px] uppercase leading-[15px] tracking-wider text-slate-400">
                 Company
               </p>
-              <p className="text-sm font-medium leading-5 text-slate-900">Aidoos</p>
+              <a
+                href="https://aidoos.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-sm font-medium leading-5 text-slate-900 underline decoration-slate-300 decoration-1 underline-offset-4 transition-colors hover:decoration-slate-900"
+              >
+                Aidoos
+              </a>
             </div>
 
             <div className="flex flex-1 flex-col gap-1.5">
@@ -82,20 +94,44 @@ export default function AidoosCaseStudy() {
               </div>
             </div>
           </div>
+          </div>
         </div>
+      </div>
 
+      {/* The thesis, as its own dark beat: the one claim the whole case study
+          rests on, given the weight of a full-bleed band instead of being one
+          more section in the white run */}
+      <section id="overview" className="relative overflow-hidden bg-void">
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 opacity-[0.07]"
+          style={{
+            backgroundImage:
+              'linear-gradient(to right, white 1px, transparent 1px), linear-gradient(to bottom, white 1px, transparent 1px)',
+            backgroundSize: '40px 40px',
+          }}
+        />
+        <div className="relative mx-auto max-w-6xl px-4 py-24 sm:px-6 lg:px-8">
+          <div className="flex max-w-3xl flex-col gap-6">
+            <p className="font-mono text-[11px] uppercase leading-[15px] tracking-wider text-slate-500">
+              Why this flow matters
+            </p>
+            <p className="text-xl leading-relaxed text-slate-200 sm:text-2xl sm:leading-[1.55]">
+              A client&apos;s first real interaction with us is an AI-generated proposal, built from a
+              few sentences they type, with no sales call in between. That makes this flow the single
+              highest-stakes surface we own: it either earns enough trust for someone to hand over
+              their email, or it quietly loses them.
+            </p>
+            <p className="max-w-xl leading-7 text-slate-400">
+              Everything below is a decision I made to close that gap, roughly in the order I made it.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:px-8">
         <div>
           <article className="max-w-2xl">
-            <Section id="overview" title="Why this flow matters">
-              <p>
-                A client&apos;s first real interaction with us is an AI-generated proposal, built from
-                a few sentences they type, with no sales call in between. That makes this flow the
-                single highest-stakes surface we own: it either earns enough trust for someone to hand
-                over their email, or it quietly loses them. Everything below is a decision I made to
-                close that gap, roughly in the order I made it.
-              </p>
-            </Section>
-
             <Section id="chat-input" eyebrow="Decision 01" title="Type right there">
               <p>
                 The flow used to open a modal before you could describe what you wanted: a screen
@@ -189,7 +225,12 @@ export default function AidoosCaseStudy() {
         </div>
       </div>
 
-      <OtherProducts />
+      <OtherWork
+        id="other-work"
+        eyebrow="Beyond This Flow"
+        title="Other products built for Aidoos"
+        description="The proposal flow was the centerpiece, not the whole job. These are the other surfaces I designed and shipped on the platform."
+      />
       <CTA />
 
       <Footer />
