@@ -1,6 +1,9 @@
 import Image from 'next/image';
+import { RampWordmark } from '@/components/case-study/RampWordmark';
 
-type Variant = 'list' | 'feed' | 'grid';
+type MockVariant = 'list' | 'feed' | 'grid';
+/** 'ramp' renders the real production wordmark animation, not a placeholder. */
+type Variant = MockVariant | 'ramp';
 
 function Chrome() {
   return (
@@ -17,7 +20,7 @@ function Chrome() {
  * placeholder should signal "screens exist" without implying a level of
  * finish the write-up hasn't earned yet.
  */
-function WorkMock({ variant }: { variant: Variant }) {
+function WorkMock({ variant }: { variant: MockVariant }) {
   return (
     <div className="flex h-full w-full flex-col bg-white">
       <Chrome />
@@ -78,7 +81,7 @@ const WORK: WorkItem[] = [
     status: 'Case study coming soon',
     image: { src: '/talent-onboarding-flow.png', width: 2560, height: 1264 },
   },
-  { title: 'RAMP course flow', status: 'Case study coming soon', variant: 'list' },
+  { title: 'RAMP course flow', status: 'Case study coming soon', variant: 'ramp' },
   { title: 'AiDOOS feed', status: 'Case study coming soon', variant: 'feed' },
   { title: 'Talent matching flow', status: 'Case study coming soon', variant: 'list' },
   { title: 'The execution platform', status: 'Case study coming soon', variant: 'grid' },
@@ -123,9 +126,9 @@ export function OtherWork({
           {WORK.map((item) => (
             <div key={item.title} className="flex flex-col gap-4">
               <div
-                className={`aspect-[4/3] overflow-hidden rounded-xl border bg-white shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md ${
+                className={`aspect-[4/3] overflow-hidden rounded-xl border shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md ${
                   tone === 'bone' ? 'border-bone-line' : 'border-slate-200'
-                }`}
+                } ${item.image ? 'bg-bone-deep' : 'bg-white'}`}
               >
                 {item.image ? (
                   /* Anchored top at full width: cropping a wide page shot to 4:3
@@ -138,6 +141,8 @@ export function OtherWork({
                     className="h-auto w-full"
                     sizes="(max-width: 640px) 90vw, (max-width: 1024px) 45vw, 30vw"
                   />
+                ) : item.variant === 'ramp' ? (
+                  <RampWordmark />
                 ) : (
                   <WorkMock variant={item.variant ?? 'list'} />
                 )}

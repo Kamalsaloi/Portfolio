@@ -4,7 +4,7 @@ import { ScaledFrame } from '@/components/case-study/aidoos-hero/ScaledFrame';
 
 export function CaseStudy() {
   return (
-    <section id="work" className="py-24 px-4 sm:px-6 lg:px-8 bg-white">
+    <section id="work" className="py-24 px-4 sm:px-6 lg:px-8">
       <div className="mx-auto grid max-w-6xl grid-cols-1 items-center gap-12 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-16">
         {/* Copy */}
         <div className="flex flex-col items-start gap-6">
@@ -48,13 +48,10 @@ export function CaseStudy() {
             }}
           />
 
-          <div className="relative" style={{ perspective: '2000px' }}>
+          <div className="relative">
             <div
               className="overflow-hidden rounded-lg border border-slate-200 bg-white"
-              style={{
-                transform: 'rotateX(8deg) rotateY(-14deg) rotateZ(1deg)',
-                boxShadow: '0 30px 60px -20px rgba(15,23,42,0.35)',
-              }}
+              style={{ boxShadow: '0 18px 40px -18px rgba(15,23,42,0.22)' }}
             >
               <ScaledFrame nativeWidth={1280} nativeHeight={712}>
                 <AidoosHeroReplica />

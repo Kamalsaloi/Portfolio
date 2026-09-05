@@ -13,12 +13,16 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --font-hand: var(--font-caveat);
 
   /* Warm neutral ground. One temperature across the site: the "How I Work"
      deck on the homepage already sits on this, so case study bands match it
      rather than introducing a second, cooler grey. */
   --color-bone: #f7f5f0;
   --color-bone-line: #e3ddd2;
+  /* Inset ground for screenshot wells: white product shots need a surface to
+     sit on, and bone is too close to white to provide one. */
+  --color-bone-deep: #eeeae1;
 
   /* Near-black for dark bands. slate-950 (#020617) is a navy at hue 229 and
      reads blue at full-bleed scale; this is neutral enough to read as ink. */

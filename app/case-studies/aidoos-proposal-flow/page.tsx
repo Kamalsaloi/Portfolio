@@ -77,9 +77,21 @@ export default function AidoosCaseStudy() {
                 href="https://aidoos.com/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-sm font-medium leading-5 text-slate-900 underline decoration-slate-300 decoration-1 underline-offset-4 transition-colors hover:decoration-slate-900"
+                className="group inline-flex items-center gap-1 self-start rounded-md text-sm font-medium leading-5 text-[#2D5BFF] transition-colors hover:text-[#1E3FCC] lg:self-end"
               >
                 Aidoos
+                <svg
+                  className="h-3 w-3 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+                  viewBox="0 0 12 12"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth={1.9}
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  aria-hidden="true"
+                >
+                  <path d="M3.5 8.5 8.5 3.5M8.5 3.5h-4.5M8.5 3.5v4.5" />
+                </svg>
               </a>
             </div>
 
@@ -129,19 +141,13 @@ export default function AidoosCaseStudy() {
         </div>
       </section>
 
-      <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:px-8">
-        <div>
-          <article className="max-w-2xl">
+      <div className="bg-bone">
+        <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:px-8">
+          <article className="flex flex-col gap-6">
             <Section id="chat-input" eyebrow="Decision 01" title="Type right there">
-              <p>
-                The flow used to open a modal before you could describe what you wanted: a screen
-                whose only job was to ask you to open another screen. I removed it. The chat input now
-                lives directly in the homepage hero: the moment someone has an idea, they&apos;re
-                already typing it.
-              </p>
               <BeforeAfter
-                before="A modal stood between the homepage and the chat input: one extra click, one extra screen, before a user could say anything at all."
-                after="The chat input sits directly in the hero. No modal, no in-between screen. You land, you type."
+                before="You landed on the homepage, clicked, and a modal opened just to ask what you wanted. Two screens before you could type a word."
+                after="The chat input sits in the hero. You land, you type."
                 beforeImages={[
                   {
                     src: '/Previous_hero_section.png',
@@ -172,10 +178,9 @@ export default function AidoosCaseStudy() {
               title="Show them you're actually reading it"
             >
               <p>
-                Right after submit, before any questions, there&apos;s a short screen that narrates
-                what the system is doing with what they just wrote: reading the brief, pulling out
-                modules, estimating time. It&apos;s not a spinner. It&apos;s the first proof, before
-                anything else is shown, that their words are actually going somewhere.
+                Right after submit, a short screen narrates what the system is doing with what they
+                wrote: reading the brief, pulling out modules, estimating time. Not a spinner. The
+                first proof their words went somewhere.
               </p>
               <VideoEmbed
                 src="/Intake.mp4"
@@ -189,9 +194,8 @@ export default function AidoosCaseStudy() {
               title="Understanding, not a form"
             >
               <p>
-                Every person typing into that box is silently asking the same question: did they get
-                me? This screen answers it before asking anything else: the rest is what each part of
-                it is actually doing.
+                Everyone typing into that box is asking the same thing: did they get me? This screen
+                answers that before it asks for anything.
               </p>
               <MiroEmbed
                 src="https://miro.com/app/live-embed/uXjVHx2NjHA=/?embedMode=view_only_without_ui&moveToViewport=-1734,-922,3424,1706&embedId=239957103818"
@@ -202,17 +206,13 @@ export default function AidoosCaseStudy() {
 
             <Section id="proposal-page" eyebrow="Decision 04" title="A page, not a modal">
               <p>
-                The proposal itself used to render inside a modal, and the structure inside it was
-                broken: sections dumped with no clear order. I moved it to its own page, with its own
-                URL. A modal is for a decision you make and dismiss. A proposal is a document you read,
-                closer to an article than a dialog, and reading tools like Medium don&apos;t put long
-                text inside a dialog box.
+                A modal is for a decision you make and dismiss. A proposal is a document you read. So
+                I moved it to its own page, with its own URL, and gave the sections a real order.
               </p>
               <p>
-                That&apos;s also why the page has a fixed max-width instead of spanning the full
-                viewport. Eyes track a narrow column far more comfortably than the full width of a
-                screen: a full-width proposal would be genuinely tiring to read, not just less
-                polished. This case study page uses the same constraint, for the same reason.
+                The page is capped at a fixed width too. A narrow column is easier to track than a
+                full screen, and a proposal that spans the viewport is tiring to read. This case study
+                uses the same cap.
               </p>
               <MiroEmbed
                 src="https://miro.com/app/live-embed/uXjVHx2NjHA=/?embedMode=view_only_without_ui&moveToViewport=2804,-1251,8981,6491&embedId=157172711105"
@@ -227,6 +227,7 @@ export default function AidoosCaseStudy() {
 
       <OtherWork
         id="other-work"
+        tone="white"
         eyebrow="Beyond This Flow"
         title="Other products built for Aidoos"
         description="The proposal flow was the centerpiece, not the whole job. These are the other surfaces I designed and shipped on the platform."
