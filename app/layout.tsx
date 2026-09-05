@@ -33,6 +33,14 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} ${caveat.variable} h-full antialiased`}
     >
+      <head>
+        {/* The case study embeds Miro boards. Getting DNS, TCP and TLS out of
+            the way up front shaves the handshake off the board's start-up,
+            which is otherwise paid at the moment the iframe is inserted. */}
+        <link rel="preconnect" href="https://miro.com" />
+        <link rel="preconnect" href="https://miro.com" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://miro.com" />
+      </head>
       <body className="min-h-full flex flex-col">
         {children}
         <Analytics />
