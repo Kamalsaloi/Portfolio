@@ -6,6 +6,9 @@
  * The card spans the full content width while paragraphs stay capped at a
  * reading measure, so wide visuals sit flush inside it and no child needs a
  * viewport-width breakout hack to escape a narrow text column.
+ *
+ * Continuity between decisions is carried by the body copy itself, which
+ * opens with what the next screen is. A separate lead-in only restated it.
  */
 export function Section({
   id,
@@ -21,7 +24,7 @@ export function Section({
   return (
     <section
       id={id}
-      className="scroll-mt-24 rounded-2xl border border-bone-line bg-white p-5 sm:p-8 lg:p-12"
+      className="scroll-mt-24 rounded-2xl border border-bone-line bg-white px-5 py-8 sm:px-8 sm:py-10 lg:px-10 lg:py-12"
     >
       <div className="flex flex-col gap-3 pb-8">
         {eyebrow && (

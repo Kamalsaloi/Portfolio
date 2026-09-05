@@ -281,6 +281,7 @@ export function HowIWork() {
 
   return (
     <section
+      id="process"
       ref={sectionRef}
       className="relative"
       style={{ height: `${(STEPS.length + TAIL) * 100}vh` }}

@@ -25,7 +25,7 @@ export default function AidoosCaseStudy() {
           rather than more of the same white page */}
       <div className="relative overflow-hidden bg-bone">
         <Grain />
-        <div className="relative mx-auto max-w-6xl px-4 py-12 sm:px-6 lg:px-8">
+        <div className="relative mx-auto max-w-[1440px] px-5 py-12 sm:px-10 lg:px-18">
           {/* An editorial grid: hairlines carry the structure, not spacing alone */}
           <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_320px]">
           {/* Row 1 · Eyebrow, title, deck */}
@@ -123,7 +123,7 @@ export default function AidoosCaseStudy() {
             backgroundSize: '40px 40px',
           }}
         />
-        <div className="relative mx-auto max-w-6xl px-4 py-24 sm:px-6 lg:px-8">
+        <div className="relative mx-auto max-w-[1440px] px-5 py-24 sm:px-10 lg:px-18">
           <div className="flex max-w-3xl flex-col gap-6">
             <p className="font-mono text-[11px] uppercase leading-[15px] tracking-wider text-slate-500">
               Why this flow matters
@@ -142,12 +142,12 @@ export default function AidoosCaseStudy() {
       </section>
 
       <div className="bg-bone">
-        <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-[1440px] px-5 py-16 sm:px-10 lg:px-18">
           <article className="flex flex-col gap-6">
             <Section id="chat-input" eyebrow="Decision 01" title="Type right there">
               <BeforeAfter
-                before="You landed on the homepage, clicked, and a modal opened just to ask what you wanted. Two screens before you could type a word."
-                after="The chat input sits in the hero. You land, you type."
+                before="You landed on the homepage, clicked, and a modal opened just to ask what you wanted. Two screens before you could type a word, each click is a friction point, drop off rate was higher."
+                after="The chat input sits in the hero. You land, you type right there."
                 beforeImages={[
                   {
                     src: '/Previous_hero_section.png',
@@ -161,7 +161,7 @@ export default function AidoosCaseStudy() {
                     alt: 'The modal that used to open before someone could describe their project',
                     width: 1920,
                     height: 951,
-                    caption: 'The modal it opened into first',
+                    caption: 'The modal it opened after clicking ChatGPT for Work',
                   },
                 ]}
                 afterContent={
@@ -178,9 +178,10 @@ export default function AidoosCaseStudy() {
               title="Show them you're actually reading it"
             >
               <p>
-                Right after submit, a short screen narrates what the system is doing with what they
-                wrote: reading the brief, pulling out modules, estimating time. Not a spinner. The
-                first proof their words went somewhere.
+                The next screen is a short one that narrates what the system is doing with what
+                they wrote: reading the brief, pulling out modules, estimating time. Not a spinner.
+                The first proof their words went somewhere, because they might be skeptical if it is
+                just a template or an actual engine
               </p>
               <VideoEmbed
                 src="/Intake.mp4"
@@ -194,8 +195,11 @@ export default function AidoosCaseStudy() {
               title="Understanding, not a form"
             >
               <p>
-                Everyone typing into that box is asking the same thing: did they get me? This screen
-                answers that before it asks for anything.
+                The next screen is where that trust is won or lost. Earlier, it used to generate
+                the proposal with just the typed input.. a 100 char input is not enough to build a
+                business plan, we needed more context.. This screen gets that context after making
+                sure it provides value before asking, zoom in and out to read the thought behind
+                each section...
               </p>
               <MiroEmbed
                 src="https://miro.com/app/live-embed/uXjVHx2NjHA=/?embedMode=view_only_without_ui&moveToViewport=-1734,-922,3424,1706&embedId=239957103818"
@@ -204,21 +208,22 @@ export default function AidoosCaseStudy() {
               />
             </Section>
 
-            <Section id="proposal-page" eyebrow="Decision 04" title="A page, not a modal">
+            <Section
+              id="proposal-page"
+              eyebrow="Decision 04"
+              title="A page, not a modal"
+            >
               <p>
-                A modal is for a decision you make and dismiss. A proposal is a document you read. So
-                I moved it to its own page, with its own URL, and gave the sections a real order.
-              </p>
-              <p>
-                The page is capped at a fixed width too. A narrow column is easier to track than a
-                full screen, and a proposal that spans the viewport is tiring to read. This case study
-                uses the same cap.
+                The next screen is finally the proposal... It used to come as a modal but modal is
+                for a decision you make and dismiss. A proposal is a document you read. So I moved
+                it to its own page, with its own URL, and gave the sections a real order. The page
+                is capped at a fixed width too, easier for the eye to read just like medium articles
               </p>
               <MiroEmbed
-                src="https://miro.com/app/live-embed/uXjVHx2NjHA=/?embedMode=view_only_without_ui&moveToViewport=2804,-1251,8981,6491&embedId=157172711105"
+                src="https://miro.com/app/live-embed/uXjVHq7orEg=/?embedMode=view_only_without_ui&moveToViewport=-3666,-5600,4847,7043&embedId=33017458526"
                 title="Map of the full proposal, annotated section by section"
                 caption="Zoomed out on purpose: this is the ordering argument, not the copy."
-                aspectRatio="8981/6491"
+                aspectRatio="4847/7043"
               />
             </Section>
           </article>

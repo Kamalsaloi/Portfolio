@@ -24,6 +24,17 @@
      sit on, and bone is too close to white to provide one. */
   --color-bone-deep: #eeeae1;
 
+  /* Case study wells and callout panels. From the Paper file's --bg_card /
+     --bg_outline: a cool tint that separates a white screenshot from a white
+     card more firmly than bone-deep did. */
+  --color-card: #e5f0ff;
+  --color-card-line: #8dc0fa;
+  --color-card-label: #667386;
+  --color-card-body: #374456;
+  /* "Before" reads as the state being left behind, so it takes a warning
+     tone against the emerald of "After". */
+  --color-before: #ff4434;
+
   /* Near-black for dark bands. slate-950 (#020617) is a navy at hue 229 and
      reads blue at full-bleed scale; this is neutral enough to read as ink. */
   --color-void: #08090a;
@@ -34,4 +45,14 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+}
+
+/* Anchor jumps (the hero's "See My Work", the nav links) glide instead of
+   snapping. Only affects programmatic and anchor scrolling, not the wheel, so
+   the scroll-driven sections are untouched. Gated on the motion preference:
+   for anyone who has asked for less motion, an instant jump is correct. */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
 }

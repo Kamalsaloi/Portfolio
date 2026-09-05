@@ -14,7 +14,7 @@ export function Hero() {
     <section className="sticky top-0 z-0 flex h-svh flex-col overflow-hidden bg-bone">
       {/* Plate. Portrait crop below md, landscape above: one scene, two
           framings, so the peak and the portal survive on a phone. */}
-      <div aria-hidden className="absolute inset-x-0 top-0 h-full opacity-80 md:h-[115%]">
+      <div aria-hidden className="absolute inset-x-0 top-0 h-full opacity-70 md:h-[115%]">
         <Image
           src="/Portfolio_hero_image_for_mobile.webp"
           alt=""

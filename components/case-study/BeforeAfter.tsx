@@ -13,8 +13,10 @@ interface CompareImage {
 function Figure({ img, className = '' }: { img: CompareImage; className?: string }) {
   return (
     <figure className={`flex flex-col gap-3 ${className}`}>
-      <div className="rounded-xl bg-bone-deep p-3 sm:p-4">
-        <div className="overflow-hidden rounded-lg border border-bone-line bg-white shadow-[0_10px_28px_-12px_rgba(15,23,42,0.3)]">
+      {/* Tinted well with a hairline outline rather than a border: outline
+          takes no layout space, so the frame inside keeps its exact size. */}
+      <div className="rounded-xl bg-card p-4 outline outline-[0.5px] outline-card-line">
+        <div className="overflow-hidden rounded-lg border border-bone-line bg-white">
           <Image
             src={img.src}
             alt={img.alt}
@@ -26,7 +28,7 @@ function Figure({ img, className = '' }: { img: CompareImage; className?: string
           />
         </div>
       </div>
-      {img.caption && <figcaption className="text-xs text-slate-400">{img.caption}</figcaption>}
+      {img.caption && <figcaption className="text-xs text-slate-800">{img.caption}</figcaption>}
     </figure>
   );
 }
@@ -79,10 +81,9 @@ function Gallery({ images, sequence }: { images: CompareImage[]; sequence?: bool
 }
 
 /**
- * The change, stated exactly once. This used to repeat itself: the section
- * intro, the "Before" blurb and the "Decision" blurb all said the same thing
- * in three slightly different ways. Now a single two-row block carries what
- * used to happen and what changed, and the visuals below take bare labels.
+ * The old state, then the new one, each stated once. "What used to happen"
+ * gets a tinted callout panel; the change itself is the lead-in to the After
+ * visual, so the reader meets the claim immediately above its evidence.
  */
 export function BeforeAfter({
   before,
@@ -91,9 +92,9 @@ export function BeforeAfter({
   afterImages,
   afterContent,
 }: {
-  /** What used to happen. One or two sentences. */
+  /** What used to happen. Goes in the callout panel. */
   before: string;
-  /** What changed. One or two sentences. */
+  /** What changed. Introduces the After visual. */
   after: string;
   beforeImages?: CompareImage[];
   afterImages?: CompareImage[];
@@ -104,24 +105,18 @@ export function BeforeAfter({
 
   return (
     <div className="flex flex-col gap-10">
-      <div className="overflow-hidden rounded-xl border border-bone-line">
-        <div className="flex flex-col gap-2 border-b border-bone-line bg-bone p-5 sm:p-6">
-          <p className="font-mono text-[11px] uppercase leading-[15px] tracking-wider text-slate-400">
+      <div className="rounded-xl bg-card p-6 outline outline-[0.5px] outline-card-line">
+        <div className="flex flex-col gap-2">
+          <p className="font-mono text-[11px] uppercase leading-[15px] tracking-wider text-card-label">
             What used to happen
           </p>
-          <p className="max-w-2xl leading-7 text-slate-500">{before}</p>
-        </div>
-        <div className="flex flex-col gap-2 p-5 sm:p-6">
-          <p className="font-mono text-[11px] uppercase leading-[15px] tracking-wider text-emerald-600">
-            What I changed
-          </p>
-          <p className="max-w-2xl leading-7 text-slate-800">{after}</p>
+          <p className="max-w-2xl leading-7 text-card-body">{before}</p>
         </div>
       </div>
 
       {beforeImages && beforeImages.length > 0 && (
         <div className="flex flex-col gap-4">
-          <p className="font-mono text-[11px] uppercase leading-[15px] tracking-wider text-slate-400">
+          <p className="font-mono text-[11px] uppercase leading-[15px] tracking-wider text-before">
             Before
           </p>
           <Gallery images={beforeImages} sequence />
@@ -129,19 +124,28 @@ export function BeforeAfter({
       )}
 
       {hasAfterVisual && (
-        <div className="flex flex-col gap-4">
-          <p className="font-mono text-[11px] uppercase leading-[15px] tracking-wider text-emerald-600">
-            After
-          </p>
-          {afterImages && afterImages.length > 0 && <Gallery images={afterImages} />}
-          {afterContent && (
-            <div className="rounded-xl bg-bone-deep p-3 sm:p-4">
-              <div className="overflow-hidden rounded-lg border border-bone-line bg-white shadow-[0_10px_28px_-12px_rgba(15,23,42,0.3)]">
-                {afterContent}
-              </div>
+        <>
+          {/* Marks the turn from the old state to the new one. */}
+          <hr className="border-bone-line" />
+
+          <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-2 pb-2">
+              <p className="font-mono text-[11px] uppercase leading-[15px] tracking-wider text-emerald-600">
+                After
+              </p>
+              <p className="max-w-2xl leading-7 text-slate-800">{after}</p>
             </div>
-          )}
-        </div>
+
+            {afterImages && afterImages.length > 0 && <Gallery images={afterImages} />}
+            {afterContent && (
+              <div className="rounded-xl bg-card p-4 outline outline-[0.5px] outline-card-line">
+                <div className="overflow-hidden rounded-lg border border-bone-line bg-white">
+                  {afterContent}
+                </div>
+              </div>
+            )}
+          </div>
+        </>
       )}
     </div>
   );

@@ -111,9 +111,9 @@ export function OtherWork({
   return (
     <section
       id={id}
-      className={`px-4 py-24 sm:px-6 lg:px-8 ${tone === 'bone' ? 'bg-bone' : 'bg-white'}`}
+      className={`px-5 py-24 sm:px-10 lg:px-18 ${tone === 'bone' ? 'bg-bone' : 'bg-white'}`}
     >
-      <div className="mx-auto max-w-6xl">
+      <div className="mx-auto max-w-[1440px]">
         <div className="flex max-w-2xl flex-col gap-4 pb-14">
           <p className="font-mono text-[11px] uppercase leading-[15px] tracking-wider text-slate-500">
             {eyebrow}
