@@ -165,18 +165,10 @@ export function AidoosHeroReplica() {
 
         {/* Visual column */}
         <div className="flex min-w-0 grow basis-0 items-center justify-end pr-[79px]">
-          <div className="flex w-[351px] shrink-0 flex-col items-center gap-[14px]">
-            <div
-              className="flex shrink-0 items-center rounded-[8px] border border-solid border-[#E3E5E8] bg-white px-[14px] py-[7px]"
-              style={{ boxShadow: '0 1px 2px #17191C0A' }}
-            >
-              <div
-                className="w-max shrink-0 whitespace-pre text-[14px] font-medium leading-[20px] text-[#17191C]"
-                style={{ fontFamily: 'var(--font-geist-sans)' }}
-              >
-                Human + AI agents executing together
-              </div>
-            </div>
+          {/* No static label pill here: the animation draws its own
+              "Human + AI agents executing together" chip as part of the
+              sequence, and a second copy above it read as a duplicate. */}
+          <div className="flex w-[351px] shrink-0 flex-col items-center">
             <div className="w-full">
               <VDCAnimation />
             </div>
