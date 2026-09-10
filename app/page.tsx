@@ -1,3 +1,4 @@
+import { Intro } from '@/components/Intro';
 import { Hero } from '@/components/Hero';
 import { CaseStudy } from '@/components/CaseStudy';
 import { OtherWork } from '@/components/OtherWork';
@@ -8,6 +9,9 @@ import { CTA } from '@/components/CTA';
 export default function Home() {
   return (
     <div className="min-h-screen bg-bone">
+      {/* Cold open. Sits above everything until it clears itself. */}
+      <Intro />
+
       {/*
         Parallax: the hero is sticky at full viewport height and everything
         after it is a sibling with a higher z-index, so the rest of the page
