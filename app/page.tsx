@@ -26,7 +26,7 @@ export default function Home() {
       <main className="relative">
         <Hero />
 
-        <div className="relative z-10 overflow-clip rounded-t-[28px] bg-white shadow-[0_-24px_60px_-20px_rgba(15,23,42,0.35)] sm:rounded-t-[40px]">
+        <div className="relative z-10 overflow-clip rounded-t-[28px] border-t border-slate-200 bg-white shadow-[0_-24px_60px_-20px_rgba(15,23,42,0.28)] sm:rounded-t-[40px]">
           <CaseStudy />
 
           <OtherWork

@@ -13,7 +13,6 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
-  --font-hand: var(--font-caveat);
 
   /* Warm neutral ground. One temperature across the site: the "How I Work"
      deck on the homepage already sits on this, so case study bands match it
@@ -34,6 +33,24 @@
   /* "Before" reads as the state being left behind, so it takes a warning
      tone against the emerald of "After". */
   --color-before: #ff4434;
+
+  /* Vantage case study. The product's own signature is a warm-to-cool
+     gradient: noisy market signals on the left resolving into one clear
+     decision on the right. That gradient is the page's colour voice, not a
+     palette invented for it. OKLCH so the two accents hold equal weight. */
+  --color-v-warm: oklch(0.72 0.115 55);
+  --color-v-warm-soft: oklch(0.9 0.045 65);
+  /* Matting for the featured screen: warm enough to read as orange, light
+     enough that a screenshot sits on it without fighting. */
+  --color-v-peach: oklch(0.86 0.105 55);
+  --color-v-cool: oklch(0.68 0.062 245);
+  --color-v-cool-soft: oklch(0.9 0.03 245);
+  /* Grounds. Never pure white or pure black: both tinted toward the warm
+     end so the accents sit in the same light. */
+  --color-v-paper: oklch(0.985 0.004 80);
+  --color-v-sand: oklch(0.952 0.016 70);
+  --color-v-ink: oklch(0.21 0.014 265);
+  --color-v-ink-line: oklch(0.31 0.016 265);
 
   /* Near-black for dark bands. slate-950 (#020617) is a navy at hue 229 and
      reads blue at full-bleed scale; this is neutral enough to read as ink. */

@@ -1,65 +1,66 @@
+import Image from 'next/image';
 import Link from 'next/link';
-import { AidoosHeroReplica } from '@/components/case-study/aidoos-hero/AidoosHeroReplica';
-import { ScaledFrame } from '@/components/case-study/aidoos-hero/ScaledFrame';
 
+/* The mat gradient, carried over verbatim from the Paper artboard so the two
+   stay identical: oklab stops with oklab interpolation, warm on the left
+   easing through near-white to cool on the right. */
+const MAT =
+  'linear-gradient(in oklab 135deg, oklab(73.7% 0.067 0.122) 0%, oklab(89.7% 0.023 0.028) 50%, oklab(65.9% -0.040 -0.086) 100%)';
+
+/**
+ * The featured case study on the homepage. Vantage leads.
+ *
+ * Copy sits above the screen: the claim on the left, the summary and the link
+ * on the right. No hover behaviour on the artwork by design, so everything the
+ * section has to say is on screen at rest, including on touch.
+ */
 export function CaseStudy() {
   return (
-    <section id="work" className="py-24 px-4 sm:px-6 lg:px-8">
-      <div className="mx-auto grid max-w-6xl grid-cols-1 items-center gap-12 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-16">
-        {/* Copy */}
-        <div className="flex flex-col items-start gap-6">
-          <p className="font-mono text-xs uppercase tracking-wider text-slate-500">
-            Featured Case Study
-          </p>
-
-          <h2 className="text-3xl font-bold leading-[1.1] tracking-tight text-slate-950 sm:text-4xl">
-            Aidoos: building a startup&apos;s platform end to end
+    <section
+      id="work"
+      className="flex flex-col items-center gap-6 bg-[#FFFBF8] px-6 py-12 sm:px-10 lg:px-[50px]"
+    >
+      <div className="flex w-full max-w-[1180px] flex-col items-start justify-between gap-10 pb-6 lg:flex-row lg:gap-[120px]">
+        <div className="flex flex-col gap-5 lg:flex-1">
+          <h2 className="max-w-[620px] text-[clamp(28px,3.2vw,40px)] leading-[1.2] font-bold tracking-[-0.025em] text-[#15181F]">
+            An AI that tells you what to build, and earns the right to be believed.
           </h2>
+        </div>
 
-          <p className="text-lg leading-relaxed text-slate-500">
-            As the founding designer at Aidoos, I designed and shipped the entire product, from first
-            wireframe to a live, scalable platform used by real customers today.
+        <div className="flex flex-col items-start justify-end gap-6 lg:flex-1">
+          <p className="max-w-[600px] self-stretch text-[17px] leading-7 text-[#15181F]/70">
+            Three decisions made a stranger trust a machine-written brief: give the value away
+            before asking, show the research happening, and say plainly what the report cannot know.
           </p>
 
           <Link
-            href="/case-studies/aidoos-proposal-flow"
-            className="group inline-flex items-center gap-2 rounded-full bg-slate-950 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-slate-800"
+            href="/case-studies/vantage"
+            className="inline-flex shrink-0 items-center gap-2 rounded-full border border-[#989898] px-7 py-3.5 text-[15px] font-semibold text-[#15181F] transition-colors hover:bg-[#15181F]/5"
           >
-            View Full Case Study
-            <svg
-              className="h-4 w-4 transition-transform group-hover:translate-x-1"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
+            Read the case study
+            <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
             </svg>
           </Link>
         </div>
-
-        {/* Visual */}
-        <div className="relative overflow-hidden rounded-2xl border border-bone-line bg-bone p-6 sm:p-10">
-          <div
-            className="pointer-events-none absolute inset-0 opacity-40"
-            style={{
-              backgroundImage:
-                'linear-gradient(to right, rgba(15,23,42,0.04) 1px, transparent 1px), linear-gradient(to bottom, rgba(15,23,42,0.04) 1px, transparent 1px)',
-              backgroundSize: '40px 40px',
-            }}
-          />
-
-          <div className="relative">
-            <div
-              className="overflow-hidden rounded-lg border border-slate-200 bg-white"
-              style={{ boxShadow: '0 18px 40px -18px rgba(15,23,42,0.22)' }}
-            >
-              <ScaledFrame nativeWidth={1280} nativeHeight={712}>
-                <AidoosHeroReplica />
-              </ScaledFrame>
-            </div>
-          </div>
-        </div>
       </div>
+
+      <Link
+        href="/case-studies/vantage"
+        aria-label="Read the Vantage case study"
+        className="flex w-full max-w-[1180px] items-center justify-center rounded-[20px] p-5 sm:p-9 lg:p-12"
+        style={{ backgroundImage: MAT }}
+      >
+        <Image
+          src="/vantage/hero.webp"
+          alt="The Vantage landing page: a column of market signals converging into a single ranked opportunity with the money at stake attached."
+          width={2560}
+          height={1942}
+          priority
+          sizes="(max-width: 1090px) 92vw, 1090px"
+          className="h-auto w-full max-w-[1090px] rounded-[12px]"
+        />
+      </Link>
     </section>
   );
 }

@@ -1,9 +1,14 @@
 import Link from 'next/link';
 
-export function CaseStudyNav() {
+export function CaseStudyNav({
+  /** Match the host page's content column so the back link lines up with it. */
+  containerClassName = 'mx-auto max-w-6xl px-4 sm:px-6 lg:px-8',
+}: {
+  containerClassName?: string;
+} = {}) {
   return (
     <div className="sticky top-0 z-40 border-b border-slate-100 bg-white/90 backdrop-blur-sm">
-      <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
+      <div className={`flex items-center justify-between py-4 ${containerClassName}`}>
         <Link
           href="/"
           className="inline-flex items-center gap-2 text-sm font-medium text-slate-500 transition-colors hover:text-slate-950"

@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Link from 'next/link';
 import { RampWordmark } from '@/components/case-study/RampWordmark';
 
 type MockVariant = 'list' | 'feed' | 'grid';
@@ -70,12 +71,20 @@ function WorkMock({ variant }: { variant: MockVariant }) {
 interface WorkItem {
   title: string;
   status: string;
+  /** Present once the write-up exists; the card becomes a link. */
+  href?: string;
   /** A real screenshot. Falls back to a drawn skeleton when absent. */
   image?: { src: string; width: number; height: number };
   variant?: Variant;
 }
 
 const WORK: WorkItem[] = [
+  {
+    title: 'Aidoos proposal flow',
+    status: 'Read the case study',
+    href: '/case-studies/aidoos-proposal-flow',
+    image: { src: '/aidoos-proposal-frame.png', width: 2560, height: 5862 },
+  },
   {
     title: 'Talent onboarding flow',
     status: 'Case study coming soon',
@@ -115,16 +124,15 @@ export function OtherWork({
     >
       <div className="mx-auto max-w-[1440px]">
         <div className="flex max-w-2xl flex-col gap-4 pb-14">
-          <p className="font-mono text-[11px] uppercase leading-[15px] tracking-wider text-slate-500">
-            {eyebrow}
-          </p>
+          <p className="text-[15px] text-slate-500">{eyebrow}</p>
           <h2 className="text-3xl font-bold tracking-tight text-slate-950 sm:text-4xl">{title}</h2>
           <p className="text-lg leading-relaxed text-slate-500">{description}</p>
         </div>
 
         <div className="grid grid-cols-1 gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
-          {WORK.map((item) => (
-            <div key={item.title} className="flex flex-col gap-4">
+          {WORK.map((item) => {
+            const body = (
+              <>
               <div
                 className={`aspect-[4/3] overflow-hidden rounded-xl border shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md ${
                   tone === 'bone' ? 'border-bone-line' : 'border-slate-200'
@@ -150,12 +158,28 @@ export function OtherWork({
 
               <div className="flex flex-col gap-1.5">
                 <p className="text-sm font-semibold text-slate-950">{item.title}</p>
-                <p className="font-mono text-[11px] uppercase leading-[15px] tracking-wider text-slate-400">
+                <p
+                  className={`text-[13px] ${
+                    item.href ? 'text-v-warm' : 'text-slate-400'
+                  }`}
+                >
                   {item.status}
                 </p>
               </div>
-            </div>
-          ))}
+              </>
+            );
+            /* Only a finished write-up becomes a link; the rest stay inert
+               rather than offering a dead click. */
+            return item.href ? (
+              <Link key={item.title} href={item.href} className="group flex flex-col gap-4">
+                {body}
+              </Link>
+            ) : (
+              <div key={item.title} className="flex flex-col gap-4">
+                {body}
+              </div>
+            );
+          })}
         </div>
       </div>
     </section>
