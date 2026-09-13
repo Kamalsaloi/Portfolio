@@ -51,7 +51,7 @@ export function Header() {
                 takes the chin. Expanded there is room for the whole frame, so
                 it eases back to centre. */}
             <Image
-              src="/kamal.webp"
+              src="/Kamal.webp"
               alt=""
               fill
               sizes="182px"

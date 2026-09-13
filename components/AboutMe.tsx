@@ -20,7 +20,7 @@ export function AboutMe() {
           <div className="flex flex-col gap-6">
             <div className="relative aspect-[4/5] w-[150px] shrink-0 overflow-hidden rounded-2xl bg-void-line ring-1 ring-white/10 lg:w-full">
               <Image
-                src="/kamal.webp"
+                src="/Kamal.webp"
                 alt="Kamal Saloi"
                 fill
                 sizes="(max-width: 1024px) 150px, 180px"
