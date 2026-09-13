@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { RampWordmark } from '@/components/case-study/RampWordmark';
+import { ScrollRow } from '@/components/ScrollRow';
 
 type MockVariant = 'list' | 'feed' | 'grid';
 /** 'ramp' renders the real production wordmark animation, not a placeholder. */
@@ -123,18 +124,26 @@ export function OtherWork({
       className={`px-5 py-24 sm:px-10 lg:px-18 ${tone === 'bone' ? 'bg-bone' : 'bg-white'}`}
     >
       <div className="mx-auto max-w-[1440px]">
-        <div className="flex max-w-2xl flex-col gap-4 pb-14">
-          <p className="text-[15px] text-slate-500">{eyebrow}</p>
-          <h2 className="text-3xl font-bold tracking-tight text-slate-950 sm:text-4xl">{title}</h2>
-          <p className="text-lg leading-relaxed text-slate-500">{description}</p>
-        </div>
-
-        <div className="grid grid-cols-1 gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
+        <ScrollRow
+          label="work"
+          heading={
+            <div className="flex max-w-2xl flex-col gap-4">
+              <p className="text-[15px] text-slate-500">{eyebrow}</p>
+              <h2 className="text-3xl font-bold tracking-tight text-slate-950 sm:text-4xl">
+                {title}
+              </h2>
+              <p className="text-lg leading-relaxed text-slate-500">{description}</p>
+            </div>
+          }
+        >
           {WORK.map((item) => {
             const body = (
               <>
               <div
-                className={`aspect-[4/3] overflow-hidden rounded-xl border shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md ${
+                /* Lift on group-hover, not hover: only the linked card carries
+                   `group`, so the five inert ones no longer offer a click that
+                   isn't there. */
+                className={`aspect-[4/3] overflow-hidden rounded-xl border shadow-sm transition-all duration-200 group-hover:-translate-y-0.5 group-hover:shadow-md ${
                   tone === 'bone' ? 'border-bone-line' : 'border-slate-200'
                 } ${item.image ? 'bg-bone-deep' : 'bg-white'}`}
               >
@@ -147,7 +156,7 @@ export function OtherWork({
                     width={item.image.width}
                     height={item.image.height}
                     className="h-auto w-full"
-                    sizes="(max-width: 640px) 90vw, (max-width: 1024px) 45vw, 30vw"
+                    sizes="(max-width: 640px) 76vw, 400px"
                   />
                 ) : item.variant === 'ramp' ? (
                   <RampWordmark />
@@ -170,17 +179,19 @@ export function OtherWork({
             );
             /* Only a finished write-up becomes a link; the rest stay inert
                rather than offering a dead click. */
+            const shell =
+              'flex w-[76vw] shrink-0 snap-start flex-col gap-4 sm:w-[360px] lg:w-[400px]';
             return item.href ? (
-              <Link key={item.title} href={item.href} className="group flex flex-col gap-4">
+              <Link key={item.title} href={item.href} className={`group ${shell}`}>
                 {body}
               </Link>
             ) : (
-              <div key={item.title} className="flex flex-col gap-4">
+              <div key={item.title} className={shell}>
                 {body}
               </div>
             );
           })}
-        </div>
+        </ScrollRow>
       </div>
     </section>
   );

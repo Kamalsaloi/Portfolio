@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
 
@@ -34,12 +35,29 @@ export function Header() {
   return (
     <header className="absolute inset-x-0 top-0 z-40 px-4 py-5 sm:px-8 sm:py-6 lg:px-12">
       <nav className="relative flex items-center justify-between gap-4">
+        {/* The link keeps a fixed 44px footprint in the nav; the photo inside it
+            is out of flow, so growing it on hover moves nothing else on the
+            page. Hover still registers while the pointer is out over the
+            expanded photo, because an element matches :hover whenever the
+            pointer is over any of its descendants. */}
         <Link
           href="/"
           aria-label="Kamal Saloi, home"
-          className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-slate-950 text-[13px] font-bold text-white shadow-lg shadow-slate-950/15"
+          className="group relative block h-11 w-11 shrink-0"
         >
-          KS
+          <span className="absolute top-0 left-0 z-50 block h-11 w-11 overflow-hidden rounded-full bg-slate-950 ring-1 shadow-lg ring-slate-950/8 shadow-slate-950/15 transition-[width,height,border-radius,box-shadow] duration-[420ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:h-[228px] group-hover:w-[182px] group-hover:rounded-[20px] group-hover:shadow-2xl group-focus-visible:h-[228px] group-focus-visible:w-[182px] group-focus-visible:rounded-[20px] motion-reduce:transition-none">
+            {/* At 44px the crop is biased above centre, because a face sits in
+                the upper half of most portraits and a dead-centre circular crop
+                takes the chin. Expanded there is room for the whole frame, so
+                it eases back to centre. */}
+            <Image
+              src="/kamal.webp"
+              alt=""
+              fill
+              sizes="182px"
+              className="object-cover object-[center_32%] transition-[object-position] duration-[420ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:object-center group-focus-visible:object-center motion-reduce:transition-none"
+            />
+          </span>
         </Link>
 
         <div className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-8 md:flex">

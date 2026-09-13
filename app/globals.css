@@ -56,6 +56,12 @@
      reads blue at full-bleed scale; this is neutral enough to read as ink. */
   --color-void: #08090a;
   --color-void-line: #1c1e21;
+
+  /* Aidoos cobalt, a shade deeper than the #2D5BFF brand blue so white holds
+     against it. The cold open paints this same pair top-to-bottom; Intro.tsx
+     repeats the hex values because it needs them as canvas fill strings. */
+  --color-cobalt: #2749e6;
+  --color-cobalt-deep: #1a35a8;
 }
 
 body {

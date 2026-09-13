@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import { Grain } from '@/components/case-study/Grain';
 
 /**
@@ -13,9 +14,24 @@ export function AboutMe() {
 
       <div className="relative mx-auto max-w-6xl px-4 py-28 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 gap-10 lg:grid-cols-[minmax(0,180px)_minmax(0,1fr)] lg:gap-16">
-          <p className="font-mono text-[11px] uppercase leading-[15px] tracking-wider text-slate-500">
-            About
-          </p>
+          {/* The portrait takes the left rail rather than sitting beside the
+              prose: this section argues in the first person, so a face belongs
+              at the start of it, not floating alongside. */}
+          <div className="flex flex-col gap-6">
+            <div className="relative aspect-[4/5] w-[150px] shrink-0 overflow-hidden rounded-2xl bg-void-line ring-1 ring-white/10 lg:w-full">
+              <Image
+                src="/kamal.webp"
+                alt="Kamal Saloi"
+                fill
+                sizes="(max-width: 1024px) 150px, 180px"
+                className="object-cover"
+              />
+            </div>
+
+            <p className="font-mono text-[11px] uppercase leading-[15px] tracking-wider text-slate-500">
+              About
+            </p>
+          </div>
 
           <div className="flex max-w-2xl flex-col gap-8">
             <p className="text-2xl leading-[1.4] tracking-tight text-white sm:text-3xl sm:leading-[1.35]">

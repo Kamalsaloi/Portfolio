@@ -16,6 +16,8 @@ const FIELD = '.·:,-_^~+';
 /* Aidoos cobalt, a shade deeper than the #2D5BFF brand blue so it holds a
    full screen without glare. Deepens toward the bottom, which reads as the
    same light source the hero plate has. */
+/* Mirrors --color-cobalt / --color-cobalt-deep in globals.css. Kept as literals
+   because these are canvas fill strings, not CSS. */
 const BG_TOP = '#2749e6';
 const BG_BOTTOM = '#1a35a8';
 const BG_CSS = `linear-gradient(180deg, ${BG_TOP}, ${BG_BOTTOM})`;

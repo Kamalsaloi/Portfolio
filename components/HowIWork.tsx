@@ -138,7 +138,10 @@ function StatusIcon({ status, active }: { status: Status; active: boolean }) {
 
 function TaskCard({ card, active }: { card: Step['card']; active: boolean }) {
   return (
-    <div className="w-full max-w-md overflow-hidden rounded-2xl bg-white/95 shadow-[0_24px_60px_-15px_rgba(15,23,42,0.4)] ring-1 ring-slate-900/5 backdrop-blur-md">
+    // Opaque, not translucent: this card moves every frame, and a
+    // backdrop-filter makes the compositor re-sample what is behind it on each
+    // one. At 95% white the blur was never visible anyway.
+    <div className="w-full max-w-md overflow-hidden rounded-2xl bg-white shadow-[0_24px_60px_-15px_rgba(15,23,42,0.4)] ring-1 ring-slate-900/5">
       {/* Header — app chrome */}
       <div className="flex items-center gap-3 border-b border-slate-100 px-4 py-3 sm:px-5">
         <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-slate-950 font-mono text-[11px] font-bold text-white">
@@ -217,10 +220,17 @@ function TaskCard({ card, active }: { card: Step['card']; active: boolean }) {
   );
 }
 
-function TextBlock({ step, opacity }: { step: Step; opacity: number }) {
+/**
+ * Opacity is written straight to this node from the scroll loop, so there is
+ * deliberately no CSS transition on it: a 200ms ease on a value that is already
+ * being recomputed every frame just makes the fade trail the scroll.
+ */
+function TextBlock({ step, index }: { step: Step; index: number }) {
+  const opacity = clamp01(1 - Math.abs(index) * 1.8);
   return (
     <div
-      className="absolute inset-0 flex flex-col justify-center transition-opacity duration-200"
+      data-text={index}
+      className="absolute inset-0 flex flex-col justify-center"
       style={{ opacity, pointerEvents: opacity > 0.5 ? 'auto' : 'none' }}
     >
       <p className="mb-3 text-xs font-mono uppercase tracking-wider text-slate-400">How I Work</p>
@@ -232,61 +242,120 @@ function TextBlock({ step, opacity }: { step: Step; opacity: number }) {
   );
 }
 
+/** Where each card sits for a given deck position. */
+function cardTransform(rel: number) {
+  // Cards not yet reached sit stacked in place underneath (a deck, slightly
+  // inset and peeking at the bottom). Only the outgoing card lifts — the
+  // curtain rising to reveal the one behind it.
+  const lift = Math.min(0, rel);
+  const depth = Math.min(Math.max(0, rel), 2.5);
+  return `translateY(calc(${lift.toFixed(4)} * 130% + ${(depth * 14).toFixed(2)}px)) scale(${(1 - depth * 0.05).toFixed(4)})`;
+}
+
+/** The inner image lags its own frame — that speed gap is the parallax. */
+function imageTransform(rel: number) {
+  const lift = Math.min(0, rel);
+  return `scale(1.22) translateY(${(-lift * 20).toFixed(3)}%)`;
+}
+
 export function HowIWork() {
   const sectionRef = useRef<HTMLElement>(null);
-  // Continuous position through the deck: 0 = first card centered, 1 = second, ...
-  const [pos, setPos] = useState(0);
+  const paneRef = useRef<HTMLDivElement>(null);
+  // Only the discrete step counter lives in React. The continuous position is
+  // written straight to the DOM below, because re-rendering four task cards and
+  // six text blocks on every scroll frame is what made this feel laggy: it is
+  // roughly 150 nodes of reconciliation per frame, and on a 120Hz display there
+  // is no frame budget left for the compositor.
+  const [activeIndex, setActiveIndex] = useState(0);
 
   useEffect(() => {
-    let frame = 0;
+    const section = sectionRef.current;
+    const pane = paneRef.current;
+    if (!section || !pane) return;
 
-    function measure() {
-      const el = sectionRef.current;
-      if (!el) return;
-      const rect = el.getBoundingClientRect();
-      const pinned = rect.height - window.innerHeight;
-      if (pinned <= 0) return;
+    const cards = Array.from(section.querySelectorAll<HTMLElement>('[data-card]'));
+    const images = Array.from(section.querySelectorAll<HTMLElement>('[data-img]'));
+    // Odd steps render twice (left slot on mobile, right slot on desktop), so
+    // this is a flat list keyed by index rather than one node per step.
+    const texts = Array.from(section.querySelectorAll<HTMLElement>('[data-text]'));
 
-      const progress = clamp01(-rect.top / pinned);
-      const raw = progress * (STEPS.length - 1 + TAIL);
+    let raf = 0;
+    let lastIndex = -1;
 
-      // Hold each card still for the first slice of its scroll, then ease the
-      // curtain across the rest — motion, pause, motion, rather than a constant drift.
-      const seg = Math.min(Math.floor(raw), STEPS.length - 2);
-      const frac = clamp01((raw - seg - HOLD) / (1 - HOLD));
-      const eased = frac * frac * (3 - 2 * frac);
+    function frame() {
+      const rect = section!.getBoundingClientRect();
+      // Measured against the pane's own height rather than window.innerHeight:
+      // the two disagree on mobile while the URL bar animates, and that
+      // disagreement showed up as the deck drifting against the scroll.
+      const pinned = rect.height - pane!.offsetHeight;
 
-      setPos(Math.min(seg + eased, STEPS.length - 1));
+      if (pinned > 0) {
+        const progress = clamp01(-rect.top / pinned);
+        const raw = progress * (STEPS.length - 1 + TAIL);
+
+        // Hold each card still for the first slice of its scroll, then ease the
+        // curtain across the rest — motion, pause, motion, rather than a
+        // constant drift.
+        const seg = Math.min(Math.floor(raw), STEPS.length - 2);
+        const frac = clamp01((raw - seg - HOLD) / (1 - HOLD));
+        const eased = frac * frac * (3 - 2 * frac);
+        const pos = Math.min(seg + eased, STEPS.length - 1);
+
+        for (const card of cards) card.style.transform = cardTransform(+card.dataset.card! - pos);
+        for (const img of images) img.style.transform = imageTransform(+img.dataset.img! - pos);
+        for (const text of texts) {
+          const o = clamp01(1 - Math.abs(pos - +text.dataset.text!) * 1.8);
+          text.style.opacity = String(o);
+          text.style.pointerEvents = o > 0.5 ? 'auto' : 'none';
+        }
+
+        const index = Math.round(pos);
+        if (index !== lastIndex) {
+          lastIndex = index;
+          setActiveIndex(index);
+        }
+      }
+
+      raf = requestAnimationFrame(frame);
     }
 
-    function onScroll() {
-      cancelAnimationFrame(frame);
-      frame = requestAnimationFrame(measure);
-    }
+    // Driven by a frame loop rather than the scroll event. Scroll events are
+    // coalesced and land after the frame they describe, so the deck was always
+    // painting one position behind the page. Only runs while the section is on
+    // screen.
+    const io = new IntersectionObserver(
+      ([e]) => {
+        if (e.isIntersecting && !raf) {
+          raf = requestAnimationFrame(frame);
+        } else if (!e.isIntersecting && raf) {
+          cancelAnimationFrame(raf);
+          raf = 0;
+        }
+      },
+      { threshold: 0 },
+    );
+    io.observe(section);
 
-    window.addEventListener('scroll', onScroll, { passive: true });
-    window.addEventListener('resize', onScroll);
-    measure();
     return () => {
-      cancelAnimationFrame(frame);
-      window.removeEventListener('scroll', onScroll);
-      window.removeEventListener('resize', onScroll);
+      io.disconnect();
+      cancelAnimationFrame(raf);
     };
   }, []);
-
-  const activeIndex = Math.round(pos);
-
-  // How visible each step's text is — pure crossfade, independent of the curtain.
-  const textOpacity = (i: number) => clamp01(1 - Math.abs(pos - i) * 1.8);
 
   return (
     <section
       id="process"
       ref={sectionRef}
-      className="relative"
-      style={{ height: `${(STEPS.length + TAIL) * 100}vh` }}
+      className="relative bg-[#f7f5f0]"
+      style={{ height: `${(STEPS.length + TAIL) * 100}svh` }}
     >
-      <div className="sticky top-0 flex h-screen flex-col items-center justify-center overflow-hidden bg-[#f7f5f0] px-4 pb-16 sm:px-6 sm:pb-20 lg:px-8">
+      {/* svh on both the track and the pane, so a mobile URL bar sliding away
+          cannot resize the scroll track underneath a scroll already in
+          progress. */}
+      <div
+        ref={paneRef}
+        className="sticky top-0 flex h-svh flex-col items-center justify-center overflow-hidden bg-[#f7f5f0] px-4 pb-16 sm:px-6 sm:pb-20 lg:px-8"
+      >
         <span className="mb-8 inline-flex items-center rounded-full bg-white px-4 py-1.5 text-xs font-mono text-slate-500 shadow-sm">
           0{activeIndex + 1} / 0{STEPS.length}
         </span>
@@ -296,7 +365,7 @@ export function HowIWork() {
           <div className="relative order-2 min-h-[13rem] lg:order-1">
             {STEPS.map((step, i) => (
               <div key={step.image} className={i % 2 === 1 ? 'lg:hidden' : undefined}>
-                <TextBlock step={step} opacity={textOpacity(i)} />
+                <TextBlock step={step} index={i} />
               </div>
             ))}
           </div>
@@ -304,53 +373,42 @@ export function HowIWork() {
           {/* The curtain: image cards stacked in one fixed centre slot.
               Earlier cards sit on top and lift away to reveal the next. */}
           <div className="relative order-1 aspect-[4/3] w-full sm:aspect-[16/10] lg:order-2">
-            {STEPS.map((step, i) => {
-              const rel = i - pos;
-              // Cards not yet reached sit stacked in place underneath (a deck,
-              // slightly inset and peeking at the bottom). Only the outgoing
-              // card lifts — the curtain rising to reveal the one behind it.
-              const lift = Math.min(0, rel);
-              const depth = Math.min(Math.max(0, rel), 2.5);
-              return (
+            {/* Inline transforms are the position-0 frame, so the deck is
+                already correctly stacked before hydration; the loop takes over
+                from there. */}
+            {STEPS.map((step, i) => (
+              <div
+                key={step.image}
+                data-card={i}
+                className="absolute inset-0 overflow-hidden rounded-3xl shadow-[0_24px_60px_-24px_rgba(15,23,42,0.45)] will-change-transform"
+                style={{ zIndex: STEPS.length - i, transform: cardTransform(i) }}
+              >
                 <div
-                  key={step.image}
-                  className="absolute inset-0 overflow-hidden rounded-3xl shadow-[0_24px_60px_-24px_rgba(15,23,42,0.45)] will-change-transform"
-                  style={{
-                    zIndex: STEPS.length - i,
-                    transform: `translateY(calc(${lift.toFixed(4)} * 130% + ${(depth * 14).toFixed(2)}px)) scale(${(1 - depth * 0.05).toFixed(4)})`,
-                  }}
+                  data-img={i}
+                  className="absolute inset-0 will-change-transform"
+                  style={{ transform: imageTransform(i) }}
                 >
-                  {/* Inner image lags its own frame — that speed gap is the parallax */}
-                  <div
-                    className="absolute inset-0 will-change-transform"
-                    style={{
-                      transform: `scale(1.22) translateY(calc(${(-lift * 0.2).toFixed(4)} * 100%))`,
-                    }}
-                  >
-                    <Image
-                      src={encodeURI(step.image)}
-                      alt=""
-                      fill
-                      className="object-cover"
-                      sizes="(max-width: 1024px) 90vw, 640px"
-                      priority={i === 0}
-                    />
-                  </div>
-
-                  <div className="absolute inset-0 flex items-center justify-center p-4 sm:p-8">
-                    <TaskCard card={step.card} active={Math.abs(rel) < 0.6} />
-                  </div>
+                  <Image
+                    src={encodeURI(step.image)}
+                    alt=""
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 1024px) 90vw, 640px"
+                    priority={i === 0}
+                  />
                 </div>
-              );
-            })}
+
+                <div className="absolute inset-0 flex items-center justify-center p-4 sm:p-8">
+                  <TaskCard card={step.card} active={i === activeIndex} />
+                </div>
+              </div>
+            ))}
           </div>
 
           {/* Right text slot — odd steps, desktop only */}
           <div className="relative order-3 hidden min-h-[13rem] lg:block">
             {STEPS.map((step, i) =>
-              i % 2 === 1 ? (
-                <TextBlock key={step.image} step={step} opacity={textOpacity(i)} />
-              ) : null
+              i % 2 === 1 ? <TextBlock key={step.image} step={step} index={i} /> : null
             )}
           </div>
         </div>
