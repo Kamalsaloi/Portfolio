@@ -119,6 +119,31 @@ export default function VantageCaseStudy() {
             a machine a stranger has never used. So the design problem was never the report. It was
             getting someone to believe the report before they had any reason to.
           </p>
+
+          {/* The shipped product, one click away, before a word of the story. */}
+          <a
+            href="https://aidoos.com/vantage"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group inline-flex w-fit items-center gap-3 rounded-full border border-v-ink/15 bg-white py-2 pr-5 pl-2 transition-colors hover:border-v-ink/35"
+          >
+            <span className="flex items-center gap-2 rounded-full bg-v-ink px-3 py-1.5 text-[13px] font-medium text-v-paper">
+              <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
+              Live
+            </span>
+            <span className="text-[15px] font-medium text-v-ink">aidoos.com/vantage</span>
+            <svg
+              className="h-4 w-4 text-v-ink/50 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-v-ink"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth={2}
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              viewBox="0 0 24 24"
+            >
+              <path d="M7 17L17 7M9 7h8v8" />
+            </svg>
+          </a>
         </div>
 
         <dl className="flex flex-col gap-6 border-t border-v-ink/12 pt-6 lg:w-[260px] lg:shrink-0 lg:border-t-0 lg:border-l lg:pt-0 lg:pl-10">
