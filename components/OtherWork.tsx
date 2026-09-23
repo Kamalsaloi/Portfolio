@@ -1,11 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { RampWordmark } from '@/components/case-study/RampWordmark';
 import { ScrollRow } from '@/components/ScrollRow';
-
-type MockVariant = 'list' | 'feed' | 'grid';
-/** 'ramp' renders the real production wordmark animation, not a placeholder. */
-type Variant = MockVariant | 'ramp';
 
 function Chrome() {
   return (
@@ -18,53 +13,22 @@ function Chrome() {
 }
 
 /**
- * Deliberately plain skeletons. Every item here is unwritten, so the
- * placeholder should signal "screens exist" without implying a level of
- * finish the write-up hasn't earned yet.
+ * A deliberately plain skeleton for work with no screenshot yet: it should
+ * signal "screens exist" without implying a level of finish the write-up
+ * hasn't earned.
  */
-function WorkMock({ variant }: { variant: MockVariant }) {
+function WorkMock() {
   return (
     <div className="flex h-full w-full flex-col bg-white">
       <Chrome />
-
-      {variant === 'list' && (
-        <div className="flex flex-1 flex-col gap-2 p-4">
+      <div className="flex flex-1 flex-col gap-2 p-4">
+        <div className="h-2.5 w-1/3 rounded bg-slate-200" />
+        <div className="grid grid-cols-2 gap-2">
           {Array.from({ length: 4 }).map((_, i) => (
-            <div
-              key={i}
-              className="flex items-center justify-between rounded-lg bg-slate-50 px-3 py-2"
-            >
-              <div className="h-2 w-24 rounded-full bg-slate-200" />
-              <div className="h-2 w-10 rounded-full bg-slate-100" />
-            </div>
+            <div key={i} className="h-12 rounded-lg bg-slate-100" />
           ))}
         </div>
-      )}
-
-      {variant === 'feed' && (
-        <div className="flex flex-1 flex-col gap-3 p-4">
-          {Array.from({ length: 3 }).map((_, i) => (
-            <div key={i} className="flex gap-3">
-              <div className="h-7 w-7 shrink-0 rounded-full bg-slate-100" />
-              <div className="flex flex-1 flex-col gap-1.5 pt-1">
-                <div className="h-2 w-20 rounded-full bg-slate-200" />
-                <div className="h-2 w-full rounded-full bg-slate-100" />
-              </div>
-            </div>
-          ))}
-        </div>
-      )}
-
-      {variant === 'grid' && (
-        <div className="flex flex-1 flex-col gap-2 p-4">
-          <div className="h-2.5 w-1/3 rounded bg-slate-200" />
-          <div className="grid grid-cols-2 gap-2">
-            {Array.from({ length: 4 }).map((_, i) => (
-              <div key={i} className="h-12 rounded-lg bg-slate-100" />
-            ))}
-          </div>
-        </div>
-      )}
+      </div>
     </div>
   );
 }
@@ -75,8 +39,13 @@ interface WorkItem {
   /** Present once the write-up exists; the card becomes a link. */
   href?: string;
   /** A real screenshot. Falls back to a drawn skeleton when absent. */
-  image?: { src: string; width: number; height: number };
-  variant?: Variant;
+  image?: {
+    src: string;
+    width: number;
+    height: number;
+    /** Fill the 4:3 well and crop from the top, for shots that would leave it half empty. */
+    cover?: boolean;
+  };
 }
 
 const WORK: WorkItem[] = [
@@ -89,12 +58,9 @@ const WORK: WorkItem[] = [
   {
     title: 'Talent onboarding flow',
     status: 'Case study coming soon',
-    image: { src: '/talent-onboarding-flow.png', width: 2560, height: 1264 },
+    image: { src: '/talent-onboarding-flow.webp', width: 2087, height: 1565, cover: true },
   },
-  { title: 'RAMP course flow', status: 'Case study coming soon', variant: 'ramp' },
-  { title: 'AiDOOS feed', status: 'Case study coming soon', variant: 'feed' },
-  { title: 'Talent matching flow', status: 'Case study coming soon', variant: 'list' },
-  { title: 'The execution platform', status: 'Case study coming soon', variant: 'grid' },
+  { title: 'The execution platform', status: 'Case study coming soon' },
 ];
 
 /**
@@ -141,7 +107,7 @@ export function OtherWork({
               <>
               <div
                 /* Lift on group-hover, not hover: only the linked card carries
-                   `group`, so the five inert ones no longer offer a click that
+                   `group`, so the inert ones no longer offer a click that
                    isn't there. */
                 className={`aspect-[4/3] overflow-hidden rounded-xl border shadow-sm transition-all duration-200 group-hover:-translate-y-0.5 group-hover:shadow-md ${
                   tone === 'bone' ? 'border-bone-line' : 'border-slate-200'
@@ -155,13 +121,15 @@ export function OtherWork({
                     alt={item.title}
                     width={item.image.width}
                     height={item.image.height}
-                    className="h-auto w-full"
+                    className={
+                      item.image.cover
+                        ? 'h-full w-full object-cover object-top'
+                        : 'h-auto w-full'
+                    }
                     sizes="(max-width: 640px) 76vw, 400px"
                   />
-                ) : item.variant === 'ramp' ? (
-                  <RampWordmark />
                 ) : (
-                  <WorkMock variant={item.variant ?? 'list'} />
+                  <WorkMock />
                 )}
               </div>
 
