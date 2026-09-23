@@ -23,14 +23,18 @@ export function ReportViewer() {
       className="flex w-full max-w-[1180px] flex-col items-center gap-8 rounded-[24px] p-5 sm:p-9 lg:p-14"
       style={{ backgroundImage: MAT }}
     >
+      {/* 1440px lands just inside the gated zone on the 1280-wide artboard:
+          the whole first opportunity is visible and the first blurred row is
+          starting to show. Tied to the design's own section boundaries, so it
+          cannot cut through a line of body text. */}
       <div
         className={`w-full max-w-[1000px] overflow-hidden rounded-[12px] bg-white ${
-          open ? '' : 'max-h-[920px]'
+          open ? '' : 'max-h-[1440px]'
         }`}
       >
         <Image
           src="/vantage/report.webp"
-          alt="The gated Vantage report: a headline reading your pricing model is what is costing you, three summary stats, and a band admitting the brief only saw public pages, above one full opportunity and three blurred ones."
+          alt="The gated Vantage report: a headline reading your pricing model is what is costing you, three summary figures, a band admitting the brief only saw what is public on the company's site, one opportunity shown in full with its evidence and expected impact, and three more blurred behind an email gate."
           width={2560}
           height={4760}
           sizes="(max-width: 1000px) 92vw, 1000px"
