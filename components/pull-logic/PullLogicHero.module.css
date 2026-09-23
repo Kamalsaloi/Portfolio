@@ -1,0 +1,408 @@
+/* Ported from github.com/Kamalsaloi/pull-logic (index.html). Only the 1341px+
+   base styles are kept: the hero renders at its 1440 design width and is
+   scaled by the host, so the original viewport media queries would react to
+   the portfolio's window instead of the hero's and are dropped.
+
+   The original's backdrop-filter blur on the cards is dropped too: they sit on
+   a solid panel, so it blurred nothing, and it forced a compositor layer per
+   card that contributed to the section flickering. */
+
+.root {
+  --ground: #0d0d0c;
+  --panel: #161514;
+  --line: #2b2a28;
+  --line-soft: #1c1c1b;
+  --text: #ededea;
+  --text-2: #b6b5b1;
+  --muted: #8b8a85;
+  --dim: #82817c;
+  --amber: #f5a524;
+  --amber-ink: #1a1206;
+  --amber-soft: rgba(245, 165, 36, 0.16);
+  --amber-line: rgba(245, 165, 36, 0.34);
+  --risk: #e3594b;
+  --risk-line: rgba(227, 89, 75, 0.42);
+  --signal: #7c8b99;
+  --signal-dim: rgba(124, 139, 153, 0.45);
+  --ok: #3fb27f;
+  --ok-line: rgba(63, 178, 127, 0.4);
+  --glass: rgba(255, 255, 255, 0.055);
+  --glass-line: rgba(255, 255, 255, 0.11);
+  --sans: var(--font-geist-sans), system-ui, -apple-system, sans-serif;
+  /* IBM Plex Mono, set on this element by next/font in PullLogicHero.tsx.
+     Reserved for machine data only: SKUs, order ids, timestamps. */
+  --mono: var(--pl-mono), ui-monospace, monospace;
+
+  width: 1440px;
+  padding-bottom: 96px;
+  background: var(--ground);
+  color: var(--text);
+  font-family: var(--sans);
+  text-rendering: optimizeLegibility;
+}
+.root * {
+  box-sizing: border-box;
+}
+.gut {
+  padding-inline: 72px;
+}
+
+/* ---------- nav ---------- */
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  height: 72px;
+  border-bottom: 1px solid var(--line-soft);
+}
+.brand {
+  height: 20px;
+  width: auto;
+}
+.links {
+  display: flex;
+  gap: 26px;
+  font-size: 14px;
+  color: var(--text-2);
+}
+.current {
+  color: var(--amber);
+  font-weight: 500;
+}
+.navr {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  font-size: 14px;
+}
+.login {
+  color: var(--muted);
+}
+.ghost {
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 9px 16px;
+}
+
+/* ---------- announcement ---------- */
+.ribbon {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  min-height: 48px;
+  padding: 10px 56px;
+  background: #141413;
+  border-bottom: 1px solid var(--line-soft);
+  font-size: 13px;
+  color: var(--text-2);
+  text-align: center;
+}
+.ribbonLink {
+  color: var(--amber);
+  font-weight: 500;
+  white-space: nowrap;
+}
+.dismiss {
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--dim);
+  font-size: 18px;
+  line-height: 1;
+  padding: 4px;
+}
+
+/* ---------- hero copy ---------- */
+.h1 {
+  font-size: 72px;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: 0.958;
+  padding-top: 76px;
+}
+.sub {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 40px;
+  padding-top: 30px;
+}
+.sub p {
+  max-width: 600px;
+  font-size: 19px;
+  line-height: 1.58;
+  color: var(--text-2);
+}
+.ctas {
+  display: flex;
+  gap: 12px;
+}
+.btn {
+  border-radius: 6px;
+  padding: 13px 22px;
+  font-size: 15px;
+  font-weight: 600;
+  background: var(--amber);
+  color: var(--amber-ink);
+}
+.btnSec {
+  border-radius: 6px;
+  padding: 13px 22px;
+  font-size: 15px;
+  font-weight: 500;
+  border: 1px solid var(--line);
+  color: var(--text);
+}
+
+/* ---------- the workflow panel ---------- */
+.panelgut {
+  padding-inline: 48px;
+  padding-top: 60px;
+}
+.panel {
+  background: var(--panel);
+  border-radius: 16px;
+  padding: 28px 24px;
+  border-top: 1px solid rgba(255, 255, 255, 0.16);
+  border-left: 1px solid rgba(255, 255, 255, 0.085);
+  border-right: 1px solid rgba(255, 255, 255, 0.085);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow:
+    0 30px 80px rgba(0, 0, 0, 0.7),
+    inset 0 2px 0 rgba(255, 255, 255, 0.05);
+}
+.flow {
+  display: flex;
+  align-items: center;
+}
+.flow > * {
+  min-width: 0;
+}
+
+.sources {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex: 0 1 186px;
+  min-width: 150px;
+}
+.src {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 13px 14px;
+  border-radius: 10px;
+  background: var(--glass);
+  border: 1px solid var(--glass-line);
+}
+.src svg {
+  flex-shrink: 0;
+  color: var(--signal);
+}
+.src b {
+  display: block;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text);
+}
+.src i {
+  display: block;
+  font-style: normal;
+  font-size: 12px;
+  color: var(--dim);
+  margin-top: 2px;
+}
+
+.card {
+  border-radius: 12px;
+  padding: 16px;
+  max-width: 100%;
+}
+.risk {
+  flex: 1 1 286px;
+  min-width: 240px;
+  background: rgba(255, 232, 228, 0.06);
+  border: 1px solid var(--risk-line);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.decide {
+  flex: 1 1 300px;
+  min-width: 250px;
+  background: rgba(255, 242, 222, 0.055);
+  border: 1px solid var(--amber-line);
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+.act {
+  flex: 1 1 292px;
+  min-width: 240px;
+  background: rgba(228, 255, 243, 0.05);
+  border: 1px solid var(--ok-line);
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+}
+.chead {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 600;
+}
+.time {
+  margin-left: auto;
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--dim);
+}
+.prod {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+}
+.prod > div {
+  min-width: 0;
+}
+.prodImg {
+  width: 68px;
+  height: 68px;
+  border-radius: 8px;
+  object-fit: cover;
+  background: #232120;
+  flex-shrink: 0;
+}
+.prodTitle {
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+.prod p {
+  font-size: 13px;
+  line-height: 1.45;
+  color: var(--muted);
+  margin-top: 5px;
+}
+.meta {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  font-size: 12px;
+  color: var(--dim);
+}
+.meta b {
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--text-2);
+}
+
+.opt {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 11px 12px;
+  border-radius: 9px;
+  background: rgba(255, 255, 255, 0.028);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+}
+.optOn {
+  background: var(--amber-soft);
+  border-color: rgba(245, 165, 36, 0.46);
+}
+.body {
+  flex-grow: 1;
+  min-width: 0;
+}
+.body b {
+  display: block;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--muted);
+}
+.body i {
+  display: block;
+  font-style: normal;
+  font-size: 12px;
+  color: var(--dim);
+  margin-top: 3px;
+}
+.optOn .body b {
+  font-weight: 600;
+  color: var(--text);
+}
+.optOn .body i {
+  color: var(--text-2);
+}
+.note {
+  font-size: 12px;
+  color: var(--dim);
+  padding-top: 2px;
+}
+
+.actImg {
+  width: 100%;
+  height: 140px;
+  border-radius: 9px;
+  object-fit: cover;
+  background: #141312;
+}
+.route {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 13px;
+  color: var(--text-2);
+}
+.route b {
+  font-weight: 500;
+  color: var(--text);
+}
+.rule {
+  height: 1px;
+  background: #1f231f;
+}
+.tot {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+}
+.id {
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--text);
+}
+.lbl {
+  font-size: 12px;
+  color: var(--dim);
+  margin-top: 3px;
+}
+.amt {
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  text-align: right;
+}
+
+.conn {
+  flex: 0 1 56px;
+  min-width: 28px;
+  height: 20px;
+}
+.converge {
+  flex: 0 1 120px;
+  min-width: 56px;
+  height: 222px;
+}
+.conn,
+.converge {
+  display: block;
+}

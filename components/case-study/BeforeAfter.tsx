@@ -57,10 +57,11 @@ function StepArrow() {
 
 function Gallery({ images, sequence }: { images: CompareImage[]; sequence?: boolean }) {
   /* A sequence reads as one screen leading to the next, so the frames get
-     arrows between them rather than sitting in a neutral grid. */
+     arrows between them rather than sitting in a neutral grid. Top-aligned,
+     so frames of different aspect ratios still start on one line. */
   if (sequence && images.length > 1) {
     return (
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-start">
         {images.map((img, i) => (
           <Fragment key={img.src}>
             {i > 0 && <StepArrow />}
@@ -89,14 +90,17 @@ export function BeforeAfter({
   before,
   after,
   beforeImages,
+  beforeContent,
   afterImages,
   afterContent,
 }: {
-  /** What used to happen. Goes in the callout panel. */
-  before: string;
-  /** What changed. Introduces the After visual. */
-  after: string;
+  /** What used to happen. Goes in the callout panel. Inline content only. */
+  before: React.ReactNode;
+  /** What changed. Introduces the After visual. Inline content only. */
+  after: React.ReactNode;
   beforeImages?: CompareImage[];
+  /** Anything other than a screenshot for the before side, e.g. a placeholder. */
+  beforeContent?: React.ReactNode;
   afterImages?: CompareImage[];
   /** A live component instead of a static screenshot for the after side. */
   afterContent?: React.ReactNode;
@@ -114,12 +118,13 @@ export function BeforeAfter({
         </div>
       </div>
 
-      {beforeImages && beforeImages.length > 0 && (
+      {((beforeImages && beforeImages.length > 0) || beforeContent) && (
         <div className="flex flex-col gap-4">
           <p className="font-mono text-[11px] uppercase leading-[15px] tracking-wider text-before">
             Before
           </p>
-          <Gallery images={beforeImages} sequence />
+          {beforeImages && beforeImages.length > 0 && <Gallery images={beforeImages} sequence />}
+          {beforeContent}
         </div>
       )}
 
