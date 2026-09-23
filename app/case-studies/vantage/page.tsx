@@ -12,6 +12,9 @@ export const metadata = {
     'Designing Vantage, an AI opportunity engine that tells a company what to build next, and the decisions that made a stranger believe it.',
 };
 
+/** Every Vantage screen at full fidelity, beyond the three the page walks through. */
+const PAPER_FILE = 'https://app.paper.design/file/01M2QHX73CJW8M3QKEE670ZY3S/1-0';
+
 const SECTIONS = [
   { id: 'overview', label: 'Overview' },
   { id: 'research', label: 'Research' },
@@ -332,6 +335,38 @@ export default function VantageCaseStudy() {
             honest sentence and the persuasive one turn out to be the same sentence.
           </p>
         </div>
+
+        {/* The three screens above are the argument; the file is the rest of
+            the product. Sits last in the report so it reads as "there is more"
+            rather than a detour before the point has landed. */}
+        <a
+          href={PAPER_FILE}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="group flex w-full max-w-[760px] flex-col gap-5 rounded-[16px] bg-v-paper p-6 ring-1 ring-v-ink/8 transition-shadow hover:shadow-[0_18px_40px_-24px_oklch(0.3_0.06_55_/_45%)] sm:flex-row sm:items-center sm:justify-between sm:p-7"
+        >
+          <div className="flex flex-col gap-1.5">
+            <p className="text-[17px] font-semibold text-v-ink">See the full flow</p>
+            <p className="text-[15px] leading-[1.6] text-v-ink/65">
+              The rest of the screens, and the actual designs for each one, live in the Paper file.
+            </p>
+          </div>
+          <span className="inline-flex w-fit shrink-0 items-center gap-2 rounded-full bg-v-ink px-5 py-2.5 text-[14px] font-semibold text-white">
+            Open in Paper
+            <svg
+              className="h-3.5 w-3.5 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+              viewBox="0 0 12 12"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth={1.9}
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              aria-hidden="true"
+            >
+              <path d="M3.5 8.5 8.5 3.5M8.5 3.5h-4.5M8.5 3.5v4.5" />
+            </svg>
+          </span>
+        </a>
       </section>
 
       {/* What I learned */}
