@@ -38,8 +38,9 @@ components/                           homepage sections, one file per band
 ```
 
 Homepage section order, which is also the argument the page makes: `Intro`
-(cold open) → `Hero` → `CaseStudy` (Vantage, featured) → `OtherWork` (six Aidoos
-projects, a horizontal rail) → `Redesigns` (Landeed, click-to-play Loom) →
+(cold open) → `Hero` → `CaseStudy` (Vantage, featured) → `SecondaryCaseStudy`
+(the Aidoos proposal flow, a quieter second feature) → `Redesigns` (Landeed,
+click-to-play Loom, then the Other redesigns cards from `components/redesigns/`) →
 `HowIWork` (scroll-pinned deck) → `AboutMe` → `CTA`.
 
 Anchor ids in use: `#work`, `#range`, `#redesigns`, `#process`, `#about`,

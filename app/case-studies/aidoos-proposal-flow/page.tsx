@@ -6,7 +6,6 @@ import { AidoosHeroReplica } from '@/components/case-study/aidoos-hero/AidoosHer
 import { ScaledFrame } from '@/components/case-study/aidoos-hero/ScaledFrame';
 import { MiroEmbed } from '@/components/case-study/MiroEmbed';
 import { VideoEmbed } from '@/components/case-study/VideoEmbed';
-import { OtherWork } from '@/components/OtherWork';
 import { CTA } from '@/components/CTA';
 import { Footer } from '@/components/Footer';
 
@@ -230,13 +229,6 @@ export default function AidoosCaseStudy() {
         </div>
       </div>
 
-      <OtherWork
-        id="other-work"
-        tone="white"
-        eyebrow="Beyond This Flow"
-        title="Other products built for Aidoos"
-        description="The proposal flow was the centerpiece, not the whole job. These are the other surfaces I designed and shipped on the platform."
-      />
       <CTA />
 
       <Footer />
