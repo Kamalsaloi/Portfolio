@@ -107,10 +107,14 @@ export const REDESIGNS: Redesign[] = [
           height: 958,
         },
       ],
+      reasoning:
+        'SAHI has a real differentiator: a flat ₹10 per order brokerage. The old hero had it, but did not lead with it. It sat halfway through the subline, under a headline that could belong to any broker.',
     },
     /* The "Sahi Hero, Light" artboard from Paper file 01M1Y6TZJY8JQH7AA201T577WB,
        exported at 2x. The file also has a dark variant. */
     after: {
+      reasoning:
+        'So the redesign leads with it. The body copy says it plainly, flat ₹10 per executed order and never a percentage of your capital, and right under the call to action the difference is priced out on one Nifty options order: ₹10.00 on SAHI against ₹187.20 at 0.03% brokerage. I also reworked the UI so the product looks as considered as the offer.',
       image: {
         src: '/redesigns/sahi/after.webp',
         alt: 'The redesigned SAHI hero: Every trade, on one screen, beside a dark trading terminal with chart, option chain, order ticket and positions in one window',
