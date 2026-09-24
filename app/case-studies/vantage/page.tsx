@@ -248,10 +248,10 @@ export default function VantageCaseStudy() {
           }}
         >
           <Image
-            src="/vantage/hero.webp"
-            alt="The Vantage landing page: a headline reading research tells you what changed, we tell you what to build, one domain input, and a panel where market signals converge into a single opportunity."
+            src="/vantage/hero-aidoos.webp"
+            alt="The Vantage landing page under the AiDOOS nav: a headline reading research tells you what changed, we tell you what to build, one domain input, and a panel where market signals converge into a single opportunity."
             width={2560}
-            height={1942}
+            height={2072}
             priority
             sizes="(max-width: 900px) 92vw, 900px"
             className="h-auto w-full rounded-[12px]"

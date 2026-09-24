@@ -52,10 +52,10 @@ export function CaseStudy() {
         style={{ backgroundImage: MAT }}
       >
         <Image
-          src="/vantage/hero.webp"
-          alt="The Vantage landing page: a column of market signals converging into a single ranked opportunity with the money at stake attached."
+          src="/vantage/hero-aidoos.webp"
+          alt="The Vantage landing page under the AiDOOS nav: a column of market signals converging into a single ranked opportunity with the money at stake attached."
           width={2560}
-          height={1942}
+          height={2072}
           priority
           sizes="(max-width: 1090px) 92vw, 1090px"
           className="h-auto w-full max-w-[1090px] rounded-[12px]"
