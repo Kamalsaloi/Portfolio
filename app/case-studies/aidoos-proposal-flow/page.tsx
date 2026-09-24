@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import { CaseStudyNav } from '@/components/case-study/CaseStudyNav';
 import { Grain } from '@/components/case-study/Grain';
 import { Section } from '@/components/case-study/Section';
@@ -14,6 +15,35 @@ export const metadata = {
   description:
     "How I redesigned Aidoos' AI-generated proposal flow, from a homepage chat input to outcome-based pricing.",
 };
+
+/** Everything after a client accepts the proposal, designed in Paper. */
+const AFTER_ACCEPT_FLOW = 'https://app.paper.design/file/01M38PC46GZWZ15TAPT5QW4MFW/p-1-0';
+
+/* Three of the 21 screens in that file, exported at 1x from Paper, one per
+   stage so they read as a sequence rather than three views of one page. */
+const AFTER_ACCEPT_SHOTS = [
+  {
+    src: '/Aidoos_screenshots/after-accept/sign-sow.webp',
+    width: 1440,
+    height: 986,
+    caption: 'Sign the Statement of Work',
+    alt: 'Project formation: the matched team of four experts and three AI agents, with a stepper at SOW signing and a button to proceed',
+  },
+  {
+    src: '/Aidoos_screenshots/after-accept/fund-wallet.webp',
+    width: 1440,
+    height: 996,
+    caption: 'Fund the wallet',
+    alt: 'The fund-your-wallet drawer: a progress bar toward the 48 DUs the project needs, and three DU packs with the minimum to start marked',
+  },
+  {
+    src: '/Aidoos_screenshots/after-accept/workspace-board.webp',
+    width: 1440,
+    height: 790,
+    caption: 'Run the project from the workspace',
+    alt: 'The project workspace board: tasks across Backlog, To Do, In Progress, In Review and Done, each with DUs, priority and due date',
+  },
+];
 
 export default function AidoosCaseStudy() {
   return (
@@ -225,6 +255,69 @@ export default function AidoosCaseStudy() {
                 aspectRatio="4847/7043"
               />
             </Section>
+
+            {/* The case study stops at the proposal; the rest of the flow lives
+                in Paper. Three snapshots and a screen count set the expectation
+                that the link opens a whole flow, not one more picture. */}
+            <a
+              href={AFTER_ACCEPT_FLOW}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group flex flex-col gap-8 rounded-2xl border border-bone-line bg-white px-5 py-8 transition-shadow hover:shadow-[0_18px_40px_-24px_rgba(15,23,42,0.3)] sm:px-8 sm:py-10 lg:px-10 lg:py-12"
+            >
+              <div className="flex flex-col gap-3">
+                <h2 className="text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">
+                  After the proposal is accepted
+                </h2>
+                <p className="max-w-2xl leading-7 text-slate-600">
+                  Once a client says yes, the team is matched, the SOW is signed, the wallet is
+                  funded, and the project goes live in its workspace.
+                </p>
+              </div>
+
+              <div className="grid grid-cols-1 gap-5 sm:grid-cols-3">
+                {AFTER_ACCEPT_SHOTS.map((shot, i) => (
+                  <figure key={shot.src} className="flex flex-col gap-3">
+                    <div className="rounded-xl bg-card p-2.5 outline outline-[0.5px] outline-card-line">
+                      <div className="aspect-[16/10] overflow-hidden rounded-lg border border-bone-line bg-white">
+                        <Image
+                          src={shot.src}
+                          alt={shot.alt}
+                          width={shot.width}
+                          height={shot.height}
+                          sizes="(max-width: 640px) 90vw, 30vw"
+                          className="h-full w-full object-cover object-left-top transition-transform duration-500 ease-out group-hover:scale-[1.02]"
+                        />
+                      </div>
+                    </div>
+                    <figcaption className="text-sm text-slate-600">
+                      <span className="text-slate-400 tabular-nums">0{i + 1}</span> {shot.caption}
+                    </figcaption>
+                  </figure>
+                ))}
+              </div>
+
+              <div className="flex flex-col gap-4 border-t border-bone-line pt-6 sm:flex-row sm:items-center sm:justify-between">
+                <p className="text-sm text-slate-500">
+                  21 screens in the full flow, desktop and mobile.
+                </p>
+                <span className="inline-flex w-fit shrink-0 items-center gap-2 rounded-full bg-slate-950 px-5 py-2.5 text-sm font-semibold text-white">
+                  See them all in Paper
+                  <svg
+                    className="h-3.5 w-3.5 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+                    viewBox="0 0 12 12"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth={1.9}
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    aria-hidden="true"
+                  >
+                    <path d="M3.5 8.5 8.5 3.5M8.5 3.5h-4.5M8.5 3.5v4.5" />
+                  </svg>
+                </span>
+              </div>
+            </a>
           </article>
         </div>
       </div>
