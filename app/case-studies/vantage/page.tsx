@@ -95,42 +95,6 @@ function StepHeading({ kicker, title }: { kicker: string; title: string }) {
   );
 }
 
-/** Two public signals that point at the same broken process, and the loop Vantage suggests. */
-function SignalsToLoop() {
-  const signals = [
-    { text: 'Hiring people to process orders', source: 'Careers page' },
-    { text: 'Reviews mention wrong deliveries', source: 'Customer reviews' },
-  ];
-  return (
-    <figure className="flex w-full flex-col gap-3 rounded-[20px] bg-v-paper p-5 ring-1 ring-v-ink/8 sm:p-7">
-      <ul className="flex flex-col gap-2.5">
-        {signals.map((s) => (
-          <li
-            key={s.text}
-            className="flex items-center justify-between gap-4 rounded-[12px] bg-white px-4 py-3 ring-1 ring-v-ink/8"
-          >
-            <span className="text-[15px] leading-[1.45] text-v-ink">{s.text}</span>
-            <span className="shrink-0 text-[13px] text-v-ink/50">{s.source}</span>
-          </li>
-        ))}
-      </ul>
-      <svg aria-hidden className="mx-auto h-8 w-5 text-v-warm" viewBox="0 0 20 32" fill="none">
-        <path d="M10 2v24M4 20l6 6 6-6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-      </svg>
-      <div className="flex flex-col gap-1 rounded-[12px] bg-v-ink px-4 py-3.5">
-        <span className="text-[13px] text-white/60">Suggested loop</span>
-        <span className="text-[16px] leading-[1.45] font-semibold text-white">
-          Check every order against what was asked for, before it ships
-        </span>
-      </div>
-      <figcaption className="sr-only">
-        Two public signals, hiring order processors and reviews about wrong deliveries, lead to one
-        suggested loop: check every order before it ships.
-      </figcaption>
-    </figure>
-  );
-}
-
 export default function VantageCaseStudy() {
   return (
     <div className="bg-v-paper">
@@ -205,32 +169,27 @@ export default function VantageCaseStudy() {
       {/* What changed: the pivot from "what to build" to "which loop to close". */}
       <section
         id="change"
-        className="mx-auto flex max-w-[1180px] scroll-mt-32 flex-col gap-12 px-6 py-24 sm:px-10 lg:flex-row lg:items-center lg:gap-20 lg:px-[50px]"
+        className="mx-auto flex max-w-[1180px] scroll-mt-32 flex-col gap-10 px-6 py-24 sm:px-10 lg:flex-row lg:gap-20 lg:px-[50px]"
       >
-        <div className="flex flex-col gap-6 lg:flex-1">
-          <h2 className="max-w-[18ch] text-[clamp(26px,3.2vw,34px)] leading-[1.14] font-bold tracking-[-0.02em] text-v-ink">
-            Then the customers told us what they actually needed.
-          </h2>
-          <div className="flex max-w-[600px] flex-col gap-5 text-[18px] leading-[1.66] text-v-ink/75">
-            <p>
-              The first Vantage read a company and suggested new things to build. Then we cold
-              called distributors, and a past client told us what they really wanted. Nobody asked
-              for a new idea. They asked us to fix one process that kept going wrong.
-            </p>
-            <p>
-              We call that closing a loop. A loop is work that checks its own result against a goal
-              and keeps adjusting until it gets there. An automation does one task. A loop gets you
-              the result.
-            </p>
-            <p className="text-v-ink">
-              So Vantage now puts those loops first. If a distributor is hiring people to process
-              orders, and its reviews mention wrong deliveries, Vantage connects the two and
-              suggests a loop that fixes it.
-            </p>
-          </div>
-        </div>
-        <div className="w-full lg:w-[440px] lg:shrink-0">
-          <SignalsToLoop />
+        <h2 className="max-w-[16ch] text-[clamp(26px,3.2vw,34px)] leading-[1.14] font-bold tracking-[-0.02em] text-v-ink lg:w-[420px] lg:shrink-0">
+          Then the customers told us what they actually needed.
+        </h2>
+        <div className="flex max-w-[620px] flex-col gap-5 text-[18px] leading-[1.66] text-v-ink/75">
+          <p>
+            The first Vantage read a company and suggested new things to build. Then we cold
+            called distributors, and a past client told us what they really wanted. Nobody asked
+            for a new idea. They asked us to fix one process that kept going wrong.
+          </p>
+          <p>
+            We call that closing a loop. A loop is work that checks its own result against a goal
+            and keeps adjusting until it gets there. An automation does one task. A loop gets you
+            the result.
+          </p>
+          <p className="text-v-ink">
+            So Vantage now puts those loops first. If a distributor is hiring people to process
+            orders, and its reviews mention wrong deliveries, Vantage connects the two and
+            suggests a loop that fixes it.
+          </p>
         </div>
       </section>
 
