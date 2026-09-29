@@ -66,13 +66,15 @@ Things this portfolio must not look or sound like:
 
 ## Current work
 
-**Vantage** (AiDOOS): an AI business intelligence and opportunity engine. It
-continuously researches a company, its customers, competitors and market, finds
-what changed, and turns that into specific opportunities to build. Approved
-opportunities move into AiDOOS for execution.
+**Vantage** (AiDOOS): an AI that reads a company from the outside (its website,
+job posts and reviews, then its tools once connected), finds one process that
+keeps going wrong, and suggests a loop that fixes it. A loop checks its own
+result against a goal and keeps adjusting until it gets there. Approved loops
+move into AiDOOS, which builds and runs them.
 
-Its promise: *you may not know what to build next; we figure that out first,
-then AiDOOS builds it.*
+It started as an opportunity engine that suggested what to build next. Cold
+calls with distributors and a past client showed the real demand was fixing one
+specific broken process, so it now puts those loops first.
 
 This is the lead case study. It is the strongest UI work and the only one with
 user research and competitive analysis behind it.

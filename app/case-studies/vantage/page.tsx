@@ -7,18 +7,20 @@ import { CTA } from '@/components/CTA';
 import { Footer } from '@/components/Footer';
 
 export const metadata = {
-  title: 'Vantage: designing an AI that earns trust',
+  title: 'Vantage: finding the one process worth fixing',
   description:
-    'Designing Vantage, an AI opportunity engine that tells a company what to build next, and the decisions that made a stranger believe it.',
+    'Designing Vantage, an AI that finds a broken process in a company and suggests a loop that fixes it, and the decisions that made a stranger believe it.',
 };
 
-/** Every Vantage screen at full fidelity, beyond the three the page walks through. */
+/** Every Vantage screen at full fidelity, beyond the ones the page walks through. */
 const PAPER_FILE = 'https://app.paper.design/file/01M2QHX73CJW8M3QKEE670ZY3S/1-0';
 
 const SECTIONS = [
   { id: 'overview', label: 'Overview' },
   { id: 'research', label: 'Research' },
+  { id: 'change', label: 'What changed' },
   { id: 'landing', label: 'The first screen' },
+  { id: 'loop', label: 'Drawing a loop' },
   { id: 'wait', label: 'The wait' },
   { id: 'report', label: 'The report' },
   { id: 'learned', label: 'What I learned' },
@@ -47,26 +49,45 @@ const EVIDENCE = [
   },
 ];
 
+/** The three pictures I tried for "a loop", in the order I tried them. */
+const LOOP_TRIES = [
+  {
+    src: '/vantage/loops-iteration-ring.webp',
+    alt: 'A glowing ring on a soft gradient, with seven step names placed around it.',
+    caption: 'First try: a ring with seven labels. Correct, but it read like a textbook diagram.',
+  },
+  {
+    src: '/vantage/loops-iteration-trail.webp',
+    alt: 'A hiker on a zigzag mountain trail, with the steps of a loop pinned to points along the path.',
+    caption: 'Then photos: a boat, a trail, a runner on a bend. Every one went in one direction.',
+  },
+  {
+    src: '/vantage/loops-iteration-track.webp',
+    alt: 'A running track seen from above at dusk, a single runner on it, with the steps of a loop placed around the lap and an amber line bringing the last steps back to the runner.',
+    caption: 'The one that shipped: a runner on a closed track. It comes back to the start.',
+  },
+];
+
 const LESSONS = [
   {
     n: '01',
     lesson: 'People do not distrust AI because it gets things wrong.',
-    body: 'They distrust it because they cannot see how it got there. I spent longer on the four minutes of waiting than on the report itself, and the waiting did more for trust than a better answer would have.',
+    body: 'They distrust it because they cannot see how it got there. The waiting screen and the "built from outside" note did more for trust than a smarter answer would have.',
   },
   {
     n: '02',
-    lesson: 'Asking for less only works if you admit what you gave up.',
-    body: 'One field beats five. But a report built on one field cannot pretend it knows your revenue. The moment someone checks a number against their own dashboard and it does not match, you have lost them. Saying so first costs nothing.',
+    lesson: 'Ask what hurts, not what they want.',
+    body: 'The first Vantage suggested big ideas. The calls with distributors asked for something smaller: fix this one process. The product got more useful when it got narrower.',
   },
   {
     n: '03',
-    lesson: 'A number people can see beats a promise every time.',
-    body: 'Blurring three opportunities but leaving the money readable changed what the email was buying. Not access to something vague. $820K they were already looking at.',
+    lesson: 'A picture of a loop has to come back to the start.',
+    body: 'I made a boat, a trail and a runner on a bend before I noticed they all went one way. The idea only made sense once the picture closed.',
   },
   {
     n: '04',
-    lesson: 'The screen nobody plans is often the one that matters.',
-    body: 'The loading screen was meant to be a spinner and a progress bar. It ended up being the screen that decides whether anyone believes the rest of the product.',
+    lesson: 'A range you can explain beats a number you cannot.',
+    body: 'One exact number looks confident until someone checks it against their own records. A range with its reason written underneath still holds up after they check.',
   },
 ];
 
@@ -101,6 +122,42 @@ function StepHeading({ kicker, title }: { kicker: string; title: string }) {
   );
 }
 
+/** Two public signals that point at the same broken process, and the loop Vantage suggests. */
+function SignalsToLoop() {
+  const signals = [
+    { text: 'Hiring people to process orders', source: 'Careers page' },
+    { text: 'Reviews mention wrong deliveries', source: 'Customer reviews' },
+  ];
+  return (
+    <figure className="flex w-full flex-col gap-3 rounded-[20px] bg-v-paper p-5 ring-1 ring-v-ink/8 sm:p-7">
+      <ul className="flex flex-col gap-2.5">
+        {signals.map((s) => (
+          <li
+            key={s.text}
+            className="flex items-center justify-between gap-4 rounded-[12px] bg-white px-4 py-3 ring-1 ring-v-ink/8"
+          >
+            <span className="text-[15px] leading-[1.45] text-v-ink">{s.text}</span>
+            <span className="shrink-0 text-[13px] text-v-ink/50">{s.source}</span>
+          </li>
+        ))}
+      </ul>
+      <svg aria-hidden className="mx-auto h-8 w-5 text-v-warm" viewBox="0 0 20 32" fill="none">
+        <path d="M10 2v24M4 20l6 6 6-6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
+      <div className="flex flex-col gap-1 rounded-[12px] bg-v-ink px-4 py-3.5">
+        <span className="text-[13px] text-white/60">Suggested loop</span>
+        <span className="text-[16px] leading-[1.45] font-semibold text-white">
+          Check every order against what was asked for, before it ships
+        </span>
+      </div>
+      <figcaption className="sr-only">
+        Two public signals, hiring order processors and reviews about wrong deliveries, lead to one
+        suggested loop: check every order before it ships.
+      </figcaption>
+    </figure>
+  );
+}
+
 export default function VantageCaseStudy() {
   return (
     <div className="bg-v-paper">
@@ -117,10 +174,11 @@ export default function VantageCaseStudy() {
             Trust is the product.
           </h1>
           <p className="max-w-[64ch] text-[19px] leading-[1.62] text-v-ink/72">
-            Vantage, an AI research intelligence system, reads a company&apos;s market, its rivals
-            and its own numbers, then tells it what to build next. That is a large claim coming from
-            a machine a stranger has never used. So the design problem was never the report. It was
-            getting someone to believe the report before they had any reason to.
+            Vantage looks at a company from the outside: its website, its job posts, its reviews.
+            It finds one process that keeps breaking, and suggests an AI loop that fixes it. Then
+            AiDOOS builds the loop. But a stranger has no reason to believe a machine about their
+            own business. So the hard part was never the report. It was getting someone to believe
+            it.
           </p>
 
           {/* The shipped product, one click away, before a word of the story. */}
@@ -159,13 +217,13 @@ export default function VantageCaseStudy() {
           <div className="flex flex-col gap-1.5">
             <dt className="text-[14px] text-v-ink/45">Scope</dt>
             <dd className="text-[15px] leading-[1.5] text-v-ink">
-              Landing, the wait, the gated report
+              Landing page, eight industry pages, the gated report
             </dd>
           </div>
           <div className="flex flex-col gap-1.5">
             <dt className="text-[14px] text-v-ink/45">Grounded in</dt>
             <dd className="text-[15px] leading-[1.5] text-v-ink">
-              Competitor research and designing for generative UI
+              Competitor research, cold calls with distributors, and a past client
             </dd>
           </div>
         </dl>
@@ -181,25 +239,24 @@ export default function VantageCaseStudy() {
             <div className="flex max-w-[620px] flex-col gap-5 text-[18px] leading-[1.66] text-v-ink/75">
               <p>
                 Every tool doing this already is built for companies with money. Enterprise pricing,
-                or a competitive intelligence team on staff to actually run the thing. A startup of
-                twenty to a hundred people has neither, and no spare afternoon to do it by hand
-                either.
+                or a research team on staff to actually run the thing. A company of twenty to a
+                hundred people has neither, and no spare afternoon to do it by hand either.
               </p>
               <p>
-                Then I read their G2 reviews, and the same complaint kept surfacing. All of them
-                stop at the report. They hand you a very good answer to &ldquo;what changed&rdquo;
-                and then leave you exactly where you started, because knowing what to build is not
-                the hard part. Building it is.
+                Then I read their G2 reviews, and the same complaint kept coming up. All of them
+                stop at the report. They give you a good answer to &ldquo;what changed&rdquo; and
+                then leave you where you started, because knowing what to do is not the hard part.
+                Doing it is.
               </p>
               <p>
-                And not one of them would let me actually try it. Every free trial ended the same
-                way: a form, then &ldquo;we will get back to you.&rdquo; They all wanted to know who
-                I was before showing me anything worth having.
+                And not one of them would let me try it. Every free trial ended the same way: a
+                form, then &ldquo;we will get back to you.&rdquo; They all wanted to know who I was
+                before showing me anything useful.
               </p>
               <p className="text-v-ink">
-                So there were two holes to build into. Nobody shows you the value before they ask
-                for something. And nobody builds the thing they just found. Vantage does the first.
-                AiDOOS does the second.
+                So there were two gaps. Nobody shows you the value before they ask for something.
+                And nobody builds the thing they just found. Vantage does the first. AiDOOS does the
+                second.
               </p>
             </div>
           </div>
@@ -231,44 +288,140 @@ export default function VantageCaseStudy() {
         </div>
       </section>
 
-      {/* The first screen */}
+      {/* What changed: the pivot from "what to build" to "which loop to close". */}
       <section
-        id="landing"
+        id="change"
+        className="mx-auto flex max-w-[1180px] scroll-mt-32 flex-col gap-12 px-6 py-24 sm:px-10 lg:flex-row lg:items-center lg:gap-20 lg:px-[50px]"
+      >
+        <div className="flex flex-col gap-6 lg:flex-1">
+          <h2 className="max-w-[18ch] text-[clamp(26px,3.2vw,34px)] leading-[1.14] font-bold tracking-[-0.02em] text-v-ink">
+            Then the customers told us what they actually needed.
+          </h2>
+          <div className="flex max-w-[600px] flex-col gap-5 text-[18px] leading-[1.66] text-v-ink/75">
+            <p>
+              The first Vantage read a company and suggested new things to build. Then we cold
+              called distributors, and a past client told us what they really wanted. Nobody asked
+              for a new idea. They asked us to fix one process that kept going wrong.
+            </p>
+            <p>
+              We call that closing a loop. A loop is work that checks its own result against a goal
+              and keeps adjusting until it gets there. An automation does one task. A loop gets you
+              the result.
+            </p>
+            <p className="text-v-ink">
+              So Vantage now puts those loops first. If a distributor is hiring people to process
+              orders, and its reviews mention wrong deliveries, Vantage connects the two and
+              suggests a loop that fixes it.
+            </p>
+          </div>
+        </div>
+        <div className="w-full lg:w-[440px] lg:shrink-0">
+          <SignalsToLoop />
+        </div>
+      </section>
+
+      {/* The first screen */}
+      <section id="landing" className="scroll-mt-32 bg-white">
+        <div className="mx-auto flex max-w-[1180px] flex-col items-center gap-10 px-6 py-24 sm:px-10 lg:px-[50px]">
+          <StepHeading kicker="The first screen" title="It opens with the problem, not the product." />
+
+          {/* The saturated plate, not the soft one: this screen is mostly white
+              paper, so it needs the ground to carry the colour. */}
+          <div
+            className="w-full max-w-[900px] rounded-[20px] p-5 sm:p-8 lg:px-14 lg:py-11"
+            style={{
+              backgroundImage:
+                'linear-gradient(in oklab 135deg, oklab(73.7% 0.067 0.122) 0%, oklab(89.7% 0.023 0.028) 50%, oklab(65.9% -0.040 -0.086) 100%)',
+            }}
+          >
+            <Image
+              src="/vantage/loops-hero.webp"
+              alt="The Vantage landing page: a headline reading 85% of leaders are spending more on AI, only 22% have scaled it, a Gartner source link, one domain input, and a panel where public signals and connected tools feed into one suggested loop."
+              width={2560}
+              height={2081}
+              priority
+              sizes="(max-width: 900px) 92vw, 900px"
+              className="h-auto w-full rounded-[12px]"
+            />
+          </div>
+
+          <div className="flex w-full max-w-[760px] flex-col gap-5 text-[18px] leading-[1.66] text-v-ink/78">
+            <p>
+              The page starts with a number most leaders already feel: 85% are spending more on AI,
+              but only 22% have scaled it. The Gartner source sits right under it, so it reads as a
+              fact and not a sales line.
+            </p>
+            <p>
+              Then one sentence on how it works. Vantage reads what is public about your company,
+              then your tools once you connect them. The panel shows exactly that: public signals on
+              top, your tools below, both feeding one loop. And we still only ask for a domain.
+            </p>
+          </div>
+
+          <figure className="flex w-full max-w-[1000px] flex-col gap-4">
+            <Image
+              src="/vantage/loops-how-it-works.webp"
+              alt="How it works: four steps, each on its own coloured tile with its own small screen. A domain typed in, a chart of loops found, tool logos being connected, and a timeline from approved to live."
+              width={2560}
+              height={1537}
+              sizes="(max-width: 1000px) 92vw, 1000px"
+              className="h-auto w-full rounded-[12px] ring-1 ring-v-ink/8"
+            />
+            <figcaption className="text-[15px] leading-[1.6] text-v-ink/60">
+              How it works started as four matching cards. Each step now shows its own small screen,
+              so you can follow the whole process from the pictures alone.
+            </figcaption>
+          </figure>
+        </div>
+      </section>
+
+      {/* Drawing a loop */}
+      <section
+        id="loop"
         className="mx-auto flex max-w-[1180px] scroll-mt-32 flex-col items-center gap-10 px-6 py-24 sm:px-10 lg:px-[50px]"
       >
-        <StepHeading kicker="The first screen" title="They arrive knowing nothing about us." />
+        <StepHeading kicker="Drawing a loop" title="The hardest thing to draw was the idea itself." />
 
-        {/* The saturated plate, not the soft one: this screen is mostly white
-            paper, so it needs the ground to carry the colour. */}
-        <div
-          className="w-full max-w-[900px] rounded-[20px] p-5 sm:p-8 lg:px-14 lg:py-11"
-          style={{
-            backgroundImage:
-              'linear-gradient(in oklab 135deg, oklab(73.7% 0.067 0.122) 0%, oklab(89.7% 0.023 0.028) 50%, oklab(65.9% -0.040 -0.086) 100%)',
-          }}
-        >
-          <Image
-            src="/vantage/hero-aidoos.webp"
-            alt="The Vantage landing page under the AiDOOS nav: a headline reading research tells you what changed, we tell you what to build, one domain input, and a panel where market signals converge into a single opportunity."
-            width={2560}
-            height={2072}
-            priority
-            sizes="(max-width: 900px) 92vw, 900px"
-            className="h-auto w-full rounded-[12px]"
-          />
+        <div className="flex w-full max-w-[760px] flex-col gap-5 text-[18px] leading-[1.66] text-v-ink/78">
+          <p>
+            &ldquo;Loop&rdquo; is a new word for most people who land here. The page needed one
+            picture that explains it before anyone reads a sentence. It took a few tries.
+          </p>
+        </div>
+
+        <div className="grid w-full grid-cols-1 gap-6 sm:grid-cols-3">
+          {LOOP_TRIES.map((t) => (
+            <figure key={t.src} className="flex flex-col gap-3">
+              <Image
+                src={t.src}
+                alt={t.alt}
+                width={1120}
+                height={1120}
+                sizes="(max-width: 640px) 90vw, 33vw"
+                className="h-auto w-full rounded-[16px]"
+              />
+              <figcaption className="text-[14px] leading-[1.6] text-v-ink/65">{t.caption}</figcaption>
+            </figure>
+          ))}
         </div>
 
         <div className="flex w-full max-w-[760px] flex-col gap-5 text-[18px] leading-[1.66] text-v-ink/78">
           <p>
-            So the page does two jobs at once. It tells them what they get, and it shows them. That
-            panel is the whole product in one picture: a mess of signals on the left, one clear
-            thing to build on the right.
-          </p>
-          <p>
-            And we ask for a domain. That is it. No name, no email, no call. Every extra box on that
-            form is another person who leaves.
+            A loop has to come back around, so the runner goes on a full lap. The first steps are
+            the plan: where you are, the goal, the rules, what you can change. The last three are
+            the feedback: what happened, was it better or worse, and what to change next lap. That
+            part is drawn in amber, so you can see the lesson going back to the start.
           </p>
         </div>
+
+        <Image
+          src="/vantage/loops-loop-section.webp"
+          alt="The shipped section: the running track with its seven steps, next to the heading an automation does a task, a loop gets you the result."
+          width={2560}
+          height={1505}
+          sizes="(max-width: 1180px) 92vw, 1180px"
+          className="h-auto w-full max-w-[1000px] rounded-[12px] ring-1 ring-v-ink/8"
+        />
       </section>
 
       <StepArrow />
@@ -312,32 +465,63 @@ export default function VantageCaseStudy() {
       >
         <StepHeading
           kicker="And then the report"
-          title="This is the part which gives value before it asks for your email."
+          title="Before it shows a single loop, it says what it cannot know."
         />
 
-        <ReportViewer />
+        {/* Collapsed just past the start of the second, locked loop: the whole
+            first loop and the blurred names below it are in view. */}
+        <ReportViewer
+          src="/vantage/loops-report-gated.webp"
+          alt="The gated Vantage report: a headline naming three loops the company could run, a note saying the report was built from outside the company, one loop shown in full with its steps, estimate and evidence, two more loops blurred behind an email gate, and a list of the areas that were checked."
+          width={2560}
+          height={5964}
+          collapsedTo={0.533}
+          expandLabel="Expand the full report"
+          collapseLabel="Collapse the report"
+        />
 
         <div className="flex w-full max-w-[760px] flex-col gap-5 text-[18px] leading-[1.66] text-v-ink/78">
           <p>
-            We show them a summary and one opportunity first. The reasoning, the four sources it
-            leaned on, the money, and what to actually build. The others sit right below it,
-            blurred, with their numbers still readable.
+            The first thing under the headline is a short note. It says the report was built from
+            outside the company. What we read: the website, job posts, reviews. What we cannot see:
+            their volumes, their costs, how their team works today.
           </p>
           <p>
-            Now the email is not buying a promise. It is buying a revenue number they can already
-            see. And at the very top the report owns up to something: it only read public pages, not
-            their tools. No CRM, no Jira, no Slack. Saying that out loud costs nothing and buys
-            everything.
+            One loop is open. The other two are blurred, but their names and numbers still show.
+            So the email is not buying a promise. It is buying something they can already see.
           </p>
           <p>
-            It also does the selling for us. If this much depth comes from public pages alone, the
-            reader finishes the thought on their own: connect the tools and it gets sharper. The
-            honest sentence and the persuasive one turn out to be the same sentence.
+            Numbers only appear when the evidence supports them, and only as a range. Five job
+            posts for clerks with a listed salary gives a range, with the reason written under it.
+            No evidence gives &ldquo;high impact, low effort&rdquo; and no number at all. Every part
+            of the card comes from what the AI can honestly produce. If it cannot back something
+            up, it is not on the screen.
           </p>
         </div>
 
-        {/* The three screens above are the argument; the file is the rest of
-            the product. Sits last in the report so it reads as "there is more"
+        {/* The case page opens at the loop's own header and how it runs; the
+            evidence and assumptions sit behind the expand. */}
+        <ReportViewer
+          src="/vantage/loops-report-case.webp"
+          alt="One loop opened into its full case: the loop's name and estimate with its basis, a diagram of how it runs in four steps, every piece of evidence with where it was found, what the estimate assumes, the tools it reads, and a band to approve it."
+          width={2560}
+          height={5609}
+          collapsedTo={0.424}
+          expandLabel="Expand one loop's full case"
+          collapseLabel="Collapse the case"
+        />
+
+        <div className="flex w-full max-w-[760px] flex-col gap-5 text-[18px] leading-[1.66] text-v-ink/78">
+          <p>
+            Each loop opens into its full case: how it runs, every piece of evidence with where we
+            found it, what it needs, and what we are assuming. The assumptions do the most work.
+            &ldquo;We could not see your invoice volume&rdquo; is exactly what makes the rest of
+            the page believable.
+          </p>
+        </div>
+
+        {/* The screens above are the argument; the file is the rest of the
+            product. Sits last in the report so it reads as "there is more"
             rather than a detour before the point has landed. */}
         <a
           href={PAPER_FILE}

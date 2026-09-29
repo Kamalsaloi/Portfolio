@@ -23,14 +23,15 @@ export function CaseStudy() {
       <div className="flex w-full max-w-[1180px] flex-col items-start justify-between gap-10 pb-6 lg:flex-row lg:gap-[120px]">
         <div className="flex flex-col gap-5 lg:flex-1">
           <h2 className="max-w-[620px] text-[clamp(28px,3.2vw,40px)] leading-[1.2] font-bold tracking-[-0.025em] text-[#15181F]">
-            An AI that tells you what to build, and earns the right to be believed.
+            An AI that finds the one broken process worth fixing, and earns the right to be believed.
           </h2>
         </div>
 
         <div className="flex flex-col items-start justify-end gap-6 lg:flex-1">
           <p className="max-w-[600px] self-stretch text-[17px] leading-7 text-[#15181F]/70">
-            Three decisions made a stranger trust a machine-written brief: give the value away
-            before asking, show the research happening, and say plainly what the report cannot know.
+            Vantage reads a company from the outside, finds a process that keeps going wrong, and
+            suggests a loop that fixes it. Three decisions made a stranger trust it: show the value
+            before asking, let them watch the research happen, and say plainly what it cannot know.
           </p>
 
           <Link
@@ -52,10 +53,10 @@ export function CaseStudy() {
         style={{ backgroundImage: MAT }}
       >
         <Image
-          src="/vantage/hero-aidoos.webp"
-          alt="The Vantage landing page under the AiDOOS nav: a column of market signals converging into a single ranked opportunity with the money at stake attached."
+          src="/vantage/loops-hero.webp"
+          alt="The Vantage landing page: a headline reading 85% of leaders are spending more on AI, only 22% have scaled it, and a panel where public signals and connected tools feed into one suggested loop."
           width={2560}
-          height={2072}
+          height={2081}
           priority
           sizes="(max-width: 1090px) 92vw, 1090px"
           className="h-auto w-full max-w-[1090px] rounded-[12px]"
