@@ -12,41 +12,14 @@ export const metadata = {
     'Designing Vantage, an AI that finds a broken process in a company and suggests a loop that fixes it, and the decisions that made a stranger believe it.',
 };
 
-/** Every Vantage screen at full fidelity, beyond the ones the page walks through. */
-const PAPER_FILE = 'https://app.paper.design/file/01M2QHX73CJW8M3QKEE670ZY3S/1-0';
-
 const SECTIONS = [
   { id: 'overview', label: 'Overview' },
-  { id: 'research', label: 'Research' },
   { id: 'change', label: 'What changed' },
   { id: 'landing', label: 'The first screen' },
   { id: 'loop', label: 'Drawing a loop' },
   { id: 'wait', label: 'The wait' },
   { id: 'report', label: 'The report' },
   { id: 'learned', label: 'What I learned' },
-];
-
-const EVIDENCE = [
-  {
-    images: [
-      { src: '/vantage/g2-1.webp', width: 760, height: 96 },
-      { src: '/vantage/g2-2.webp', width: 760, height: 92 },
-      { src: '/vantage/g2-3.webp', width: 760, height: 62 },
-    ],
-    alt: 'Three G2 reviews answering "what do you dislike about Klue", each describing the research stopping short of being useful.',
-    caption: 'Their users, in their words....',
-  },
-  {
-    images: [{ src: '/vantage/trial-gates.webp', width: 720, height: 202 }],
-    alt: 'Two competitor free trial flows, both ending in a confirmation that someone will be in touch rather than access to the product.',
-    caption:
-      `The free trial that is not a trial... they say "We'll get back to you" when asked for report or free trial..`,
-  },
-  {
-    images: [{ src: '/vantage/linkedin.webp', width: 616, height: 631 }],
-    alt: 'A LinkedIn conversation with a founder about how they currently decide what to build next.',
-    caption: 'Some insights from real users gained through linkedin messaging...',
-  },
 ];
 
 /** The three pictures I tried for "a loop", in the order I tried them. */
@@ -228,65 +201,6 @@ export default function VantageCaseStudy() {
           </div>
         </dl>
       </header>
-
-      {/* Research */}
-      <section id="research" className="scroll-mt-32 bg-v-sand">
-        <div className="mx-auto flex max-w-[1180px] flex-col gap-14 px-6 py-24 sm:px-10 lg:px-[50px]">
-          <div className="flex flex-col gap-10 lg:flex-row lg:gap-20">
-            <h2 className="max-w-[16ch] text-[clamp(26px,3.2vw,34px)] leading-[1.14] font-bold tracking-[-0.02em] text-v-ink lg:w-[420px] lg:shrink-0">
-              First I went and looked at what everyone else was doing.
-            </h2>
-            <div className="flex max-w-[620px] flex-col gap-5 text-[18px] leading-[1.66] text-v-ink/75">
-              <p>
-                Every tool doing this already is built for companies with money. Enterprise pricing,
-                or a research team on staff to actually run the thing. A company of twenty to a
-                hundred people has neither, and no spare afternoon to do it by hand either.
-              </p>
-              <p>
-                Then I read their G2 reviews, and the same complaint kept coming up. All of them
-                stop at the report. They give you a good answer to &ldquo;what changed&rdquo; and
-                then leave you where you started, because knowing what to do is not the hard part.
-                Doing it is.
-              </p>
-              <p>
-                And not one of them would let me try it. Every free trial ended the same way: a
-                form, then &ldquo;we will get back to you.&rdquo; They all wanted to know who I was
-                before showing me anything useful.
-              </p>
-              <p className="text-v-ink">
-                So there were two gaps. Nobody shows you the value before they ask for something.
-                And nobody builds the thing they just found. Vantage does the first. AiDOOS does the
-                second.
-              </p>
-            </div>
-          </div>
-
-          {/* Captions state what each crop has to prove, so they double as the
-              test for whether it is the right screenshot. */}
-          <div className="grid grid-cols-1 items-start gap-6 sm:grid-cols-3">
-            {EVIDENCE.map((e) => (
-              <figure key={e.caption} className="flex flex-col gap-3">
-                <div className="flex flex-col gap-2 rounded-[12px] bg-v-paper p-3 ring-1 ring-v-ink/8">
-                  {e.images.map((img) => (
-                    <Image
-                      key={img.src}
-                      src={img.src}
-                      alt={e.images.length > 1 ? '' : e.alt}
-                      width={img.width}
-                      height={img.height}
-                      sizes="(max-width: 640px) 90vw, 33vw"
-                      className="h-auto w-full rounded-[6px]"
-                    />
-                  ))}
-                </div>
-                <figcaption className="text-[14px] leading-[1.6] text-v-ink/60">
-                  {e.caption}
-                </figcaption>
-              </figure>
-            ))}
-          </div>
-        </div>
-      </section>
 
       {/* What changed: the pivot from "what to build" to "which loop to close". */}
       <section
@@ -520,37 +434,6 @@ export default function VantageCaseStudy() {
           </p>
         </div>
 
-        {/* The screens above are the argument; the file is the rest of the
-            product. Sits last in the report so it reads as "there is more"
-            rather than a detour before the point has landed. */}
-        <a
-          href={PAPER_FILE}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="group flex w-full max-w-[760px] flex-col gap-5 rounded-[16px] bg-v-paper p-6 ring-1 ring-v-ink/8 transition-shadow hover:shadow-[0_18px_40px_-24px_oklch(0.3_0.06_55_/_45%)] sm:flex-row sm:items-center sm:justify-between sm:p-7"
-        >
-          <div className="flex flex-col gap-1.5">
-            <p className="text-[17px] font-semibold text-v-ink">See the full flow</p>
-            <p className="text-[15px] leading-[1.6] text-v-ink/65">
-              The rest of the screens, and the actual designs for each one, live in the Paper file.
-            </p>
-          </div>
-          <span className="inline-flex w-fit shrink-0 items-center gap-2 rounded-full bg-v-ink px-5 py-2.5 text-[14px] font-semibold text-white">
-            Open in Paper
-            <svg
-              className="h-3.5 w-3.5 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
-              viewBox="0 0 12 12"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth={1.9}
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              aria-hidden="true"
-            >
-              <path d="M3.5 8.5 8.5 3.5M8.5 3.5h-4.5M8.5 3.5v4.5" />
-            </svg>
-          </span>
-        </a>
       </section>
 
       {/* What I learned */}

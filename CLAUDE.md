@@ -44,7 +44,7 @@ click-to-play Loom, then the Other redesigns cards from `components/redesigns/`)
 `HowIWork` (scroll-pinned deck) → `AboutMe` → `CTA`.
 
 Anchor ids in use: `#work`, `#range`, `#redesigns`, `#process`, `#about`,
-`#contact`. The Vantage page has its own: `#overview`, `#research`, `#change`,
+`#contact`. The Vantage page has its own: `#overview`, `#change`,
 `#landing`, `#loop`, `#wait`, `#report`, `#learned`.
 
 ## Two structural mechanisms worth understanding before editing
