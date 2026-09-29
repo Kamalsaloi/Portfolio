@@ -111,11 +111,11 @@ export default function VantageCaseStudy() {
             Trust is the product.
           </h1>
           <p className="max-w-[64ch] text-[19px] leading-[1.62] text-v-ink/72">
-            Vantage looks at a company from the outside: its website, its job posts, its reviews.
-            It finds one process that keeps breaking, and suggests an AI loop that fixes it. Then
-            AiDOOS builds the loop. But a stranger has no reason to believe a machine about their
-            own business. So the hard part was never the report. It was getting someone to believe
-            it.
+            Vantage finds one process in a company that keeps breaking, and suggests an AI loop
+            that fixes it. Then AiDOOS builds the loop. It works best from the company&apos;s own
+            tools. But nobody connects their tools to a product they have never seen, so the first
+            report uses only public data: the website, job posts and reviews. That gives value
+            before we ask for anything. The hard part was getting a stranger to believe it.
           </p>
 
           {/* The shipped product, one click away, before a word of the story. */}
@@ -345,19 +345,20 @@ export default function VantageCaseStudy() {
             first loop and the blurred names below it are in view. */}
         <ReportViewer
           src="/vantage/loops-report-gated.webp"
-          alt="The gated Vantage report: a headline naming three loops the company could run, a note saying the report was built from outside the company, one loop shown in full with its steps, estimate and evidence, two more loops blurred behind an email gate, and a list of the areas that were checked."
+          alt="The gated Vantage report: a headline naming three loops the company could run, a note saying it is an outside read with a button to connect their tools, one loop shown in full with its steps, estimate and evidence, two more loops blurred behind an email gate, and a list of the areas that were checked."
           width={2560}
-          height={5964}
-          collapsedTo={0.533}
+          height={5894}
+          collapsedTo={0.655}
           expandLabel="Expand the full report"
           collapseLabel="Collapse the report"
         />
 
         <div className="flex w-full max-w-[760px] flex-col gap-5 text-[18px] leading-[1.66] text-v-ink/78">
           <p>
-            The first thing under the headline is a short note. It says the report was built from
-            outside the company. What we read: the website, job posts, reviews. What we cannot see:
-            their volumes, their costs, how their team works today.
+            The first thing under the headline is a short note. It says this is an outside read, so
+            every number is a range. Next to it is one button: connect your tools. The public report
+            is only a first taste. The real product runs on their own data, and the note says so
+            before they read a single loop.
           </p>
           <p>
             One loop is open. The other two are blurred, but their names and numbers still show.
@@ -378,8 +379,8 @@ export default function VantageCaseStudy() {
           src="/vantage/loops-report-case.webp"
           alt="One loop opened into its full case: the loop's name and estimate with its basis, a diagram of how it runs in four steps, every piece of evidence with where it was found, what the estimate assumes, the tools it reads, and a band to approve it."
           width={2560}
-          height={5609}
-          collapsedTo={0.424}
+          height={5487}
+          collapsedTo={0.42}
           expandLabel="Expand one loop's full case"
           collapseLabel="Collapse the case"
         />

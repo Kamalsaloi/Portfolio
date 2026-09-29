@@ -23,15 +23,14 @@ export function CaseStudy() {
       <div className="flex w-full max-w-[1180px] flex-col items-start justify-between gap-10 pb-6 lg:flex-row lg:gap-[120px]">
         <div className="flex flex-col gap-5 lg:flex-1">
           <h2 className="max-w-[620px] text-[clamp(28px,3.2vw,40px)] leading-[1.2] font-bold tracking-[-0.025em] text-[#15181F]">
-            An AI that finds the one broken process worth fixing, and earns the right to be believed.
+            Vantage reads a company&apos;s job posts, reviews and tools, and tells it which work AI should take over first.
           </h2>
         </div>
 
         <div className="flex flex-col items-start justify-end gap-6 lg:flex-1">
           <p className="max-w-[600px] self-stretch text-[17px] leading-7 text-[#15181F]/70">
-            Vantage reads a company from the outside, finds a process that keeps going wrong, and
-            suggests a loop that fixes it. Three decisions made a stranger trust it: show the value
-            before asking, let them watch the research happen, and say plainly what it cannot know.
+            Then AiDOOS builds it. Three decisions made a stranger trust it: show the value before
+            asking, let them watch the research happen, and say plainly what it cannot know.
           </p>
 
           <Link
