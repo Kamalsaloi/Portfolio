@@ -172,7 +172,7 @@ export default function VantageCaseStudy() {
         className="mx-auto flex max-w-[1180px] scroll-mt-32 flex-col gap-10 px-6 py-24 sm:px-10 lg:flex-row lg:gap-20 lg:px-[50px]"
       >
         <h2 className="max-w-[16ch] text-[clamp(26px,3.2vw,34px)] leading-[1.14] font-bold tracking-[-0.02em] text-v-ink lg:w-[420px] lg:shrink-0">
-          Then the customers told us what they actually needed.
+          Our customers told us what they actually needed.
         </h2>
         <div className="flex max-w-[620px] flex-col gap-5 text-[18px] leading-[1.66] text-v-ink/75">
           <p>
