@@ -2,14 +2,15 @@
 
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
-import { Schibsted_Grotesk } from 'next/font/google';
+import localFont from 'next/font/local';
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import { ArrowDown, Calendar, Check, ChevronDown, Network, Route, ScrollText, Sparkles } from 'lucide-react';
 import { EASE, T } from './theme';
 import { DONE_JOB, DWELL, FIELDS, JOB, LOADING, sleep, type Stage } from './sequence';
 import { Canvas, ModuleHeader, Rail, ReadyCaption, Ring, TitleBar, VeloPanel } from './workspace';
 
-const schibsted = Schibsted_Grotesk({ subsets: ['latin'], weight: ['400', '500', '600', '700'] });
+// Self-hosted, see app/layout.tsx for why.
+const schibsted = localFont({ src: '../../app/fonts/schibsted-grotesk-latin.woff2', weight: '400 900' });
 
 /** Native width. The velociti repo's page chrome is fluid, with every clamp()
     resolving to the 1280 design at a 1280 viewport; those resolved values are

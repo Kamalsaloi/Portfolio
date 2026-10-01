@@ -2,10 +2,17 @@
 
 import { useEffect, useRef } from 'react';
 import Image from 'next/image';
-import { IBM_Plex_Mono } from 'next/font/google';
+import localFont from 'next/font/local';
 import s from './PullLogicHero.module.css';
 
-const plex = IBM_Plex_Mono({ subsets: ['latin'], weight: ['400', '500'], variable: '--pl-mono' });
+// Self-hosted, see app/layout.tsx for why.
+const plex = localFont({
+  src: [
+    { path: '../../app/fonts/ibm-plex-mono-400-latin.woff2', weight: '400' },
+    { path: '../../app/fonts/ibm-plex-mono-500-latin.woff2', weight: '500' },
+  ],
+  variable: '--pl-mono',
+});
 
 export const PULL_LOGIC_WIDTH = 1440;
 

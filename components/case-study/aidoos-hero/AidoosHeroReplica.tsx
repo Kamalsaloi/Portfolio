@@ -1,7 +1,8 @@
-import { Inter } from 'next/font/google';
+import localFont from 'next/font/local';
 import { VDCAnimation } from './VDCAnimation';
 
-const inter = Inter({ subsets: ['latin'], weight: ['400', '500', '600', '700'] });
+// Self-hosted, see app/layout.tsx for why.
+const inter = localFont({ src: '../../../app/fonts/inter-latin.woff2', weight: '100 900' });
 
 function ChevronDown() {
   return (

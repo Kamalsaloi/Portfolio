@@ -89,6 +89,11 @@ to `public/Kamal.webp` locally and 404'd in production. Anything that works
 locally but breaks only after deploy: check the capitalisation of the path
 first.
 
+**Fonts are self-hosted, not `next/font/google`.** On Vercel (CLI 61, Next
+16.3.1) every `next/font/google` call failed the build with "next/font/google
+queries have exactly one entry", while local builds passed. All fonts now load
+with `next/font/local` from `app/fonts/` (latin woff2). Add new fonts the same way.
+
 **React Strict Mode double-invokes effects.** The intro animation writes its
 `sessionStorage` "already played" flag in its `finish()` handler, not at effect
 start, because the second pass otherwise reads the flag and skips the whole
