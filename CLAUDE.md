@@ -49,9 +49,9 @@ Anchor ids in use: `#work`, `#range`, `#redesigns`, `#process`, `#about`,
 
 ## Two structural mechanisms worth understanding before editing
 
-**The homepage parallax.** `Hero` is `sticky top-0 h-svh z-0`; everything after
-it is one sibling `<div>` at `z-10` that slides up over it. Both must stay
-inside the single `<main className="relative">` or the sticky never releases.
+**The homepage wrapper.** `Hero` is a full-viewport `h-svh` section that scrolls
+away normally (the old sticky-hero parallax was removed on purpose; don't add it
+back). Everything after it sits in one sibling `<div>`.
 
 That sibling panel is `overflow-clip`, **not** `overflow-hidden`, and this is
 load-bearing. `overflow: hidden` makes an element a scroll container, which

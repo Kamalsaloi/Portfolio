@@ -3,14 +3,13 @@ import { Header } from '@/components/Header';
 /**
  * Plain white hero: the type carries it.
  *
- * Sticks to the top of the viewport at full height so the section that follows
- * can rise over it on scroll (see app/page.tsx). The nav lives inside here,
+ * Fills the viewport and scrolls away normally. The nav lives inside here,
  * absolutely positioned, which is what lets the hero occupy the whole viewport
  * instead of being pushed down by a header in normal flow.
  */
 export function Hero() {
   return (
-    <section className="sticky top-0 z-0 flex h-svh flex-col overflow-hidden bg-white">
+    <section className="relative flex h-svh flex-col overflow-hidden bg-white">
       <Header />
 
       {/* Copy is vertically centred now that there is no scene to sit above. */}
