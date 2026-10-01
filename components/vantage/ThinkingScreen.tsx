@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import { MAT_GRADIENT } from './Mat';
 
 /* Timeline in seconds. Each step runs, then locks as done, and the whole
    thing restarts so a visitor always catches it working rather than landing
@@ -117,10 +118,7 @@ export function ThinkingScreen() {
     <div
       ref={hostRef}
       className="flex w-full items-center justify-center px-4 py-14 sm:px-10 sm:py-20"
-      style={{
-        backgroundImage:
-          'linear-gradient(128deg, oklch(0.83 0.1 52) 0%, oklch(0.95 0.03 80) 46%, oklch(0.8 0.07 248) 100%)',
-      }}
+      style={{ backgroundImage: MAT_GRADIENT }}
     >
       <div
         className="flex w-full max-w-[716px] flex-col gap-6 rounded-[22px] border px-6 py-7 sm:px-9 sm:py-8"

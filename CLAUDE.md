@@ -45,7 +45,7 @@ click-to-play Loom, then the Other redesigns cards from `components/redesigns/`)
 
 Anchor ids in use: `#work`, `#range`, `#redesigns`, `#process`, `#about`,
 `#contact`. The Vantage page has its own: `#overview`, `#change`,
-`#landing`, `#loop`, `#wait`, `#report`, `#learned`.
+`#landing`, `#loop`, `#industries`, `#wait`, `#report`, `#learned`.
 
 ## Two structural mechanisms worth understanding before editing
 
@@ -119,9 +119,13 @@ Everything static is in `public/`, product shots under `public/vantage/`.
 Exports come out of Paper at **2x**. When you replace one, read back the real
 pixel dimensions and update the `width`/`height` props on the `next/image`
 call — they are declared explicitly and a stale pair distorts the layout.
-`ReportViewer` also crops the report with a fixed `max-h`, tied to the source
-artboard's section boundaries; changing the image usually means re-deriving that
-number.
+
+The Vantage page's product visuals are no longer images: they are live
+components in `components/vantage/visuals/`, drawn at their native width (1280,
+or 560 for the loop tries) and scaled by `FitWidth` inside a `Mat` / `MatSlot`
+(`components/vantage/Mat.tsx`). `ReportViewer` crops its report at a
+`collapsedHeight` in the report's own pixels, tied to a section boundary in the
+Paper design; changing the report usually means re-deriving that number.
 
 ## Working with Paper
 

@@ -1,8 +1,37 @@
-import Image from 'next/image';
 import { CaseStudyNav } from '@/components/case-study/CaseStudyNav';
 import { SectionNav } from '@/components/vantage/SectionNav';
 import { ReportViewer } from '@/components/vantage/ReportViewer';
 import { ThinkingScreen } from '@/components/vantage/ThinkingScreen';
+import { Mat, MatSlot } from '@/components/vantage/Mat';
+import { FitWidth } from '@/components/redesigns/FitWidth';
+import {
+  LandingHeroVisual,
+  LANDING_HERO_WIDTH,
+  LANDING_HERO_HEIGHT,
+} from '@/components/vantage/visuals/LandingHeroVisual';
+import {
+  HowItWorksVisual,
+  HOW_IT_WORKS_WIDTH,
+  HOW_IT_WORKS_HEIGHT,
+} from '@/components/vantage/visuals/HowItWorksVisual';
+import {
+  RingVisual,
+  TrailVisual,
+  TrackVisual,
+  LOOP_TRY_WIDTH,
+} from '@/components/vantage/visuals/LoopTries';
+import {
+  LoopSectionVisual,
+  LOOP_SECTION_WIDTH,
+  LOOP_SECTION_HEIGHT,
+} from '@/components/vantage/visuals/LoopSectionVisual';
+import {
+  IndustriesRailVisual,
+  INDUSTRIES_RAIL_WIDTH,
+  INDUSTRIES_RAIL_HEIGHT,
+} from '@/components/vantage/visuals/IndustriesRailVisual';
+import { ReportGated, REPORT_WIDTH } from '@/components/vantage/visuals/ReportGated';
+import { ReportCase } from '@/components/vantage/visuals/ReportCase';
 import { CTA } from '@/components/CTA';
 import { Footer } from '@/components/Footer';
 
@@ -17,27 +46,46 @@ const SECTIONS = [
   { id: 'change', label: 'What changed' },
   { id: 'landing', label: 'The first screen' },
   { id: 'loop', label: 'Drawing a loop' },
+  { id: 'industries', label: 'Industries' },
   { id: 'wait', label: 'The wait' },
   { id: 'report', label: 'The report' },
   { id: 'learned', label: 'What I learned' },
 ];
 
+/* Where each report is cut before it is expanded, in the report's own
+   pixels: the Paper crop height divided by its zoom (888 / 1280), so the cut
+   lands where the design puts it. Slots that show a whole visual are given
+   its full height instead, so they hold their shape before it measures. */
+/** Gated report, collapsed just past the start of the second, locked loop. */
+const REPORT_GATED_CROP = 1930.5;
+/** One loop's case, collapsed partway into "How it runs". */
+const REPORT_CASE_CROP = 1152.6;
+
+/** Two column widths. Text-led bands use the wider one, visual-led bands
+    the narrower, which leaves the mats a little air at the sides. */
+const COLUMN = 'mx-auto w-full max-w-[1180px] px-6 sm:px-10 lg:px-[50px]';
+const VISUAL_COLUMN = 'mx-auto w-full max-w-[1180px] px-6 sm:px-10 lg:px-[62px]';
+
+/** Body copy under the visual sections. */
+const BODY = 'text-[18px] leading-[1.66] text-v-ink/78';
+
 /** The three pictures I tried for "a loop", in the order I tried them. */
 const LOOP_TRIES = [
   {
-    src: '/vantage/loops-iteration-ring.webp',
-    alt: 'A glowing ring on a soft gradient, with seven step names placed around it.',
+    Visual: RingVisual,
+    label: 'A glowing ring on a soft gradient, with seven step names placed around it.',
     caption: 'First try: a ring with seven labels. Correct, but it read like a textbook diagram.',
   },
   {
-    src: '/vantage/loops-iteration-trail.webp',
-    alt: 'A hiker on a zigzag mountain trail, with the steps of a loop pinned to points along the path.',
-    caption: 'Then photos: a boat, a trail, a runner on a bend. Every one went in one direction.',
+    Visual: TrailVisual,
+    label: 'A hiker on a zigzag mountain trail, with the steps of a loop pinned to points along the path.',
+    caption: "Then photos: a boat, a trail, a runner on a bend. But it's one way, not a loop.",
   },
   {
-    src: '/vantage/loops-iteration-track.webp',
-    alt: 'A running track seen from above at dusk, a single runner on it, with the steps of a loop placed around the lap and an amber line bringing the last steps back to the runner.',
-    caption: 'The one that shipped: a runner on a closed track. It comes back to the start.',
+    Visual: TrackVisual,
+    label:
+      'A running track seen from above at dusk, a single runner on it, with the steps of a loop placed around the lap and an amber line bringing the last steps back to the runner.',
+    caption: 'The one that I picked: a runner on a closed track. It comes back to the start.',
   },
 ];
 
@@ -84,11 +132,16 @@ function StepArrow() {
   );
 }
 
-function StepHeading({ kicker, title }: { kicker: string; title: string }) {
+/**
+ * A section's heading, set flush left with the column. The kicker is the
+ * step's plain name and is optional: sections whose heading already says
+ * where you are go without one.
+ */
+function StepHeading({ kicker, title }: { kicker?: string; title: string }) {
   return (
-    <div className="flex w-full max-w-[760px] flex-col items-center gap-3.5">
-      <p className="text-[15px] text-v-warm">{kicker}</p>
-      <h2 className="text-center text-[clamp(26px,3.4vw,36px)] leading-[1.14] font-bold tracking-[-0.02em] text-balance text-v-ink">
+    <div className="flex w-full flex-col items-start gap-3.5">
+      {kicker && <p className="text-[15px] leading-[1.5] text-v-warm">{kicker}</p>}
+      <h2 className="max-w-[760px] text-[clamp(26px,3.4vw,36px)] leading-[1.14] font-bold tracking-[-0.02em] text-balance text-v-ink">
         {title}
       </h2>
     </div>
@@ -104,18 +157,20 @@ export default function VantageCaseStudy() {
       {/* Overview */}
       <header
         id="overview"
-        className="mx-auto flex max-w-[1180px] scroll-mt-32 flex-col gap-16 px-6 pt-24 pb-24 sm:px-10 lg:flex-row lg:gap-16 lg:px-[50px]"
+        className={`${COLUMN} flex scroll-mt-32 flex-col gap-16 py-16 sm:py-24 lg:flex-row`}
       >
         <div className="flex flex-col gap-8 lg:flex-1">
-          <h1 className="max-w-[16ch] text-[clamp(44px,7.2vw,84px)] leading-[0.98] font-bold tracking-[-0.035em] text-v-ink">
+          <h1 className="text-[clamp(44px,7.2vw,84px)] leading-[0.976] font-bold tracking-[-0.035em] text-v-ink">
             Trust is the product.
           </h1>
-          <p className="max-w-[64ch] text-[19px] leading-[1.62] text-v-ink/72">
-            Vantage finds one process in a company that keeps breaking, and suggests an AI loop
-            that fixes it. Then AiDOOS builds the loop. It works best from the company&apos;s own
-            tools. But nobody connects their tools to a product they have never seen, so the first
-            report uses only public data: the website, job posts and reviews. That gives value
-            before we ask for anything. The hard part was getting a stranger to believe it.
+          <p className="max-w-[756px] text-[19px] leading-[1.62] text-v-ink/72">
+            Vantage finds processes in a company that they do manually with humans, and suggests an
+            AI loop that does it for them and also keeps improving itself based on results. Then
+            AiDOOS builds the loop. It works best from the company&apos;s own tools like Sales or
+            project management tools. But nobody connects their tools to a product they have never
+            seen, so the first report uses only public data: the website, job posts and reviews.
+            That gives value before we ask for anything. The hard part was getting a stranger to
+            believe it.
           </p>
 
           {/* The shipped product, one click away, before a word of the story. */}
@@ -123,13 +178,11 @@ export default function VantageCaseStudy() {
             href="https://aidoos.com/vantage"
             target="_blank"
             rel="noopener noreferrer"
-            className="group inline-flex w-fit items-center gap-3 rounded-full border border-v-ink/15 bg-white py-2 pr-5 pl-2 transition-colors hover:border-v-ink/35"
+            className="group inline-flex w-fit items-center gap-2 rounded-full border border-v-ink/15 bg-white px-4 py-2 transition-colors hover:border-v-ink/35"
           >
-            <span className="flex items-center gap-2 rounded-full bg-v-ink px-3 py-1.5 text-[13px] font-medium text-v-paper">
-              <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
-              Live
+            <span className="text-[15px] leading-[1.5] font-medium text-v-ink">
+              aidoos.com/vantage
             </span>
-            <span className="text-[15px] font-medium text-v-ink">aidoos.com/vantage</span>
             <svg
               className="h-4 w-4 text-v-ink/50 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-v-ink"
               fill="none"
@@ -138,6 +191,7 @@ export default function VantageCaseStudy() {
               strokeLinecap="round"
               strokeLinejoin="round"
               viewBox="0 0 24 24"
+              aria-hidden="true"
             >
               <path d="M7 17L17 7M9 7h8v8" />
             </svg>
@@ -146,21 +200,21 @@ export default function VantageCaseStudy() {
 
         <dl className="flex flex-col gap-6 border-t border-v-ink/12 pt-6 lg:w-[260px] lg:shrink-0 lg:border-t-0 lg:border-l lg:pt-0 lg:pl-10">
           <div className="flex flex-col gap-1.5">
-            <dt className="text-[14px] text-v-ink/45">Role</dt>
+            <dt className="text-[14px] leading-[1.5] text-v-ink/45">Role</dt>
             <dd className="text-[15px] leading-[1.5] text-v-ink">
               Product design and frontend, end to end
             </dd>
           </div>
           <div className="flex flex-col gap-1.5">
-            <dt className="text-[14px] text-v-ink/45">Scope</dt>
+            <dt className="text-[14px] leading-[1.5] text-v-ink/45">Scope</dt>
             <dd className="text-[15px] leading-[1.5] text-v-ink">
-              Landing page, eight industry pages, the gated report
+              Landing page, eight industry pages, the actual report
             </dd>
           </div>
           <div className="flex flex-col gap-1.5">
-            <dt className="text-[14px] text-v-ink/45">Grounded in</dt>
+            <dt className="text-[14px] leading-[1.5] text-v-ink/45">Grounded in</dt>
             <dd className="text-[15px] leading-[1.5] text-v-ink">
-              Competitor research, cold calls with distributors, and a past client
+              Competitor research, user conversations
             </dd>
           </div>
         </dl>
@@ -169,78 +223,74 @@ export default function VantageCaseStudy() {
       {/* What changed: the pivot from "what to build" to "which loop to close". */}
       <section
         id="change"
-        className="mx-auto flex max-w-[1180px] scroll-mt-32 flex-col gap-10 px-6 py-24 sm:px-10 lg:flex-row lg:gap-20 lg:px-[50px]"
+        className={`${COLUMN} flex scroll-mt-32 flex-col gap-10 py-24 lg:flex-row lg:gap-20`}
       >
-        <h2 className="max-w-[16ch] text-[clamp(26px,3.2vw,34px)] leading-[1.14] font-bold tracking-[-0.02em] text-v-ink lg:w-[420px] lg:shrink-0">
+        <h2 className="text-[clamp(26px,3.2vw,34px)] leading-[1.14] font-bold tracking-[-0.02em] text-balance text-v-ink lg:w-[377px] lg:shrink-0">
           Our customers told us what they actually needed.
         </h2>
         <div className="flex max-w-[620px] flex-col gap-5 text-[18px] leading-[1.66] text-v-ink/75">
           <p>
-            The first Vantage read a company and suggested new things to build. Then we cold
-            called distributors, and a past client told us what they really wanted. Nobody asked
-            for a new idea. They asked us to fix one process that kept going wrong.
+            The first version of Vantage read a company and suggested new things to build. Then we
+            talked to distributors, and leaders from a past client... they told us what they really
+            wanted. Nobody asked for a new idea. They were more worried about the automation they
+            are building, is not proving its value.
           </p>
           <p>
-            We call that closing a loop. A loop is work that checks its own result against a goal
-            and keeps adjusting until it gets there. An automation does one task. A loop gets you
-            the result.
+            So, we decided to solve that problem, we call it closing a loop. A loop is an agent
+            doing the work and keeps checking its own results against a goal and keeps improving
+            and iterating until it gets there. An automation does one task. A loop gets you the
+            result.
           </p>
           <p className="text-v-ink">
-            So Vantage now puts those loops first. If a distributor is hiring people to process
-            orders, and its reviews mention wrong deliveries, Vantage connects the two and
-            suggests a loop that fixes it.
+            So Vantage now puts those loops first. It starts with what a company shows in public,
+            then reads its own tools once they are connected. If a distributor is hiring people to
+            process orders, and its order records show the same mistakes again and again, Vantage
+            connects the two and suggests a loop that fixes it. Once they approve, AiDOOS builds it.
           </p>
         </div>
       </section>
 
       {/* The first screen */}
       <section id="landing" className="scroll-mt-32 bg-white">
-        <div className="mx-auto flex max-w-[1180px] flex-col items-center gap-10 px-6 py-24 sm:px-10 lg:px-[50px]">
-          <StepHeading kicker="The first screen" title="It opens with the problem, not the product." />
+        <div
+          className={`${VISUAL_COLUMN} flex flex-col items-center gap-14 py-24 sm:gap-16 lg:gap-[84px]`}
+        >
+          <div className="flex w-full flex-col gap-4 sm:gap-6">
+            <StepHeading kicker="The first screen" title="It opens with the problem, not the product." />
 
-          {/* The saturated plate, not the soft one: this screen is mostly white
-              paper, so it needs the ground to carry the colour. */}
-          <div
-            className="w-full max-w-[900px] rounded-[20px] p-5 sm:p-8 lg:px-14 lg:py-11"
-            style={{
-              backgroundImage:
-                'linear-gradient(in oklab 135deg, oklab(73.7% 0.067 0.122) 0%, oklab(89.7% 0.023 0.028) 50%, oklab(65.9% -0.040 -0.086) 100%)',
-            }}
-          >
-            <Image
-              src="/vantage/loops-hero.webp"
-              alt="The Vantage landing page: a headline reading 85% of leaders are spending more on AI, only 22% have scaled it, a Gartner source link, one domain input, and a panel where public signals and connected tools feed into one suggested loop."
-              width={2560}
-              height={2081}
-              priority
-              sizes="(max-width: 900px) 92vw, 900px"
-              className="h-auto w-full rounded-[12px]"
-            />
-          </div>
+            {/* The saturated plate, not the soft one: this screen is mostly white
+                paper, so it needs the ground to carry the colour. */}
+            <Mat>
+              <MatSlot
+                nativeWidth={LANDING_HERO_WIDTH}
+                nativeHeight={LANDING_HERO_HEIGHT}
+                maxWidth={788}
+                label="The Vantage landing page: a headline reading 85% of leaders are spending more on AI, only 22% have scaled it, a Gartner source link, one domain input, and a panel where public signals and connected tools feed into one suggested loop."
+              >
+                <LandingHeroVisual />
+              </MatSlot>
+            </Mat>
 
-          <div className="flex w-full max-w-[760px] flex-col gap-5 text-[18px] leading-[1.66] text-v-ink/78">
-            <p>
+            <p className={BODY}>
               The page starts with a number most leaders already feel: 85% are spending more on AI,
               but only 22% have scaled it. The Gartner source sits right under it, so it reads as a
-              fact and not a sales line.
-            </p>
-            <p>
-              Then one sentence on how it works. Vantage reads what is public about your company,
-              then your tools once you connect them. The panel shows exactly that: public signals on
-              top, your tools below, both feeding one loop. And we still only ask for a domain.
+              fact and not a sales line. Then one sentence on how it works.
             </p>
           </div>
 
-          <figure className="flex w-full max-w-[1000px] flex-col gap-4">
-            <Image
-              src="/vantage/loops-how-it-works.webp"
-              alt="How it works: four steps, each on its own coloured tile with its own small screen. A domain typed in, a chart of loops found, tool logos being connected, and a timeline from approved to live."
-              width={2560}
-              height={1537}
-              sizes="(max-width: 1000px) 92vw, 1000px"
-              className="h-auto w-full rounded-[12px] ring-1 ring-v-ink/8"
-            />
-            <figcaption className="text-[15px] leading-[1.6] text-v-ink/60">
+          <figure className="flex w-full flex-col gap-4 sm:gap-6">
+            <Mat>
+              <MatSlot
+                nativeWidth={HOW_IT_WORKS_WIDTH}
+                nativeHeight={HOW_IT_WORKS_HEIGHT}
+                maxWidth={888}
+                ring
+                label="How it works: four steps, each with its own small screen. A domain typed in, a chart of loops found, tool logos being connected, and a timeline from approved to live."
+              >
+                <HowItWorksVisual />
+              </MatSlot>
+            </Mat>
+            <figcaption className="text-[15px] leading-6 text-[#02020499] sm:text-[18px]">
               How it works started as four matching cards. Each step now shows its own small screen,
               so you can follow the whole process from the pictures alone.
             </figcaption>
@@ -251,73 +301,106 @@ export default function VantageCaseStudy() {
       {/* Drawing a loop */}
       <section
         id="loop"
-        className="mx-auto flex max-w-[1180px] scroll-mt-32 flex-col items-center gap-10 px-6 py-24 sm:px-10 lg:px-[50px]"
+        className={`${VISUAL_COLUMN} flex scroll-mt-32 flex-col items-center gap-12 py-24 sm:gap-14`}
       >
-        <StepHeading kicker="Drawing a loop" title="The hardest thing to draw was the idea itself." />
+        <div className="flex w-full flex-col gap-6 sm:gap-8">
+          <div className="flex flex-col gap-4">
+            <StepHeading title="The hardest thing to draw was the idea itself." />
+            <p className={BODY}>
+              &ldquo;Loop&rdquo; is a new word for most people who land here. The page needed one
+              picture that explains it before anyone reads a sentence. It took a few tries.
+            </p>
+          </div>
 
-        <div className="flex w-full max-w-[760px] flex-col gap-5 text-[18px] leading-[1.66] text-v-ink/78">
-          <p>
-            &ldquo;Loop&rdquo; is a new word for most people who land here. The page needed one
-            picture that explains it before anyone reads a sentence. It took a few tries.
-          </p>
+          <div className="grid w-full grid-cols-1 gap-8 sm:grid-cols-3 sm:gap-6">
+            {LOOP_TRIES.map(({ Visual, label, caption }) => (
+              <figure key={caption} className="flex flex-col gap-3">
+                {/* Each try is drawn with its own 24px corners at full size;
+                    Paper clips it again at 16px at the size it shows here. */}
+                <div
+                  role="img"
+                  aria-label={label}
+                  className="aspect-square w-full overflow-clip rounded-[16px]"
+                >
+                  <div inert>
+                    <FitWidth nativeWidth={LOOP_TRY_WIDTH}>
+                      <Visual />
+                    </FitWidth>
+                  </div>
+                </div>
+                <figcaption className="text-[14px] leading-[22px] text-v-ink/65">{caption}</figcaption>
+              </figure>
+            ))}
+          </div>
         </div>
 
-        <div className="grid w-full grid-cols-1 gap-6 sm:grid-cols-3">
-          {LOOP_TRIES.map((t) => (
-            <figure key={t.src} className="flex flex-col gap-3">
-              <Image
-                src={t.src}
-                alt={t.alt}
-                width={1120}
-                height={1120}
-                sizes="(max-width: 640px) 90vw, 33vw"
-                className="h-auto w-full rounded-[16px]"
-              />
-              <figcaption className="text-[14px] leading-[1.6] text-v-ink/65">{t.caption}</figcaption>
-            </figure>
-          ))}
-        </div>
-
-        <div className="flex w-full max-w-[760px] flex-col gap-5 text-[18px] leading-[1.66] text-v-ink/78">
-          <p>
+        <div className="flex w-full flex-col items-center gap-6 sm:gap-8">
+          <p className={BODY}>
             A loop has to come back around, so the runner goes on a full lap. The first steps are
             the plan: where you are, the goal, the rules, what you can change. The last three are
             the feedback: what happened, was it better or worse, and what to change next lap. That
             part is drawn in amber, so you can see the lesson going back to the start.
           </p>
-        </div>
 
-        <Image
-          src="/vantage/loops-loop-section.webp"
-          alt="The shipped section: the running track with its seven steps, next to the heading an automation does a task, a loop gets you the result."
-          width={2560}
-          height={1505}
-          sizes="(max-width: 1180px) 92vw, 1180px"
-          className="h-auto w-full max-w-[1000px] rounded-[12px] ring-1 ring-v-ink/8"
-        />
+          <Mat>
+            <MatSlot
+              nativeWidth={LOOP_SECTION_WIDTH}
+              nativeHeight={LOOP_SECTION_HEIGHT}
+              maxWidth={888}
+              ring
+              label="The shipped section: the running track with its seven steps, next to the heading an automation does a task, a loop gets you the result."
+            >
+              <LoopSectionVisual />
+            </MatSlot>
+          </Mat>
+        </div>
+      </section>
+
+      {/* Who it's for: the same loop, told eight ways. */}
+      <section id="industries" className="scroll-mt-32 bg-white">
+        <div className={`${VISUAL_COLUMN} flex flex-col gap-6 py-24 sm:gap-8`}>
+          <div className="flex flex-col gap-4">
+            <StepHeading kicker="Who it's for" title="One loop, eight industries." />
+            <p className={BODY}>
+              The landing page lists eight industries, and each one opens its own page. Every page
+              uses the same layout and the same loop picture. Only the work inside the loop
+              changes: orders for a distributor, claims for a clinic, tickets for an IT desk.
+            </p>
+          </div>
+
+          <Mat>
+            <MatSlot
+              nativeWidth={INDUSTRIES_RAIL_WIDTH}
+              nativeHeight={INDUSTRIES_RAIL_HEIGHT}
+              maxWidth={888}
+              ring
+              label="The industries rail on the Vantage landing page, headed loops that work in your industry: photo cards for marketing, an IT service desk and distribution, each naming one loop and its result, with more running off the edge."
+            >
+              <IndustriesRailVisual />
+            </MatSlot>
+          </Mat>
+        </div>
       </section>
 
       <StepArrow />
 
       {/* The wait. White ground, because this screen is the colourful one. */}
       <section id="wait" className="scroll-mt-32 bg-white">
-        <div className="mx-auto flex max-w-[1180px] flex-col items-center gap-10 px-6 pt-16 pb-24 sm:px-10 lg:px-[50px]">
-          <StepHeading
-            kicker="Then they wait"
-            title="Four minutes is a long time to stare at a spinner."
-          />
+        <div className={`${VISUAL_COLUMN} flex flex-col items-center gap-10 pt-16 pb-24`}>
+          <StepHeading title="Four minutes is a long time to stare at a spinner." />
 
           {/* The real thing, running, rather than a screenshot of it. The
               argument in this section is that watching it work is what earns
               trust, so a still would have undercut the point. */}
-          <div className="w-full max-w-[1100px] overflow-hidden rounded-[18px] shadow-[0_30px_70px_-30px_oklch(0.3_0.06_55_/_40%)]">
+          <div className="w-full overflow-clip rounded-[20px]">
             <ThinkingScreen />
           </div>
 
-          <div className="flex w-full max-w-[760px] flex-col gap-5 text-[18px] leading-[1.66] text-v-ink/78">
+          <div className={`flex w-full flex-col gap-5 ${BODY}`}>
             <p>
-              A spinner was the easy thing to build and the worst thing to show. Nobody trusts a box
-              that goes quiet for four minutes and then hands back an answer.
+              Once they enter their domain, a spinner was the easy thing to build and the worst
+              thing to show. Nobody trusts a box that goes quiet for four minutes and then hands
+              back an answer.
             </p>
             <p>
               So we let them watch. Real sites go past, ramp.com, brex.com, navan.com. Counts climb
@@ -334,72 +417,73 @@ export default function VantageCaseStudy() {
       {/* The report */}
       <section
         id="report"
-        className="mx-auto flex max-w-[1180px] scroll-mt-32 flex-col items-center gap-10 px-6 pt-16 pb-24 sm:px-10 lg:px-[50px]"
+        className={`${VISUAL_COLUMN} flex scroll-mt-32 flex-col items-center gap-14 pt-16 pb-24 sm:gap-16 lg:gap-[84px]`}
       >
-        <StepHeading
-          kicker="And then the report"
-          title="Before it shows a single loop, it says what it cannot know."
-        />
+        <div className="flex w-full flex-col gap-8 lg:gap-10">
+          <StepHeading
+            kicker="And then the report"
+            title="Before it shows a single loop, it says what it cannot know."
+          />
 
-        {/* Collapsed just past the start of the second, locked loop: the whole
-            first loop and the blurred names below it are in view. */}
-        <ReportViewer
-          src="/vantage/loops-report-gated.webp"
-          alt="The gated Vantage report: a headline naming three loops the company could run, a note saying it is an outside read with a button to connect their tools, one loop shown in full with its steps, estimate and evidence, two more loops blurred behind an email gate, and a list of the areas that were checked."
-          width={2560}
-          height={5894}
-          collapsedTo={0.655}
-          expandLabel="Expand the full report"
-          collapseLabel="Collapse the report"
-        />
+          <div className="flex flex-col gap-6">
+            <ReportViewer
+              nativeWidth={REPORT_WIDTH}
+              collapsedHeight={REPORT_GATED_CROP}
+              label="The gated Vantage report: a headline naming three loops the company could run, a note saying it is an outside read with a button to connect their tools, one loop shown in full with its steps, estimate and evidence, two more loops blurred behind an email gate, and a list of the areas that were checked."
+              expandLabel="Expand the full report"
+              collapseLabel="Collapse the report"
+            >
+              <ReportGated />
+            </ReportViewer>
 
-        <div className="flex w-full max-w-[760px] flex-col gap-5 text-[18px] leading-[1.66] text-v-ink/78">
-          <p>
-            The first thing under the headline is a short note. It says this is an outside read, so
-            every number is a range. Next to it is one button: connect your tools. The public report
-            is only a first taste. The real product runs on their own data, and the note says so
-            before they read a single loop.
-          </p>
-          <p>
-            One loop is open. The other two are blurred, but their names and numbers still show.
-            So the email is not buying a promise. It is buying something they can already see.
-          </p>
-          <p>
-            Numbers only appear when the evidence supports them, and only as a range. Five job
-            posts for clerks with a listed salary gives a range, with the reason written under it.
-            No evidence gives &ldquo;high impact, low effort&rdquo; and no number at all. Every part
-            of the card comes from what the AI can honestly produce. If it cannot back something
-            up, it is not on the screen.
-          </p>
+            <div className={`flex flex-col gap-4 ${BODY}`}>
+              <p>
+                The first thing under the headline is a short note. It says this is an outside read,
+                so every number is a range. Next to it is one button: connect your tools. The public
+                report is only a first taste. The real product runs on their own data, and the note
+                says so before they read a single loop.
+              </p>
+              <p>
+                One loop is open. The other two are blurred, but their names and numbers still show.
+                So the email is not buying a promise. It is buying something they can already see.
+              </p>
+              <p>
+                Numbers only appear when the evidence supports them, and only as a range. Five job
+                posts for clerks with a listed salary gives a range, with the reason written under
+                it. No evidence gives &ldquo;high impact, low effort&rdquo; and no number at all.
+                Every part of the card comes from what the AI can honestly produce. If it cannot
+                back something up, it is not on the screen.
+              </p>
+            </div>
+          </div>
         </div>
 
         {/* The case page opens at the loop's own header and how it runs; the
             evidence and assumptions sit behind the expand. */}
-        <ReportViewer
-          src="/vantage/loops-report-case.webp"
-          alt="One loop opened into its full case: the loop's name and estimate with its basis, a diagram of how it runs in four steps, every piece of evidence with where it was found, what the estimate assumes, the tools it reads, and a band to approve it."
-          width={2560}
-          height={5487}
-          collapsedTo={0.42}
-          expandLabel="Expand one loop's full case"
-          collapseLabel="Collapse the case"
-        />
+        <div className="flex w-full flex-col gap-6">
+          <ReportViewer
+            nativeWidth={REPORT_WIDTH}
+            collapsedHeight={REPORT_CASE_CROP}
+            label="One loop opened into its full case: the loop's name and estimate with its basis, a diagram of how it runs in four steps, every piece of evidence with where it was found, what the estimate assumes, the tools it reads, and a band to approve it."
+            expandLabel="Expand one loop's full case"
+            collapseLabel="Collapse the case"
+          >
+            <ReportCase />
+          </ReportViewer>
 
-        <div className="flex w-full max-w-[760px] flex-col gap-5 text-[18px] leading-[1.66] text-v-ink/78">
-          <p>
+          <p className={BODY}>
             Each loop opens into its full case: how it runs, every piece of evidence with where we
             found it, what it needs, and what we are assuming. The assumptions do the most work.
             &ldquo;We could not see your invoice volume&rdquo; is exactly what makes the rest of
             the page believable.
           </p>
         </div>
-
       </section>
 
       {/* What I learned */}
       <section id="learned" className="scroll-mt-32 bg-v-sand">
-        <div className="mx-auto flex max-w-[1180px] flex-col gap-12 px-6 py-24 sm:px-10 lg:px-[50px]">
-          <h2 className="max-w-[18ch] text-[clamp(26px,3.2vw,34px)] leading-[1.14] font-bold tracking-[-0.02em] text-v-ink">
+        <div className={`${COLUMN} flex flex-col gap-12 py-24`}>
+          <h2 className="text-[clamp(26px,3.2vw,34px)] leading-[1.14] font-bold tracking-[-0.02em] text-v-ink">
             What I learned
           </h2>
 
@@ -409,11 +493,11 @@ export default function VantageCaseStudy() {
                 <span className="shrink-0 text-[28px] leading-none font-light tabular-nums text-v-warm sm:w-[60px]">
                   {item.n}
                 </span>
-                <div className="flex max-w-[68ch] flex-col gap-2.5">
+                <div className="flex max-w-[721px] flex-col gap-2.5">
                   <h3 className="text-[20px] leading-[1.35] font-semibold text-v-ink sm:text-[22px]">
                     {item.lesson}
                   </h3>
-                  <p className="text-[17px] leading-[1.66] text-v-ink/72">{item.body}</p>
+                  <p className="text-[17px] leading-[28px] text-v-ink/72">{item.body}</p>
                 </div>
               </li>
             ))}
