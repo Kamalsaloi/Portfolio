@@ -1,0 +1,22 @@
+# Kamal Saloi, Product Designer
+
+> Product designer at AiDOOS in Bangalore, India. Kamal designs AI products end to end, from the first research call to the shipped frontend in React and Next.js. Open to remote work.
+
+- Name: Kamal Saloi
+- Role: Product Designer, full time at AiDOOS (https://aidoos.com)
+- Location: Bangalore, India. Open to remote work.
+- Focus: AI product design, landing pages, product flows, design systems, frontend (React, Next.js)
+- Portfolio: https://kamalsaloi.vercel.app
+- LinkedIn: https://www.linkedin.com/in/kamal-saloi-01731b342/
+- X: https://x.com/KamalSaloi15710
+
+## Case studies
+
+- [Vantage: finding the one process worth fixing](https://kamalsaloi.vercel.app/case-studies/vantage): Vantage by AiDOOS reads a company's public data, finds a manual process worth fixing, and suggests an AI loop that keeps improving on results. Kamal designed the landing page, eight industry pages and the report, and built the frontend. Live product: https://aidoos.com/vantage
+- [AiDOOS proposal flow](https://kamalsaloi.vercel.app/case-studies/aidoos-proposal-flow): a redesign of AiDOOS's AI-generated proposal flow, from a homepage chat input to outcome-based pricing.
+
+## Redesigns
+
+- [Velociti](https://kamalsaloi.vercel.app/redesigns/velociti)
+- [Pull Logic](https://kamalsaloi.vercel.app/redesigns/pull-logic)
+- [SAHI](https://kamalsaloi.vercel.app/redesigns/sahi)

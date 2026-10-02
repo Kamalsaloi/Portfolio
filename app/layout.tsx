@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
+import { PERSON, PERSON_ID, SITE_URL, jsonLd } from "@/lib/site";
 
 /* Fonts are self-hosted in app/fonts (latin, variable weight) rather than
    next/font/google: on Vercel, the Google loader's URL query broke the build. */
@@ -18,11 +19,57 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "Kamal Saloi · Designer Portfolio",
-  description: "Creative designer showcasing UI/UX, branding, and design system work",
+  metadataBase: new URL(SITE_URL),
+  title: {
+    default: "Kamal Saloi, Product Designer",
+    template: "%s · Kamal Saloi, Product Designer",
+  },
+  description: PERSON.description,
+  authors: [{ name: PERSON.name, url: SITE_URL }],
+  creator: PERSON.name,
+  alternates: { canonical: "/" },
+  openGraph: {
+    type: "website",
+    url: SITE_URL,
+    siteName: "Kamal Saloi",
+    title: "Kamal Saloi, Product Designer",
+    description: PERSON.description,
+  },
+  twitter: {
+    card: "summary_large_image",
+    creator: "@KamalSaloi15710",
+    title: "Kamal Saloi, Product Designer",
+    description: PERSON.description,
+  },
   icons: {
     icon: "/favicon.ico",
   },
+};
+
+/* Who this site is about, for search engines and AI assistants. */
+const PERSON_JSON_LD = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Person",
+      "@id": PERSON_ID,
+      name: PERSON.name,
+      jobTitle: PERSON.jobTitle,
+      description: PERSON.summary,
+      url: SITE_URL,
+      worksFor: { "@type": "Organization", name: PERSON.employer, url: PERSON.employerUrl },
+      address: { "@type": "PostalAddress", addressLocality: PERSON.city, addressCountry: PERSON.country },
+      knowsAbout: PERSON.knowsAbout,
+      sameAs: PERSON.sameAs,
+    },
+    {
+      "@type": "WebSite",
+      "@id": `${SITE_URL}/#website`,
+      url: SITE_URL,
+      name: "Kamal Saloi, Product Designer",
+      author: { "@id": PERSON_ID },
+    },
+  ],
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
@@ -40,6 +87,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <link rel="dns-prefetch" href="https://miro.com" />
       </head>
       <body className="min-h-full flex flex-col">
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLd(PERSON_JSON_LD) }} />
         {children}
         <Analytics />
       </body>

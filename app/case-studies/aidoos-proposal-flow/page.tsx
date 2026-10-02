@@ -8,12 +8,26 @@ import { ScaledFrame } from '@/components/case-study/aidoos-hero/ScaledFrame';
 import { MiroEmbed } from '@/components/case-study/MiroEmbed';
 import { VideoEmbed } from '@/components/case-study/VideoEmbed';
 import { CTA } from '@/components/CTA';
+import { PERSON_ID, SITE_URL, jsonLd } from '@/lib/site';
 import { Footer } from '@/components/Footer';
 
 export const metadata = {
   title: "Aidoos Proposal Flow: Case Study",
   description:
     "How I redesigned Aidoos' AI-generated proposal flow, from a homepage chat input to outcome-based pricing.",
+  alternates: { canonical: '/case-studies/aidoos-proposal-flow' },
+};
+
+const CASE_JSON_LD = {
+  '@context': 'https://schema.org',
+  '@type': 'CreativeWork',
+  name: metadata.title,
+  headline: 'AiDOOS proposal flow case study by Kamal Saloi',
+  description: metadata.description,
+  url: `${SITE_URL}/case-studies/aidoos-proposal-flow`,
+  author: { '@id': PERSON_ID, '@type': 'Person', name: 'Kamal Saloi' },
+  about: { '@type': 'Organization', name: 'AiDOOS', url: 'https://aidoos.com' },
+  keywords: ['product design', 'AI product', 'proposal flow', 'case study', 'UX'],
 };
 
 /** Everything after a client accepts the proposal, designed in Paper. */
@@ -48,6 +62,7 @@ const AFTER_ACCEPT_SHOTS = [
 export default function AidoosCaseStudy() {
   return (
     <div className="min-h-screen bg-white">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLd(CASE_JSON_LD) }} />
       <CaseStudyNav />
 
       {/* Hero band — a warm, grained ground so the opening reads as a cover

@@ -33,12 +33,31 @@ import {
 import { ReportGated, REPORT_WIDTH } from '@/components/vantage/visuals/ReportGated';
 import { ReportCase } from '@/components/vantage/visuals/ReportCase';
 import { CTA } from '@/components/CTA';
+import { PERSON_ID, SITE_URL, jsonLd } from '@/lib/site';
 import { Footer } from '@/components/Footer';
 
 export const metadata = {
   title: 'Vantage: finding the one process worth fixing',
   description:
     'Designing Vantage, an AI that finds a broken process in a company and suggests a loop that fixes it, and the decisions that made a stranger believe it.',
+  alternates: { canonical: '/case-studies/vantage' },
+};
+
+const CASE_JSON_LD = {
+  '@context': 'https://schema.org',
+  '@type': 'CreativeWork',
+  name: 'Vantage: finding the one process worth fixing',
+  headline: 'Vantage case study by Kamal Saloi',
+  description: metadata.description,
+  url: `${SITE_URL}/case-studies/vantage`,
+  author: { '@id': PERSON_ID, '@type': 'Person', name: 'Kamal Saloi' },
+  about: {
+    '@type': 'SoftwareApplication',
+    name: 'Vantage by AiDOOS',
+    url: 'https://aidoos.com/vantage',
+    applicationCategory: 'BusinessApplication',
+  },
+  keywords: ['product design', 'AI product', 'landing page', 'case study', 'UX'],
 };
 
 const SECTIONS = [
@@ -151,6 +170,7 @@ function StepHeading({ kicker, title }: { kicker?: string; title: string }) {
 export default function VantageCaseStudy() {
   return (
     <div className="bg-v-paper">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLd(CASE_JSON_LD) }} />
       <CaseStudyNav containerClassName="mx-auto max-w-[1180px] px-6 sm:px-10 lg:px-[50px]" />
       <SectionNav sections={SECTIONS} />
 
@@ -502,6 +522,36 @@ export default function VantageCaseStudy() {
               </li>
             ))}
           </ol>
+
+          {/* The working file behind the page, for anyone who wants the states and tries. */}
+          <div className="flex flex-col gap-4 border-t border-v-ink/12 pt-10">
+            <p className="max-w-[721px] text-[17px] leading-[28px] text-v-ink/72">
+              Every screen, state and mobile view, plus the tries that didn&apos;t make it, are in
+              the design file.
+            </p>
+            <a
+              href="https://app.paper.design/file/01M3XW38NQ7NFJ2KJNDNTV0TCD"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group inline-flex w-fit items-center gap-2 rounded-full border border-v-ink/15 bg-white px-4 py-2 transition-colors hover:border-v-ink/35"
+            >
+              <span className="text-[15px] leading-[1.5] font-medium text-v-ink">
+                Open the design file in Paper
+              </span>
+              <svg
+                className="h-4 w-4 text-v-ink/50 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-v-ink"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth={2}
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+              >
+                <path d="M7 17L17 7M9 7h8v8" />
+              </svg>
+            </a>
+          </div>
         </div>
       </section>
 
