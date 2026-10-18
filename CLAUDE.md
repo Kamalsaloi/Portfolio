@@ -78,7 +78,8 @@ comment explaining why it exists; keep that up when adding one.
 
 Families: `bone*` (warm neutral grounds), `card*` (cool wells for white
 screenshots), `v-*` (Vantage warm-to-cool, OKLCH), `void*` (near-black bands),
-`cobalt*` (the intro animation's blue, reused by the Redesigns band).
+`cobalt*` (the intro animation's blue, reused by the Landeed band in Redesigns), `zenzio*`
+(the Zenzio app's pink, for its own band above Landeed).
 
 `Intro.tsx` repeats the cobalt hexes as literals because it needs them as canvas
 fill strings. If you change the tokens, change those too.

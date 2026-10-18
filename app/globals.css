@@ -62,6 +62,11 @@
      repeats the hex values because it needs them as canvas fill strings. */
   --color-cobalt: #2749e6;
   --color-cobalt-deep: #1a35a8;
+
+  /* Zenzio pink, for its band in Redesigns: a shade deeper than the app's
+     #DC2B5E Pay button so white holds against it (about 5.6:1). */
+  --color-zenzio: #c81f52;
+  --color-zenzio-deep: #8f1238;
 }
 
 body {
