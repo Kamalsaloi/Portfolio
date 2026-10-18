@@ -32,6 +32,7 @@ app/
   globals.css                         the entire token system, heavily commented
   case-studies/vantage/page.tsx       the lead case study
   case-studies/aidoos-proposal-flow/page.tsx
+  case-studies/zenzio/page.tsx        Zenzio cart redesign, Loom at the top; screens in public/zenzio/
 components/                           homepage sections, one file per band
   case-study/                         shared case study furniture
   vantage/                            Vantage-only components

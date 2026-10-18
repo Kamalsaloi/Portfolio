@@ -14,6 +14,7 @@
 
 - [Vantage: finding the one process worth fixing](https://kamalsaloi.vercel.app/case-studies/vantage): Vantage by AiDOOS reads a company's public data, finds a manual process worth fixing, and suggests an AI loop that keeps improving on results. Kamal designed the landing page, eight industry pages and the report, and built the frontend. Live product: https://aidoos.com/vantage
 - [AiDOOS proposal flow](https://kamalsaloi.vercel.app/case-studies/aidoos-proposal-flow): a redesign of AiDOOS's AI-generated proposal flow, from a homepage chat input to outcome-based pricing.
+- [Zenzio checkout redesign](https://kamalsaloi.vercel.app/case-studies/zenzio): a redesign of the Zenzio food delivery cart so the first total you see is the total you pay, with every fee and its reason shown before Pay.
 
 ## Redesigns
 
